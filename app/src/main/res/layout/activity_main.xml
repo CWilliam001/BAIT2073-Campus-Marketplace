@@ -1,143 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" >
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blue1"
+        android:id="@+id/drawer_layout"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start"
         tools:context=".MainActivity">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/initial_top_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.4" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/start_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.05" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/end_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.95" />
-
-        <View
-            android:id="@+id/login_view"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.7"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/login_text_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/login_title"
-            android:textAlignment="center"
-            android:textSize="50sp"
-            android:textColor="@color/blue1"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/start_guideline"
-            app:layout_constraintEnd_toEndOf="@id/end_guideline"
-            app:layout_constraintTop_toTopOf="@+id/initial_top_guideline"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/sign_in_to_continue_text_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_in_to_continue_label"
-            android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="@+id/login_text_view"
-            app:layout_constraintEnd_toEndOf="@+id/login_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/login_text_view" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/email_text_input_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="@+id/sign_in_to_continue_text_view"
-            app:layout_constraintEnd_toEndOf="@+id/sign_in_to_continue_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/sign_in_to_continue_text_view"
-            android:hint="@string/email_label">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email_edit_text"
+            android:layout_height="wrap_content">
+            <!-- here a tool bar -->
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                tools:ignore="VisualLintTextFieldSize" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:theme="@style/ThemeOverlay.Material3.BottomAppBar">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password_text_input_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="@+id/email_text_input_layout"
-            app:layout_constraintEnd_toEndOf="@+id/email_text_input_layout"
-            app:layout_constraintTop_toBottomOf="@+id/email_text_input_layout"
-            android:hint="@string/password_label">
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    app:title="@string/app_name"
+                    app:titleTextColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/blue2"
+                    />
+            </com.google.android.material.appbar.AppBarLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password_edit_text"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                tools:ignore="VisualLintTextFieldSize" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/log_in_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:backgroundTint="@color/blue4"
-            android:text="@string/log_in_label"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/password_text_input_layout"
-            app:layout_constraintStart_toStartOf="@+id/password_text_input_layout"
-            app:layout_constraintTop_toBottomOf="@+id/password_text_input_layout"
-            tools:ignore="VisualLintButtonSize" />
-
-        <TextView
-            android:id="@+id/forgot_password_text_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="@string/forgot_password_label"
-            android:textAlignment="center"
-
-            android:textColor="#757575"
-            app:layout_constraintEnd_toEndOf="@+id/log_in_btn"
-            app:layout_constraintStart_toStartOf="@+id/log_in_btn"
-            app:layout_constraintTop_toBottomOf="@+id/log_in_btn" />
-
-        <TextView
-            android:id="@+id/sign_up_text_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_up_label"
-            android:textAlignment="center"
-            android:textColor="#757575"
-            app:layout_constraintEnd_toEndOf="@+id/forgot_password_text_view"
-            app:layout_constraintStart_toStartOf="@+id/forgot_password_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/forgot_password_text_view" />
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                >
+                <!-- add nav host here-->
+                <fragment
+                    android:id="@+id/nav_host_fragment"
+                    android:name="androidx.navigation.fragment.NavHostFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:defaultNavHost="true"
+                    app:navGraph="@navigation/nav_graph"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:layout_editor_absoluteX="1dp"
+                    tools:layout_editor_absoluteY="65dp" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <!-- add side drawer navigation view here-->
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_gravity="start"
+            app:itemIconTint="@color/blue3"
+            app:itemTextColor="@color/blue1"
+            app:headerLayout="@layout/nav_header"
+            android:fitsSystemWindows="true"
+            app:menu="@menu/drawer_menu_list"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"/>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

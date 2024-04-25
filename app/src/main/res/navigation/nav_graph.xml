@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.campusmarketplace.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/nav_login" />
+        <action
+            android:id="@+id/action_homeFragment_to_messageListFragment"
+            app:destination="@id/nav_messageList" />
+        <action
+            android:id="@+id/action_nav_home_to_aboutUsFragment"
+            app:destination="@id/nav_aboutUs" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.example.campusmarketplace.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPassword"
+            app:destination="@id/nav_forgotPassword" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUp"
+            app:destination="@id/nav_signUp" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_forgotPassword"
+        android:name="com.example.campusmarketplace.ForgotPassword"
+        android:label="ForgotPassword"
+        tools:layout="@layout/fragment_forgot_password" />
+    <fragment
+        android:id="@+id/nav_signUp"
+        android:name="com.example.campusmarketplace.SignUp"
+        android:label="SignUp"
+        tools:layout="@layout/fragment_sign_up" />
+    <fragment
+        android:id="@+id/nav_messageList"
+        android:name="com.example.campusmarketplace.MessageListFragment"
+        android:label="MessageListFragment"
+        tools:layout="@layout/fragment_message_list" >
+        <action
+            android:id="@+id/action_messageListFragment_to_chatFragment"
+            app:destination="@id/nav_chat" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.example.campusmarketplace.ChatFragment"
+        android:label="ChatFragment"
+        tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/nav_aboutUs"
+        android:name="com.example.campusmarketplace.AboutUsFragment"
+        android:label="fragment_about_us"
+        tools:layout="@layout/fragment_about_us" />
+</navigation>
