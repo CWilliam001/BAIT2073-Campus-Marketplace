@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/initial_top_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/initial_bottom_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <View
+            android:id="@+id/profile_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/bottom_left_right_rounded_corner_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.15"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/profile_image_view"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="40dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/account_circle_24"
+            app:layout_constraintStart_toStartOf="@+id/start_guideline"
+            app:layout_constraintTop_toTopOf="@+id/initial_top_guideline" />
+
+        <TextView
+            android:id="@+id/name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="30dp"
+            tools:text="William Choong"
+            android:textColor="@color/blue2"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_image_view"
+            app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+            app:layout_constraintStart_toEndOf="@+id/profile_image_view"
+            app:layout_constraintTop_toTopOf="@+id/profile_image_view" />
+
+        <View
+            android:id="@+id/message_view_btn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/profile_menu_button_view"
+            app:layout_constraintHeight_percent="0.07"
+            app:layout_constraintTop_toBottomOf="@id/profile_image_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintStart_toStartOf="@id/start_guideline" />
+
+        <View
+            android:id="@+id/edit_profile_view_btn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/profile_menu_button_view"
+            app:layout_constraintHeight_percent="0.07"
+            app:layout_constraintTop_toBottomOf="@id/message_view_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintStart_toStartOf="@id/start_guideline" />
+
+
+        <View
+            android:id="@+id/change_password_view_btn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/profile_menu_button_view"
+            app:layout_constraintHeight_percent="0.07"
+            app:layout_constraintTop_toBottomOf="@id/edit_profile_view_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintStart_toStartOf="@id/start_guideline" />
+
+
+        <View
+            android:id="@+id/about_us_view_btn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/profile_menu_button_view"
+            app:layout_constraintHeight_percent="0.07"
+            app:layout_constraintTop_toBottomOf="@id/change_password_view_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintStart_toStartOf="@id/start_guideline" />
+
+        <Button
+            android:id="@+id/logout_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/blue4"
+            android:text="@string/logout_label"
+            app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+            app:layout_constraintStart_toStartOf="@+id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/about_us_view_btn"
+            tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/message_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/black"
+            android:text="@string/message_label"
+            app:layout_constraintBottom_toBottomOf="@+id/message_view_btn"
+            app:layout_constraintStart_toStartOf="@+id/message_view_btn"
+            app:layout_constraintTop_toTopOf="@+id/message_view_btn" />
+
+        <TextView
+            android:id="@+id/edit_profile_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/black"
+            android:text="@string/edit_profile_label"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_profile_view_btn"
+            app:layout_constraintStart_toStartOf="@+id/edit_profile_view_btn"
+            app:layout_constraintTop_toTopOf="@+id/edit_profile_view_btn" />
+
+        <TextView
+            android:id="@+id/change_password_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/black"
+            android:text="Change Password"
+            app:layout_constraintBottom_toBottomOf="@+id/change_password_view_btn"
+            app:layout_constraintStart_toStartOf="@+id/change_password_view_btn"
+            app:layout_constraintTop_toTopOf="@+id/change_password_view_btn" />
+
+        <TextView
+            android:id="@+id/about_us_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/black"
+            android:text="@string/about_us_label"
+            app:layout_constraintBottom_toBottomOf="@+id/about_us_view_btn"
+            app:layout_constraintStart_toStartOf="@+id/about_us_view_btn"
+            app:layout_constraintTop_toTopOf="@+id/about_us_view_btn" />
+
+        <ImageView
+            android:id="@+id/message_chevron_right_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/chevron_right_24"
+            app:layout_constraintBottom_toBottomOf="@+id/message_view_btn"
+            app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+            app:layout_constraintTop_toTopOf="@+id/message_view_btn" />
+
+        <ImageView
+            android:id="@+id/edit_profile_chevron_right_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/chevron_right_24"
+            app:layout_constraintEnd_toEndOf="@+id/edit_profile_view_btn"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_profile_view_btn"
+            app:layout_constraintTop_toTopOf="@+id/edit_profile_view_btn" />
+
+        <ImageView
+            android:id="@+id/change_password_chevron_right_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/chevron_right_24"
+            app:layout_constraintEnd_toEndOf="@+id/change_password_view_btn"
+            app:layout_constraintBottom_toBottomOf="@+id/change_password_view_btn"
+            app:layout_constraintTop_toTopOf="@+id/change_password_view_btn" />
+
+        <ImageView
+            android:id="@+id/about_chevron_right_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/chevron_right_24"
+            app:layout_constraintEnd_toEndOf="@+id/about_us_view_btn"
+            app:layout_constraintBottom_toBottomOf="@+id/about_us_view_btn"
+            app:layout_constraintTop_toTopOf="@+id/about_us_view_btn" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

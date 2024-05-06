@@ -13,14 +13,6 @@ class ChatFragment : Fragment() {
         fun newInstance() = ChatFragment()
     }
 
-    private val viewModel: ChatViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

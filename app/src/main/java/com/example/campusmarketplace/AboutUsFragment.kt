@@ -13,14 +13,6 @@ class AboutUsFragment : Fragment() {
         fun newInstance() = AboutUsFragment()
     }
 
-    private val viewModel: AboutUsViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

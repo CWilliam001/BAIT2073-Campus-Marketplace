@@ -7,5 +7,7 @@
     <color name="blue3">#005B96</color>
     <color name="blue4">#6497B1</color>
     <color name="blue5">#B3CDE0</color>
+    <color name="red">#FF0000</color>
     <color name="text_gray">#8F8E8E</color>
+    <color name="menu_gray">#E8EEF1</color>
 </resources>

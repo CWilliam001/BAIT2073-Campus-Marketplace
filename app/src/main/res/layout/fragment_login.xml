@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.4" />
+            app:layout_constraintGuide_percent="0.15" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/start_guideline"
@@ -38,7 +38,7 @@
             android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.7"
+            app:layout_constraintHeight_percent="0.9"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -56,7 +56,7 @@
             tools:ignore="HardcodedText" />
 
         <TextView
-            android:id="@+id/sign_in_to_continue_text_view"
+            android:id="@+id/sign_in_message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/sign_in_to_continue_label"
@@ -70,9 +70,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="@+id/sign_in_to_continue_text_view"
-            app:layout_constraintEnd_toEndOf="@+id/sign_in_to_continue_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/sign_in_to_continue_text_view"
+            app:layout_constraintStart_toStartOf="@+id/sign_in_message"
+            app:layout_constraintEnd_toEndOf="@+id/sign_in_message"
+            app:layout_constraintTop_toBottomOf="@+id/sign_in_message"
             android:hint="@string/email_label">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -108,7 +108,7 @@
             android:layout_marginTop="15dp"
             android:backgroundTint="@color/blue4"
             android:text="@string/log_in_label"
-            android:textColor="@color/white"
+            android:textColor="#212121"
             app:layout_constraintEnd_toEndOf="@+id/password_text_input_layout"
             app:layout_constraintStart_toStartOf="@+id/password_text_input_layout"
             app:layout_constraintTop_toBottomOf="@+id/password_text_input_layout"
@@ -119,9 +119,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="48dp"
             android:text="@string/forgot_password_label"
             android:textAlignment="center"
-
             android:textColor="#757575"
             app:layout_constraintEnd_toEndOf="@id/log_in_btn"
             app:layout_constraintStart_toStartOf="@id/log_in_btn"
@@ -131,6 +133,9 @@
             android:id="@+id/sign_up_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="48dp"
             android:text="@string/sign_up_label"
             android:textAlignment="center"
             android:textColor="#757575"

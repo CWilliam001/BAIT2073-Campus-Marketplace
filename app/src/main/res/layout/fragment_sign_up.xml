@@ -15,14 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.25" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/initial_bottom_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.95" />
+            app:layout_constraintGuide_percent="0.15" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/start_guideline"
@@ -38,6 +31,13 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.95" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/initial_bottom_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95" />
+
         <View
             android:id="@+id/sign_up_view"
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
             android:background="@drawable/top_left_rounded_corner_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.85"
+            app:layout_constraintHeight_percent="0.9"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -87,13 +87,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <TextView
+                    android:id="@+id/upload_profile_image_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="TODO"
+                    android:text="@string/upload_profile_image_label"
+                    android:textAlignment="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/upload_profile_image_view"
+                    android:layout_width="73dp"
+                    android:layout_height="73dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="@+id/upload_profile_image_text_view"
+                    app:layout_constraintStart_toStartOf="@+id/upload_profile_image_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/upload_profile_image_text_view"
+                    app:srcCompat="@drawable/upload_image" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/name_text_input_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/upload_profile_image_view"
                     android:hint="@string/name_label">
 
                     <com.google.android.material.textfield.TextInputEditText

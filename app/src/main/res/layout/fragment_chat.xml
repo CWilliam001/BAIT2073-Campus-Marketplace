@@ -7,7 +7,6 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background=""
         tools:context=".MainActivity">
 
         <androidx.constraintlayout.widget.Guideline
@@ -48,10 +47,12 @@
             app:layout_constraintTop_toTopOf="@+id/floatingActionButton">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email_edit_text"
+                android:id="@+id/chat_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/message_label"
                 android:inputType="text"
+                android:textColorHint="#546E7A"
                 tools:ignore="VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,10 +61,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
+            android:contentDescription="@string/send_message_button_description"
             android:src="@drawable/baseline_arrow_circle_right_48"
+            app:layout_constraintBottom_toTopOf="@+id/initial_bottom_guideline"
             app:layout_constraintEnd_toStartOf="@+id/end_guideline"
             app:layout_constraintTop_toBottomOf="@+id/bottom_guideline"
-            app:layout_constraintBottom_toTopOf="@+id/initial_bottom_guideline" />
+            tools:ignore="RedundantDescriptionCheck" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
