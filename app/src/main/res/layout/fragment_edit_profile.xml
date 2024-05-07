@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".EditProfileFragment">
+
+        <ScrollView
+            android:id="@+id/edit_profile_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/scroll_view_contstraint_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/initial_top_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.05" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/start_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/end_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/initial_bottom_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.95" />
+
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/mid_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.55" />
+
+                <ImageView
+                    android:id="@+id/upload_profile_image_view"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="20dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintEnd_toEndOf="@id/end_guideline"
+                    app:layout_constraintStart_toStartOf="@id/start_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/initial_top_guideline"
+                    app:srcCompat="@drawable/account_circle_24" />
+
+                <TextView
+                    android:id="@+id/change_photo_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_photo_label"
+                    android:textAlignment="center"
+                    android:textColor="@color/blue2"
+                    app:layout_constraintEnd_toEndOf="@id/end_guideline"
+                    app:layout_constraintStart_toStartOf="@id/start_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/upload_profile_image_view"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/name_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/name_label"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/end_guideline"
+                    app:layout_constraintStart_toStartOf="@+id/start_guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/change_photo_text_view"
+                    tools:ignore="TextSizeCheck" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/name_text_input_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="@id/name_text_view"
+                    app:layout_constraintEnd_toEndOf="@id/name_text_view"
+                    app:layout_constraintTop_toBottomOf="@id/name_text_view"
+                    android:hint="@string/name_label">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/name_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:textColorHint="#546E7A"
+                        tools:ignore="VisualLintTextFieldSize,DuplicateSpeakableTextCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/email_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/email_label"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@id/name_text_input_layout"
+                    app:layout_constraintStart_toStartOf="@id/name_text_input_layout"
+                    app:layout_constraintTop_toBottomOf="@id/name_text_input_layout"
+                    tools:ignore="TextSizeCheck" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/email_text_input_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="@id/email_text_view"
+                    app:layout_constraintEnd_toEndOf="@id/email_text_view"
+                    app:layout_constraintTop_toBottomOf="@id/email_text_view"
+                    android:hint="@string/email_label">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:textColorHint="#546E7A"
+                        tools:ignore="VisualLintTextFieldSize,DuplicateSpeakableTextCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/phone_number_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/phone_number_label"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@id/email_text_input_layout"
+                    app:layout_constraintStart_toStartOf="@id/email_text_input_layout"
+                    app:layout_constraintTop_toBottomOf="@id/email_text_input_layout"
+                    tools:ignore="TextSizeCheck" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/phone_number_text_input_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="@id/phone_number_text_view"
+                    app:layout_constraintEnd_toEndOf="@id/phone_number_text_view"
+                    app:layout_constraintTop_toBottomOf="@id/phone_number_text_view"
+                    android:hint="@string/phone_number_label">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phone_number_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone|number"
+                        android:textColorHint="#546E7A"
+                        tools:ignore="VisualLintTextFieldSize,DuplicateSpeakableTextCheck,TextContrastCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/address_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/address_label"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@id/phone_number_text_input_layout"
+                    app:layout_constraintStart_toStartOf="@id/phone_number_text_input_layout"
+                    app:layout_constraintTop_toBottomOf="@id/phone_number_text_input_layout"
+                    tools:ignore="TextSizeCheck" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/address_text_input_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="@id/address_text_view"
+                    app:layout_constraintEnd_toEndOf="@id/address_text_view"
+                    app:layout_constraintTop_toBottomOf="@id/address_text_view"
+                    android:hint="@string/address_label">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/address_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPostalAddress"
+                        tools:ignore="VisualLintTextFieldSize,DuplicateSpeakableTextCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/state_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/state_label"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@id/mid_guideline"
+                    app:layout_constraintStart_toStartOf="@id/address_text_input_layout"
+                    app:layout_constraintTop_toBottomOf="@id/address_text_input_layout"
+                    tools:ignore="TextSizeCheck" />
+
+                <TextView
+                    android:id="@+id/zip_code_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/zip_code_label"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/state_text_view"
+                    app:layout_constraintEnd_toEndOf="@id/address_text_input_layout"
+                    app:layout_constraintStart_toStartOf="@id/mid_guideline"
+                    app:layout_constraintTop_toBottomOf="@id/state_text_view"
+                    app:layout_constraintTop_toTopOf="@id/state_text_view"
+                    tools:ignore="TextSizeCheck" />
+
+                <Spinner
+                    android:id="@+id/state_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:entries="@array/arrStates"
+                    android:minHeight="48dp"
+                    app:layout_constraintEnd_toEndOf="@+id/state_text_view"
+                    app:layout_constraintStart_toStartOf="@+id/state_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/state_text_view" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/zip_code_text_input_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/zip_code_label"
+                    app:layout_constraintEnd_toEndOf="@id/zip_code_text_view"
+                    app:layout_constraintStart_toStartOf="@id/zip_code_text_view"
+                    app:layout_constraintTop_toTopOf="@id/state_spinner"
+                    app:layout_constraintBottom_toBottomOf="@id/state_spinner">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/zip_code_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textColorHint="#546E7A"
+                        tools:ignore="VisualLintTextFieldSize,DuplicateSpeakableTextCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/sign_up_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:backgroundTint="@color/blue4"
+                    android:text="@string/sign_up_label"
+                    android:textColor="#212121"
+                    app:layout_constraintEnd_toEndOf="@+id/zip_code_text_input_layout"
+                    app:layout_constraintStart_toStartOf="@+id/state_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/zip_code_text_input_layout"
+                    tools:ignore="VisualLintButtonSize" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

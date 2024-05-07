@@ -55,11 +55,19 @@ class MainActivity : AppCompatActivity() {
         // Configure the app bar to toggle drawer icon and up icon accordingly
         // ONLY FOR THOSE FRAGMENT AT THE TOP LEVEL ONLY
         appBarConfig = AppBarConfiguration(
-            setOf(R.id.nav_home, R.id.nav_profile, R.id.nav_seller)
+            setOf(R.id.nav_login,  R.id.nav_home, R.id.nav_profile, R.id.nav_seller)
         )
 
         navBottomView.setupWithNavController(navController)
 
+        navController.addOnDestinationChangedListener {
+            _, destination, _ ->
+            if (destination.id in listOf(R.id.nav_home, R.id.nav_profile, R.id.nav_seller)) {
+                navBottomView.visibility = View.VISIBLE
+            } else {
+                navBottomView.visibility = View.GONE
+            }
+        }
 
         //Setup the ActionBar with the NavController
         setupActionBarWithNavController(navController, appBarConfig)

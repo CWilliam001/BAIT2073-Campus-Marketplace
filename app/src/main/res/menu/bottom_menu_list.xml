@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/account_circle_24"
+        android:icon="@drawable/shopping_cart_24"
         android:title="@string/buy_label" />
     <item
         android:id="@+id/nav_seller"
-        android:icon="@drawable/account_circle_24"
+        android:icon="@drawable/storefront_24"
         android:title="@string/sell_label" />
     <item
         android:id="@+id/nav_profile"

@@ -1,5 +1,6 @@
 package com.example.campusmarketplace
 
+import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -22,18 +23,18 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        // Return the root view of the binding object
         return binding.root
 
     }
 
-    //    private fun getUserID(): String? {
-//        val sharedPreferences = requireActivity().getSharedPreferences("user_data", AppCompatActivity.MODE_PRIVATE)
-//        return sharedPreferences.getString("userID", null)
-//    }
-//
-//    private fun redirectToLogin() {
-//        val navController = findNavController()
-//        navController.navigate(R.id.nav_login)
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("userID", null)
+
+        if (userID == null) {
+            findNavController().navigate(R.id.nav_login)
+        }
+    }
 }

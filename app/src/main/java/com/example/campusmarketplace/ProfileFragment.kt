@@ -49,6 +49,14 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_nav_profile_to_nav_messageList)
         }
 
+        binding.editProfileViewBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_profile_to_nav_editProfile)
+        }
+
+        binding.changePasswordViewBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_profile_to_nav_changePassword)
+        }
+
         binding.aboutUsViewBtn.setOnClickListener {
             findNavController().navigate(R.id.action_nav_profile_to_nav_aboutUs)
         }

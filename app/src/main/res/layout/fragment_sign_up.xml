@@ -87,6 +87,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/mid_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.55" />
+
                 <TextView
                     android:id="@+id/upload_profile_image_text_view"
                     android:layout_width="0dp"
@@ -199,6 +207,57 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/address_text_input_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="@id/phone_number_text_input_layout"
+                    app:layout_constraintEnd_toEndOf="@id/phone_number_text_input_layout"
+                    app:layout_constraintTop_toBottomOf="@id/phone_number_text_input_layout"
+                    android:hint="@string/address_label">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/address_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPostalAddress"
+                        tools:ignore="VisualLintTextFieldSize" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Spinner
+                    android:id="@+id/state_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/arrStates"
+                    android:layout_marginTop="10dp"
+                    android:minHeight="48dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/address_text_input_layout"
+                    app:layout_constraintEnd_toStartOf="@id/mid_guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/address_text_input_layout" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/zip_code_text_input_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/zip_code_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/mid_guideline"
+                    app:layout_constraintTop_toTopOf="@id/state_spinner"
+                    app:layout_constraintBottom_toBottomOf="@id/state_spinner">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/zip_code_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        tools:ignore="VisualLintTextFieldSize" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/sign_up_btn"
                     android:layout_width="0dp"
@@ -207,9 +266,9 @@
                     android:backgroundTint="@color/blue4"
                     android:text="@string/sign_up_label"
                     android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="@+id/phone_number_text_input_layout"
-                    app:layout_constraintStart_toStartOf="@+id/phone_number_text_input_layout"
-                    app:layout_constraintTop_toBottomOf="@+id/phone_number_text_input_layout"
+                    app:layout_constraintEnd_toEndOf="@+id/zip_code_text_input_layout"
+                    app:layout_constraintStart_toStartOf="@+id/state_spinner"
+                    app:layout_constraintTop_toBottomOf="@+id/zip_code_text_input_layout"
                     tools:ignore="VisualLintButtonSize" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

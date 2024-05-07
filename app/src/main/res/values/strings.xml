@@ -2,18 +2,16 @@
     <string name="app_name">Campus Marketplace</string>
     <string name="login_title">Login</string>
     <string name="sign_in_to_continue_label">Sign in to continue.</string>
-    <string name="email_label">EMAIL</string>
-    <string name="password_label">PASSWORD</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Password</string>
     <string name="log_in_label">Log In</string>
     <string name="forgot_password_label">Forgot Password</string>
     <string name="sign_up_label">Sign Up</string>
     <string name="title_activity_sign_up">SignUp</string>
     <string name="create_new_account_label">Create new account</string>
-    <string name="name_label">NAME</string>
-    <string name="confirm_password_label">CONFIRM PASSWORD</string>
-    <string name="phone_number_label">PHONE NUMBER</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name_label">Name</string>
+    <string name="confirm_password_label">Confirm Password</string>
+    <string name="phone_number_label">Phone Number</string>
     <string name="verify_label">Verify</string>
     <string name="already_registered_log_in_here_label">Already Registered? Log in here</string>
     <string name="large_text">
@@ -65,4 +63,32 @@
     <string name="sell_label">Sell</string>
     <string name="forgot_password_email_sent_toast">Password reset email sent</string>
     <string name="forgot_password_failed_toast">Failed to send password reset email</string>
+    <string name="old_password_label">Old Password</string>
+    <string name="new_password_label">New Password</string>
+    <string name="new_confirm_password_label">Confirm New Password</string>
+    <string name="save_label">Save</string>
+    <string name="enter_old_password_hint">Enter Old Password</string>
+    <string name="enter_new_password_hint">Enter New Password</string>
+    <string name="enter_confirm_new_password_hint">Enter Confirm New Password</string>
+    <string name="address_label">Address</string>
+    <string name="zip_code_label">Zip Code</string>
+    <string name="state_label">State</string>
+    <string name="address_required_error">Address Required</string>
+    <string name="zip_code_required_error">Zip Code Required</string>
+    <string name="change_photo_label">Change Photo</string>
+    <string-array name="arrStates">
+        <item>Johor</item>
+        <item>Kedah</item>
+        <item>Kelantan</item>
+        <item>Malacca</item>
+        <item>Negeri Sembilan</item>
+        <item>Pahang</item>
+        <item>Penang</item>
+        <item>Perak</item>
+        <item>Perlis</item>
+        <item>Sabah</item>
+        <item>Sarawak</item>
+        <item>Selangor</item>
+        <item>Terengganu</item>
+    </string-array>
 </resources>

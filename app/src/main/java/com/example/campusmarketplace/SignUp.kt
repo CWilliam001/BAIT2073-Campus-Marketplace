@@ -63,50 +63,15 @@ class SignUp : Fragment() {
             val password = binding.passwordEditText.text.toString().trim()
             val confirmPassword = binding.confirmPasswordEditText.text.toString().trim()
             val phoneNumber = binding.phoneNumberEditText.text.toString().trim()
+            val address = binding.addressEditText.text.toString().trim()
+            val state = binding.stateSpinner.selectedItemPosition
+            val zipCode = binding.zipCodeEditText.text.toString().trim()
 
             if (imageUri == null) {
                 binding.uploadProfileImageTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
             }
 
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && phoneNumber.isNotEmpty() && (password == confirmPassword)) {
-//                firebaseAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener { task ->
-//                    if (task.isSuccessful) {
-//                        val signInMethods = task.result?.signInMethods?: emptyList()
-//                        if (signInMethods.isNotEmpty()) {
-//                            binding.emailEditText.error =
-//                                getString(R.string.email_already_registered_error)
-//                        }
-//                    } else {
-//                        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { signUpTask ->
-//                            if (signUpTask.isSuccessful) {
-//                                val storageRef = FirebaseStorage.getInstance().reference
-//                                val userID = signUpTask.result?.user?.uid
-//
-//                                val imageName = "profile_${userID}"
-//                                val imageRef = storageRef.child("user/$imageName")
-//
-//                                imageStorageURL?.let { uri ->
-//                                    imageRef.putFile(uri).addOnSuccessListener { taskSnapshot ->
-//                                        imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-//                                            firestore = FirebaseFirestore.getInstance()
-//
-//                                            val profileImageUrl = downloadUri.toString()
-//                                            val user = User(name, Date(), phoneNumber, profileImageUrl)
-//                                            firestore.collection("users").document(userID.toString()).set(user)
-//
-//                                            val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
-//                                            val editor = sharedPreferences.edit()
-//                                            editor.putString("userID", userID)
-//                                            editor.apply()
-//
-//                                            findNavController().navigateUp()
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
                 firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { signUpTask ->
                     if (signUpTask.isSuccessful) {
                         val storageRef = FirebaseStorage.getInstance().reference
@@ -121,7 +86,11 @@ class SignUp : Fragment() {
                                     firestore = FirebaseFirestore.getInstance()
 
                                     val profileImageUrl = downloadUri.toString()
-                                    val user = User(name, Date(), phoneNumber, profileImageUrl)
+
+                                    val  selectedStateIndex = binding.stateSpinner.selectedItemPosition
+                                    val statesArray = resources.getStringArray(R.array.arrStates)
+                                    val selectedState = statesArray[selectedStateIndex]
+                                    val user = User(name, Date(), phoneNumber, profileImageUrl, address, selectedState, zipCode)
                                     firestore.collection("users").document(userID.toString()).set(user)
 
                                     val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
@@ -163,6 +132,16 @@ class SignUp : Fragment() {
                 if (phoneNumber.isEmpty()) {
                     binding.phoneNumberEditText.error =
                         getString(R.string.phone_number_required_error)
+                }
+
+                if (address.isEmpty()) {
+                    binding.addressEditText.error =
+                        getString(R.string.address_required_error)
+                }
+
+                if (zipCode.isEmpty()) {
+                    binding.zipCodeEditText.error =
+                        getString(R.string.zip_code_required_error)
                 }
             }
         }
