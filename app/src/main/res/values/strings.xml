@@ -104,4 +104,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="upload_image_error">Upload Image Error</string>
     <string name="update_data_error">Update Data Error</string>
+    <string name="contact_seller_label">Contact Seller</string>
+    <string name="change_password">Change Password</string>
 </resources>

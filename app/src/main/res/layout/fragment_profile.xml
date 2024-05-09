@@ -66,7 +66,6 @@
             android:layout_height="wrap_content"
             android:text=""
             android:textSize="30sp"
-            tools:text="William Choong"
             android:textColor="@color/blue_Dark"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/profile_image_view"
@@ -134,6 +133,18 @@
             app:layout_constraintEnd_toStartOf="@+id/end_guideline"
             app:layout_constraintStart_toStartOf="@+id/start_guideline"
             app:layout_constraintTop_toBottomOf="@+id/about_us_view_btn"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/contact_seller_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/blue_Light"
+            android:text="@string/contact_seller_label"
+            app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+            app:layout_constraintStart_toStartOf="@+id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/logout_btn"
             tools:ignore="TextContrastCheck" />
 
         <TextView
