@@ -45,8 +45,8 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        binding.messageViewBtn.setOnClickListener() {
-            findNavController().navigate(R.id.action_nav_profile_to_nav_messageList)
+        binding.conversationViewBtn.setOnClickListener() {
+            findNavController().navigate(R.id.action_nav_profile_to_nav_conversationList)
         }
 
         binding.editProfileViewBtn.setOnClickListener {

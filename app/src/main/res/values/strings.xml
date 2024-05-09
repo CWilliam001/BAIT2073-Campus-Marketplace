@@ -76,6 +76,15 @@
     <string name="address_required_error">Address Required</string>
     <string name="zip_code_required_error">Zip Code Required</string>
     <string name="change_photo_label">Change Photo</string>
+    <string name="sign_up_successful_label">Sign Up Successful</string>
+    <string name="password_updated_successfully_label">Password Updated Successfully</string>
+    <string name="failed_to_update_password_label">Failed to update password</string>
+    <string name="confirm_password_not_match_label">New Password and Confirm Password do not match</string>
+    <string name="new_password_required_error">New Password Required</string>
+    <string name="old_password_required_error">Old Password Required</string>
+    <string name="incorrect_old_password_label">Incorrect Old Password</string>
+    <string name="profile_image_required_error">Profile Image Required</string>
+    <string name="profile_updated_label">Profile Updated</string>
     <string-array name="arrStates">
         <item>Johor</item>
         <item>Kedah</item>
@@ -91,4 +100,6 @@
         <item>Selangor</item>
         <item>Terengganu</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -43,12 +43,12 @@
         android:label="@string/sign_up_label"
         tools:layout="@layout/fragment_sign_up" />
     <fragment
-        android:id="@+id/nav_messageList"
-        android:name="com.example.campusmarketplace.MessageListFragment"
+        android:id="@+id/nav_conversationList"
+        android:name="com.example.campusmarketplace.ConversationListFragment"
         android:label="@string/message_label"
-        tools:layout="@layout/fragment_message_list" >
+        tools:layout="@layout/fragment_conversation_list" >
         <action
-            android:id="@+id/action_messageListFragment_to_chatFragment"
+            android:id="@+id/action_conversationFragment_to_chatFragment"
             app:destination="@id/nav_chat" />
     </fragment>
     <fragment
@@ -67,8 +67,8 @@
         android:label="@string/profile_label"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/action_nav_profile_to_nav_messageList"
-            app:destination="@id/nav_messageList" />
+            android:id="@+id/action_nav_profile_to_nav_conversationList"
+            app:destination="@id/nav_conversationList" />
         <action
             android:id="@+id/action_nav_profile_to_nav_aboutUs"
             app:destination="@id/nav_aboutUs" />

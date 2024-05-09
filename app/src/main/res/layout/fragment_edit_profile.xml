@@ -263,12 +263,12 @@
 
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/sign_up_btn"
+                    android:id="@+id/save_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:backgroundTint="@color/blue4"
-                    android:text="@string/sign_up_label"
+                    android:text="@string/save_label"
                     android:textColor="#212121"
                     app:layout_constraintEnd_toEndOf="@+id/zip_code_text_input_layout"
                     app:layout_constraintStart_toStartOf="@+id/state_spinner"

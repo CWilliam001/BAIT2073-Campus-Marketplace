@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -48,7 +49,7 @@ class SignUp : Fragment() {
         getPhotoPicker = registerForActivityResult(ActivityResultContracts.GetContent()) {
             uri: Uri? -> uri?.let {
                 imageStorageURL = uri
-                Picasso.get().load(uri).into(binding.uploadProfileImageView)
+                Picasso.get().load(uri).transform(RoundedTransformation()).into(binding.uploadProfileImageView)
             }
         }
 
@@ -67,11 +68,7 @@ class SignUp : Fragment() {
             val state = binding.stateSpinner.selectedItemPosition
             val zipCode = binding.zipCodeEditText.text.toString().trim()
 
-            if (imageUri == null) {
-                binding.uploadProfileImageTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
-            }
-
-            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && phoneNumber.isNotEmpty() && (password == confirmPassword)) {
+            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && phoneNumber.isNotEmpty() && imageUri != null && (password == confirmPassword)) {
                 firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { signUpTask ->
                     if (signUpTask.isSuccessful) {
                         val storageRef = FirebaseStorage.getInstance().reference
@@ -98,6 +95,8 @@ class SignUp : Fragment() {
                                     editor.putString("userID", userID)
                                     editor.apply()
 
+                                    Toast.makeText(requireContext(),
+                                        getString(R.string.sign_up_successful_label), Toast.LENGTH_SHORT).show()
                                     findNavController().navigateUp()
                                 }
                             }
@@ -107,6 +106,10 @@ class SignUp : Fragment() {
                     }
                 }
             } else {
+                if (imageUri == null) {
+                    binding.uploadProfileImageTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                }
+
                 if (name.isEmpty()) {
                     binding.nameEditText.error = getString(R.string.name_required_error)
                 }
