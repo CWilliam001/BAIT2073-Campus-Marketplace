@@ -9,72 +9,65 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/bottom_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.88" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/initial_bottom_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.98" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/start_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.05" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/end_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.95" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/email_text_input_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
-            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
-            app:layout_constraintStart_toStartOf="@+id/start_guideline"
-            app:layout_constraintTop_toTopOf="@+id/floatingActionButton">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/chat_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/message_label"
-                android:inputType="text"
-                android:textColorHint="#546E7A"
-                tools:ignore="VisualLintTextFieldSize" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:contentDescription="@string/send_message_button_description"
-            android:src="@drawable/baseline_arrow_circle_right_48"
-            app:layout_constraintBottom_toTopOf="@+id/initial_bottom_guideline"
-            app:layout_constraintEnd_toStartOf="@+id/end_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/bottom_guideline"
-            tools:ignore="RedundantDescriptionCheck" />
-
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chat_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:paddingTop="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
-            app:layout_constraintEnd_toStartOf="@+id/end_guideline"
-            app:layout_constraintStart_toStartOf="@+id/start_guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/message_box_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/fragment_chat_item"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/message_box_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chat_recycler_view">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/message_text_input_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/send_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/message_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/message_label"
+                    android:inputType="text"
+                    android:textColorHint="#546E7A"
+                    tools:ignore="VisualLintTextFieldSize" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/send_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/blue4"
+                android:layout_marginStart="5dp"
+                android:text="@string/send_label"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

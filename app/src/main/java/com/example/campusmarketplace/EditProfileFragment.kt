@@ -102,32 +102,57 @@ class EditProfileFragment : Fragment() {
 
             if (name.isNotEmpty() && email.isNotEmpty() && phoneNumber.isNotEmpty() && address.isNotEmpty() && zipCode.isNotEmpty() && (imageUri != null || profileImageUrl.toString().isNotEmpty())) {
                 if (userID != null) {
-//                    val statesArray = resources.getStringArray(R.array.arrStates)
-//                    val selectedState = statesArray[states]
-//
-//                    if (imageStorageURL.toString() != profileImageUrl) {
-//                        val imageFileName = "profile_${userID}"
-//                        val imageRef = storageReference.child("user/$imageFileName")
-//                        val uploadTask = imageRef.putFile(imageUri)
-//
-//                        uploadTask.continueWithTask { task ->
-//                            if (!task.isSuccessful) {
-//                                task.exception?.let {
-//                                    throw it
-//                                }
-//                            }
-//                            imageRef.downloadUrl
-//                        }.addOnCompleteListener { task ->
-//                            if (task.isSuccessful) {
-//                                val downloadUri = task.result
-//                                val user = User(name, joinedDate, phoneNumber, downloadUri.toString(), address, selectedState, zipCode)
-//                                updateUser(userDocRef, user)
-//                            }
-//                        }
-//                    } else {
-//                        val user = User(name, joinedDate, phoneNumber, profileImageUrl.toString(), address, selectedState, zipCode)
-//                        updateUser(userDocRef, user)
-//                    }
+                    // How to perform update profile in firestore
+                    // Need to consider bout profileImageUrl also if they had changed the profileImageUrl then need to save the new value of profileImageUrl as well
+                    // When the user has changed the email, their email will be updated at FirebaseAuth not FirebaseFireStore
+
+                    val updateData = hashMapOf<String, Any>(
+                        "name" to name,
+                        "email" to email,
+                        "phoneNumber" to phoneNumber,
+                        "address" to address,
+                        "states" to states,
+                        "zipCode" to zipCode,
+                    )
+
+                    if (imageUri != null) {
+                        // Upload the new profile image to Firebase Storage
+                        val imageName = "profile_${userID}"
+                        val imageRef = storageReference.child("user/$imageName")
+                        imageRef.putFile(imageUri)
+                            .addOnSuccessListener { taskSnapshot ->
+                                imageRef.downloadUrl.addOnSuccessListener { uri ->
+                                    val imageUrl = uri.toString()
+                                    updateData["profileImageUrl"] = imageUrl
+
+                                    // Update the user document in Firestore
+                                    userDocRef.update(updateData)
+                                        .addOnCompleteListener {
+                                            Toast.makeText(requireContext(), getString(R.string.profile_updated_label), Toast.LENGTH_SHORT).show()
+                                            findNavController().navigate(R.id.nav_profile)
+                                        }
+                                        .addOnFailureListener {
+                                            // Handle error updating user data in firestore
+                                            Toast.makeText(requireContext(), getString(R.string.update_data_error), Toast.LENGTH_SHORT).show()
+                                        }
+                                }
+
+                            }
+                            .addOnFailureListener {
+                                // Handle error uploading profile image to Firebase Storage
+                                Toast.makeText(requireContext(), getString(R.string.upload_image_error), Toast.LENGTH_SHORT).show()
+                            }
+                    } else {
+                        userDocRef.update(updateData)
+                            .addOnCompleteListener {
+                                Toast.makeText(requireContext(), getString(R.string.profile_updated_label), Toast.LENGTH_SHORT).show()
+                                findNavController().navigate(R.id.nav_profile)
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(requireContext(), getString(R.string.update_data_error), Toast.LENGTH_SHORT).show()
+                            }
+                    }
+
                 }
             } else {
                 if (imageUri == null) {

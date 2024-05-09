@@ -18,9 +18,9 @@ import java.util.Locale.filter
 
 class ConversationRepository {
 
-    private val db = Firebase.database
+//    private val db = Firebase.database
     private lateinit var firestore: FirebaseFirestore
-    private val conversationRef = db.getReference("conversations")
+//    private val conversationRef = db.getReference("conversations")
 
     fun retrieveAllConversationItem(context: Context,liveData: MutableLiveData<List<Conversation>>) {
         val conversationList = mutableListOf<Conversation>()
@@ -29,43 +29,54 @@ class ConversationRepository {
 
         Log.d(TAG, "userID: $userID")
 
-        val query: Query = conversationRef.orderByChild("userIDs").startAt(userID).endAt(userID + "\uf8ff")
-        query.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                Log.d(TAG, "dataSnapshot: $dataSnapshot")
-                for (snapshot in dataSnapshot.children) {
-                    val conversationID = snapshot.key
-                    Log.d(TAG, "conversationID: $conversationID")
-                    val conversation = snapshot.getValue(Conversation::class.java)
-                    if (conversationID != null && conversation != null) {
-                        val filteredUserIDs = conversation.userID.filter { it != userID }
-                        if (filteredUserIDs.isNotEmpty()) {
-                            val otherUserID = filteredUserIDs.first()
-                            getUserInfo(otherUserID) { name, profileImageUrl ->
-                                val conversationItem = Conversation(conversationID, conversation.userID, name, profileImageUrl)
-                                conversationList.add(conversationItem)
-                                liveData.value = conversationList
+        firestore = FirebaseFirestore.getInstance()
+
+        val conversationRef = firestore.collection("conversations")
+
+        if (userID != null) {
+            conversationRef.whereArrayContains("userIDs", userID)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    for (document in querySnapshot.documents) {
+                        val documentID = document.id
+
+                        Log.d(TAG, "documentID: $documentID")
+                        if (documentID != null) {
+                            // Retrieve the other user's ID from the conversation document
+                            val otherUserIDs = document.get("userIDs") as? List<String>
+                            otherUserIDs?.let {
+                                val otherUserID = it.find { id -> id != userID }
+                                if (otherUserID != null) {
+                                    getUserInfo(otherUserID) { name, profileImageUrl ->
+                                        val conversation = Conversation(
+                                            documentID,
+                                            name,
+                                            profileImageUrl
+                                        )
+                                        conversationList.add(conversation)
+                                        liveData.postValue(conversationList)
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            }
+        }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "Failed to read value.", error.toException())
-            }
-        })
     }
 
-    private fun getUserInfo (userID: String, callback: (String, String) -> Unit) {
-        firestore.collection("users").document(userID).get()
-            .addOnSuccessListener { document ->
-                val name = document.getString("name")
-                val profileImageUrl = document.getString("profileImageUrl")
-                callback(name.toString(), profileImageUrl.toString())
-            }
-            .addOnFailureListener {exception ->
-                Log.w(TAG, "Error getting user document", exception)
+    private fun getUserInfo(userID: String, callback: (name: String, profileImageUrl: String) -> Unit) {
+        val usersRef = firestore.collection("users").document(userID)
+
+        usersRef.get()
+            .addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    val name = documentSnapshot.getString("name")
+                    val profileImageUrl = documentSnapshot.getString("profileImageUrl")
+                    if (name != null && profileImageUrl != null) {
+                        callback(name, profileImageUrl)
+                    }
+                }
             }
     }
 }

@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentConversationListBinding
 import com.example.campusmarketplace.model.Conversation
 
@@ -27,7 +29,7 @@ class ConversationListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentConversationListBinding.inflate(inflater, container, false)
-        adapter = ConversationListAdapter(requireContext())
+        adapter = ConversationListAdapter(this)
         binding.conversationRecyclerView.adapter = adapter
         binding.conversationRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -41,5 +43,11 @@ class ConversationListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    fun navigateToChatFragment(conversationID: String) {
+        val bundle = Bundle()
+        bundle.putSerializable("conversationID", conversationID)
+        findNavController().navigate(R.id.action_nav_conversationList_to_nav_chat, bundle)
     }
 }

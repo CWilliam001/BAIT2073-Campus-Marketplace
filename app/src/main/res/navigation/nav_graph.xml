@@ -48,7 +48,7 @@
         android:label="@string/message_label"
         tools:layout="@layout/fragment_conversation_list" >
         <action
-            android:id="@+id/action_conversationFragment_to_chatFragment"
+            android:id="@+id/action_nav_conversationList_to_nav_chat"
             app:destination="@id/nav_chat" />
     </fragment>
     <fragment
