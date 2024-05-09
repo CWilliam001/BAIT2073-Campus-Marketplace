@@ -106,7 +106,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:backgroundTint="@color/blue4"
+            android:backgroundTint="@color/blue_Light"
             android:text="@string/log_in_label"
             android:textColor="#212121"
             app:layout_constraintEnd_toEndOf="@+id/password_text_input_layout"

@@ -7,7 +7,9 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        >
         <!-- here a tool bar -->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
@@ -21,7 +23,7 @@
                 app:titleTextColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/blue2"
+                android:background="@color/blue_Dark"
                 />
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -46,7 +48,7 @@
                 style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/menu_gray"
+                android:background="@color/grey"
                 app:itemIconTint="@color/black"
                 app:itemTextColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"

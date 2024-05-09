@@ -100,6 +100,69 @@
         <item>Selangor</item>
         <item>Terengganu</item>
     </string-array>
+
+    <string name="buyer_welcome">Welcome</string>
+    <string name="buyer_category">Categories</string>
+    <string name="buyer_cat_digital">Digital</string>
+    <string name="buyer_cat_fashion">Fashion</string>
+    <string name="buyer_cat_electronics">Electronics</string>
+    <string name="buyer_cat_beauty">Beauty</string>
+    <string name="buyer_cat_viewall">View All</string>
+    <string name="buyer_products">Products</string>
+    <string name="buyer_seeall">See all</string>
+
+
+    <string name="required_input">Required Input</string>
+    <string name="cvv_must_be_3_digit">CVV must be 3 digit</string>
+    <string name="card_number_must_be_16_digit">Card number must be 16 digit</string>
+    <string-array name="months_array">
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <string-array name="years_array">
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="card">Credit Card</string>
+    <string name="cash_on_delivery">Cash On Delivery</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="holder_name">Holder Name</string>
+    <string name="enter_holder_name">Enter Holder Name</string>
+    <string name="card_number">Card Number</string>
+    <string name="enter_card_number">Enter Card Number</string>
+    <string name="expired_date">Expired Date</string>
+    <string name="cvv">CVV</string>
+    <string name="enter_cvv">Enter CVV</string>
+    <string name="done">Done</string>
+    <string name="search_anything">Search anything...</string>
+    <string name="change_password">Change Password</string>
+    <string name="start_your_business">Start your business!</string>
+    <string name="upload_product">Upload Product</string>
+    <string name="all_products">All Products</string>
+    <string name="orders">Orders</string>
+    <string name="sales_summary">Sales Summary</string>
 </resources>
