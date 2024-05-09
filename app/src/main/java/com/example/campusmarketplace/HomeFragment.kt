@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentHomeBinding
+import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -35,6 +37,15 @@ class HomeFragment : Fragment() {
 
         if (userID == null) {
             findNavController().navigate(R.id.nav_login)
+        } else {
+            val firestore = FirebaseFirestore.getInstance()
+            val userDocRef = firestore.collection("users").document(userID!!)
+            userDocRef.get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val userName = document.getString("name")
+                    binding.buyerTvUsername.text = userName
+                }
+            }
         }
     }
 }
