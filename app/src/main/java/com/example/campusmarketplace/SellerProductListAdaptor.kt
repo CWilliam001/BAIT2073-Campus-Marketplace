@@ -43,7 +43,6 @@ class SellerProductListAdaptor internal constructor(
                     putString("productCategory", current.productCategory)
                     putString("productPrice", current.productPrice)
                     putString("productCondition", current.productCondition)
-                    putString("productPaymentMethod", current.productPaymentMethod)
                     putString("productUsageDuration", current.productUsageDuration)
                     putString("productImage", current.productImage) // Add product image URI
                     // Add any other properties here
