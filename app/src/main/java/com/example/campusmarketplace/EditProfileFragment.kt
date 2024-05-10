@@ -184,6 +184,11 @@ class EditProfileFragment : Fragment() {
                 }
             }
         }
+
+        binding.btnUp.setOnClickListener {
+            // Perform up navigation
+            findNavController().navigateUp()
+        }
     }
 
     private fun getStateIndex(state: String?): Int {

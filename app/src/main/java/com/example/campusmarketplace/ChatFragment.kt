@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.campusmarketplace.databinding.FragmentChatBinding
 import com.example.campusmarketplace.model.Chat
@@ -85,6 +86,11 @@ class ChatFragment : Fragment() {
                     }
                 }
             }
+        }
+
+        binding.btnUp.setOnClickListener {
+            // Perform up navigation
+            findNavController().navigateUp()
         }
     }
 }

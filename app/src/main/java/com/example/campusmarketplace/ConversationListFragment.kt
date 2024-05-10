@@ -43,6 +43,11 @@ class ConversationListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.btnUp.setOnClickListener {
+            // Perform up navigation
+            findNavController().navigateUp()
+        }
     }
 
     fun navigateToChatFragment(conversationID: String) {
