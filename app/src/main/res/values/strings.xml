@@ -116,8 +116,6 @@
     <string name="buyer_cat_viewall">View All</string>
     <string name="buyer_products">Products</string>
     <string name="buyer_seeall">See all</string>
-
-
     <string name="required_input">Required Input</string>
     <string name="cvv_must_be_3_digit">CVV must be 3 digit</string>
     <string name="card_number_must_be_16_digit">Card number must be 16 digit</string>
@@ -135,7 +133,6 @@
         <item>11</item>
         <item>12</item>
     </string-array>
-
     <string-array name="years_array">
         <item>24</item>
         <item>25</item>
@@ -167,4 +164,50 @@
     <string name="all_products">All Products</string>
     <string name="orders">Orders</string>
     <string name="sales_summary">Sales Summary</string>
+    <string name="salesSummaryHeader">Sales Summary</string>
+    <string name="allProductHeader">All Product</string>
+    <string name="ordersHeader">Orders</string>
+    <string name="uploadProductHeader">upload Product</string>
+    <string name="UploadProductLabel">Upload Product</string>
+    <string name="UploadImage">Upload Image\n</string>
+    <string name="productNameHeader">Product Name</string>
+    <string name="productDescriptionHeader">Product Description</string>
+    <string name="CategoryHeader">Category</string>
+    <string name="productPriceHeader">Product Price</string>
+    <string name="productPriceDescription">Enter Product Price</string>
+    <string name="ConditionHeader">Condition</string>
+    <string name="PaymentMethodHeader">Payment Method</string>
+    <string name="UsageDurationHeader">Usage Duration</string>
+    <string name="UploadProduct">Upload</string>
+    <string name="EditProductLabel">Edit Product</string>
+    <string name="editProduct">Edit</string>
+    <string name="edit_product_image">Edit Product Image</string>
+    <string name="enter_product_name">Enter Product Name</string>
+    <string name="enter_product_price">Enter Product Price</string>
+    <string name="enter_product_description">Enter Product Description</string>
+    <string name="transaction">Transaction</string>
+    <string name="completed">Completed</string>
+    <string name="processing">Processing</string>
+    <string name="total_sales">Total Sales</string>
+    <string name="my_rating">My Rating</string>
+    <string name="upload_product_image">Upload Product Image</string>
+    <string name="upload">Upload</string>
+    <string name="edit">Edit</string>
+    <string-array name="productCategory">
+        <item>Fashion</item>
+        <item>Digital</item>
+        <item>Electronic</item>
+        <item>Beauty</item>
+    </string-array>
+    <string-array name="productCondition">
+        <item>Brand New</item>
+        <item>Lightly Used</item>
+        <item>Well Used</item>
+        <item>Heavily Used</item>
+    </string-array>
+    <string-array name="usageDuration">
+        <item>Less than 1 years</item>
+        <item>1 years above</item>
+        <item>More than 3 years</item>
+    </string-array>
 </resources>

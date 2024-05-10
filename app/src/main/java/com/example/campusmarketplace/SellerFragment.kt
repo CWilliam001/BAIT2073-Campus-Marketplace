@@ -23,13 +23,15 @@ class SellerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
-        val userID = sharedPreferences.getString("userID", null)
-
-        if (userID == null) {
-            findNavController().navigate(R.id.nav_login)
-        } else {
-
+        binding.sellerIbUpload.setOnClickListener {
+            //do something here
+            findNavController().navigate(R.id.action_nav_seller_to_nav_sellerUploadProduct)
+        }
+        binding.sellerIbAllproducts.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_seller_to_nav_sellerAllProduct)
+        }
+        binding.sellerIbSales.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_seller_to_nav_sellerSalesSummary)
         }
     }
 }

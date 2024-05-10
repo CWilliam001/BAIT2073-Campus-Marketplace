@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".SellerSalesSummaryFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideLine2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.10" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideLine3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.90" />
+
+            <TextView
+                android:id="@+id/tv_transaction"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/transaction"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:layout_margin="20dp"
+                app:layout_constraintStart_toEndOf="@id/guideLine2"
+                app:layout_constraintEnd_toStartOf="@+id/guideLine3"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <LinearLayout
+                android:id="@+id/layout_transaction"
+                android:layout_width="300dp"
+                android:layout_height="95dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@id/guideLine2"
+                app:layout_constraintEnd_toStartOf="@+id/guideLine3"
+                app:layout_constraintTop_toBottomOf="@+id/tv_transaction">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/rounded_background">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/iv_completed"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="7dp"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/sales_summary_completed"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <TextView
+                            android:id="@+id/tv_showCompleted"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="30sp"
+                            android:textStyle="bold"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="xxx"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/black"
+                            app:layout_constraintStart_toEndOf="@+id/iv_completed"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <TextView
+                            android:id="@+id/tv_completed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="50dp"
+                            android:text="@string/completed"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            app:layout_constraintStart_toEndOf="@+id/iv_completed"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_showCompleted"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/rounded_background">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/iv_processing"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="7dp"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/sales_summary_processing"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <TextView
+                            android:id="@+id/tv_showProcessing"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="30sp"
+                            android:textStyle="bold"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="xxx"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/black"
+                            app:layout_constraintStart_toEndOf="@+id/iv_processing"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <TextView
+                            android:id="@+id/tv_processing"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="50dp"
+                            android:text="@string/processing"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            app:layout_constraintStart_toEndOf="@+id/iv_processing"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_showProcessing"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_totalSales"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/total_sales"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:layout_margin="20dp"
+                app:layout_constraintStart_toEndOf="@id/guideLine2"
+                app:layout_constraintEnd_toStartOf="@+id/guideLine3"
+                app:layout_constraintTop_toBottomOf="@+id/layout_transaction"/>
+
+            <TextView
+                android:id="@+id/tv_showTotalSales"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="RM XXX.XX"
+                android:textColor="@color/blue_Dark"
+                android:textStyle="bold"
+                android:textSize="27sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintStart_toEndOf="@id/guideLine2"
+                app:layout_constraintEnd_toStartOf="@+id/guideLine3"
+                app:layout_constraintTop_toBottomOf="@+id/tv_totalSales"/>
+
+            <TextView
+                android:id="@+id/tv_myRating"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/my_rating"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:layout_margin="20dp"
+                app:layout_constraintStart_toEndOf="@id/guideLine2"
+                app:layout_constraintEnd_toStartOf="@+id/guideLine3"
+                app:layout_constraintTop_toBottomOf="@+id/tv_showTotalSales"/>
+
+            <TextView
+                android:id="@+id/tv_showMyRating"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="X.XX"
+                android:textColor="@color/blue_Dark"
+                android:textStyle="bold"
+                android:textSize="27sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintStart_toEndOf="@id/guideLine2"
+                app:layout_constraintEnd_toStartOf="@+id/guideLine3"
+                app:layout_constraintTop_toBottomOf="@+id/tv_myRating"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

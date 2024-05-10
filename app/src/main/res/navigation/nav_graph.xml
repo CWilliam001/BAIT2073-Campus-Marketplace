@@ -83,7 +83,44 @@
         android:id="@+id/nav_seller"
         android:name="com.example.campusmarketplace.SellerFragment"
         android:label="Seller"
-        tools:layout="@layout/fragment_seller" />
+        tools:layout="@layout/fragment_seller" >
+        <action
+            android:id="@+id/action_nav_seller_to_nav_sellerUploadProduct"
+            app:destination="@id/nav_seller_upload_product" />
+        <action
+            android:id="@+id/action_nav_seller_to_nav_sellerAllProduct"
+            app:destination="@id/nav_seller_all_product" />
+        <action
+            android:id="@+id/action_nav_seller_to_nav_sellerSalesSummary"
+            app:destination="@id/nav_seller_sales_summary" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_seller_upload_product"
+        android:name="com.example.campusmarketplace.SellerUploadProductFragment"
+        android:label="Seller Upload Product"
+        tools:layout="@layout/fragment_seller_upload_product" />
+
+    <fragment
+        android:id="@+id/nav_seller_all_product"
+        android:name="com.example.campusmarketplace.SellerAllProductFragment"
+        android:label="Seller"
+        tools:layout="@layout/fragment_seller_all_product" >
+        <action
+            android:id="@+id/action_nav_seller_to_nav_sellerEditProduct"
+            app:destination="@id/nav_seller_edit_product" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_seller_edit_product"
+        android:name="com.example.campusmarketplace.SellerEditProductFragment"
+        android:label="Seller Edit Product"
+        tools:layout="@layout/fragment_seller_edit_product" />
+    <fragment
+        android:id="@+id/nav_seller_sales_summary"
+        android:name="com.example.campusmarketplace.SellerSalesSummary"
+        android:label="Seller Sales Summary"
+        tools:layout="@layout/fragment_seller_sales_summary" />
+
     <fragment
         android:id="@+id/nav_changePassword"
         android:name="com.example.campusmarketplace.ChangePasswordFragment"
