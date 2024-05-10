@@ -60,32 +60,10 @@ class MainActivity : AppCompatActivity() {
 
         navBottomView.setupWithNavController(navController)
 
+        supportActionBar?.hide()
+
         navController.addOnDestinationChangedListener {
             _, destination, _ ->
-
-            // Configure the app bar
-            when(destination.id) {
-                R.id.nav_home -> {
-                    // close app bar
-                    supportActionBar?.hide()
-                }
-                R.id.nav_seller -> {
-                    // close app bar
-                    supportActionBar?.hide()
-                }
-                R.id.nav_login -> {
-                    // close app bar
-                    supportActionBar?.hide()
-                }
-                R.id.nav_profile -> {
-                    // close app bar
-                    supportActionBar?.hide()
-                }
-                else -> {
-                    // Show app bar
-                    supportActionBar?.show()
-                }
-            }
 
             if (destination.id in listOf(R.id.nav_home, R.id.nav_profile, R.id.nav_seller)) {
                 navBottomView.visibility = View.VISIBLE
