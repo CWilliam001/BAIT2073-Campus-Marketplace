@@ -7,7 +7,6 @@ data class SellerProduct(
     var productCategory:String = " ",
     var productPrice:String=" ",
     var productCondition:String=" ",
-    var productPaymentMethod:String=" ",
     var productUsageDuration:String=" ",
     var productImage: String=" "
 )
