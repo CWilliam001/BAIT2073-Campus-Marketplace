@@ -16,7 +16,7 @@ class DbRepository {
     // Get reference to the database
     private val database = FirebaseDatabase.getInstance()
     // Get reference to the product node in the database
-    private val productReference = database.getReference("Product/user_ID")
+    private val productReference = database.getReference("Product")
 
     // Reference to Firebase Storage
     private val storageReference: StorageReference = FirebaseStorage.getInstance().reference

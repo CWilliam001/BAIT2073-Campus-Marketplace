@@ -88,7 +88,9 @@ class SellerEditProductFragment : Fragment() {
         Picasso.get().load(productImageUri).into(binding.ivProductImageUpload)
 
         binding.btnEdit.setOnClickListener {
-            editProduct()
+            if(validateInput()){
+                showConfirmationDialog()
+            }
         }
         // Initialize the ActivityResultLauncher
         getPhotoPicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -121,8 +123,12 @@ class SellerEditProductFragment : Fragment() {
                 binding.spUsageDuration.selectedItem.toString()
             )
 
-            // Show confirmation dialog before updating the product
-            showConfirmationDialog(product, productImageUri)
+            viewModel.updateItem(product, productImageUri)
+
+            Toast.makeText(requireContext(), "Successfully Edited Product", Toast.LENGTH_SHORT).show()
+
+            // Navigate Back
+            findNavController().popBackStack()
         }
     }
 
@@ -187,24 +193,16 @@ class SellerEditProductFragment : Fragment() {
         return productPrice.matches(regex)
     }
 
-    private fun showConfirmationDialog(product: SellerProduct, productImageUri: Uri?) {
+    private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirmation")
-        builder.setMessage("Are you sure you want to edit this product?")
-
-        builder.setPositiveButton("Yes") { dialog, _ ->
-            // Call the ViewModel to update the item
-            viewModel.updateItem(product, productImageUri)
-            // Navigate back
-            findNavController().popBackStack()
-            dialog.dismiss()
-        }
-
-        builder.setNegativeButton("No") { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        val dialog = builder.create()
-        dialog.show()
+        builder.setTitle("Confirm Upload")
+            .setMessage("Are you sure you want to upload this product?")
+            .setPositiveButton("Save") { _, _ ->
+                editProduct()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }
