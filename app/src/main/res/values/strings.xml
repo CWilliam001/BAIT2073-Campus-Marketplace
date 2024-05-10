@@ -218,4 +218,11 @@
     <string name="nav_seller_edit_product_label">Seller Edit Product</string>
     <string name="nav_seller_label">Seller</string>
     <string name="nav_seller_upload_product_label">Seller Upload Product</string>
+    <string-array name="search_sellerRating">
+        <item>0 – 1.0</item>
+        <item>1.1 – 2.0</item>
+        <item>2.1 – 3.0</item>
+        <item>3.1 – 4.0</item>
+        <item>4.1 – 5.0</item>
+    </string-array>
 </resources>
