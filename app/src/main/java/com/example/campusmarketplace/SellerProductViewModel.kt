@@ -34,5 +34,8 @@ class SellerProductViewModel : ViewModel() {
             repository.delete(product)
         }
     }
+    fun getProductsByCategory(categoryName: String) {
+        repository.getProductsByCategory(_productLiveData, categoryName)
+    }
 
 }

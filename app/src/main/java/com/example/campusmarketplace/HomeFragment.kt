@@ -44,6 +44,10 @@ class HomeFragment : Fragment() {
                 if (document != null) {
                     val userName = document.getString("name")
                     binding.buyerTvUsername.text = userName
+
+                    binding.buyerIvCat5.setOnClickListener {
+                        findNavController().navigate(R.id.action_nav_home_to_nav_buyerCategory)
+                    }
                 }
             }
         }

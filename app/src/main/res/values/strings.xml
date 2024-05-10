@@ -210,4 +210,12 @@
         <item>1 years above</item>
         <item>More than 3 years</item>
     </string-array>
+    <string name="nav_edit_profile_label">Edit Profile</string>
+    <string name="nav_buyer_category_label">Product Category</string>
+    <string name="nav_buyer_product_list_label">Buyer Product List</string>
+    <string name="nav_change_password_label">Change Password</string>
+    <string name="nav_sales_summary_label">Sales Summary</string>
+    <string name="nav_seller_edit_product_label">Seller Edit Product</string>
+    <string name="nav_seller_label">Seller</string>
+    <string name="nav_seller_upload_product_label">Seller Upload Product</string>
 </resources>
