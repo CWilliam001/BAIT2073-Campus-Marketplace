@@ -10,6 +10,7 @@ import com.example.campusmarketplace.databinding.FragmentBuyerBoughtProductDetai
 
 class BuyerBoughtProductDetailsFragment : Fragment() {
     private lateinit var binding: FragmentBuyerBoughtProductDetailsBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

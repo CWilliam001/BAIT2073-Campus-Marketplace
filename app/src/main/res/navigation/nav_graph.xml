@@ -22,6 +22,12 @@
         <action
             android:id="@+id/action_nav_home_to_nav_buyerCategory"
             app:destination="@id/nav_buyerCategory" />
+
+        <action
+            android:id="@+id/action_nav_buyer_to_nav_pickUp"
+            app:destination="@id/nav_buyerToPickUp" />
+
+
     </fragment>
     <fragment
         android:id="@+id/nav_login"
@@ -96,6 +102,8 @@
         <action
             android:id="@+id/action_nav_seller_to_nav_sellerSalesSummary"
             app:destination="@id/nav_seller_sales_summary" />
+
+
     </fragment>
     <fragment
         android:id="@+id/nav_seller_upload_product"
@@ -149,5 +157,38 @@
         android:id="@+id/nav_buyerProductLst"
         android:name="com.example.campusmarketplace.BuyerProductListFragment"
         android:label="@string/nav_buyer_product_list_label"
-        tools:layout="@layout/fragment_buyer_product_list" />
+        tools:layout="@layout/fragment_buyer_product_list" >
+        <action
+            android:id="@+id/action_navBuyerProductList_to_navBuyerProductDetail"
+            app:destination="@id/nav_buyerProductDetail" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_buyerProductDetail"
+        android:name="com.example.campusmarketplace.BuyerProductDetailFragment"
+        android:label="Buyer Product Detail"
+        tools:layout="@layout/fragment_buyer_product_detail" />
+
+    <fragment
+        android:id="@+id/nav_buyerToPickUp"
+        android:name="com.example.campusmarketplace.BuyerToPickUpFragment"
+        android:label="Buyer To Pick Up"
+        tools:layout="@layout/fragment_buyer_to_pick_up" >
+        <action
+            android:id="@+id/action_nav_pickUp_to_nav_complete"
+            app:destination="@id/nav_buyerToComplete" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_buyerToComplete"
+        android:name="com.example.campusmarketplace.BuyerCompleteFragment"
+        android:label="Buyer Complete"
+        tools:layout="@layout/fragment_buyer_complete" >
+        <action
+            android:id="@+id/action_nav_complete_to_nav_home"
+            app:destination="@id/nav_home" />
+
+    </fragment>
+
 </navigation>

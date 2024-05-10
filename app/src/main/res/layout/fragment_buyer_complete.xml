@@ -55,7 +55,8 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:orientation="vertical"
-                android:layout_weight="0.2">
+                android:layout_weight="0.2"
+                android:background="@color/grey">
 
                 <TextView
                     android:id="@+id/tv_toPickUp"
@@ -74,7 +75,6 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:orientation="vertical"
-                android:background="@color/grey"
                 android:layout_weight="0.2">
 
                 <TextView

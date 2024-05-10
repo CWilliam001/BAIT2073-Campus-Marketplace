@@ -1,8 +1,10 @@
 package com.example.campusmarketplace
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.BuyerProductLstItemViewBinding
 import com.example.campusmarketplace.model.SellerProduct
@@ -22,6 +24,24 @@ class BuyerProductListAdapter internal constructor(
             binding.buyerProductLstPrice.text = current.productPrice
             binding.buyerProductLstCondition.text = current.productCondition
             Picasso.get().load(current.productImage).into(binding.buyerProductLstImage)
+
+            binding.buyerProductLstCardView.setOnClickListener {
+                // Navigate to the edit page fragment with productId as argument
+                val bundle = Bundle().apply {
+                    putString("productID", current.productID)
+                    putString("productName", current.productName)
+                    putString("productDescription", current.productDescription)
+                    putString("productCategory", current.productCategory)
+                    putString("productPrice", current.productPrice)
+                    putString("productCondition", current.productCondition)
+                    putString("productUsageDuration", current.productUsageDuration)
+                    putString("productImage", current.productImage) // Add product image URI
+                    // Add any other properties here
+                }
+                val navController = Navigation.findNavController(binding.root)
+                navController.navigate(R.id.action_navBuyerProductList_to_navBuyerProductDetail, bundle)
+            }
+
         }
     }
 
