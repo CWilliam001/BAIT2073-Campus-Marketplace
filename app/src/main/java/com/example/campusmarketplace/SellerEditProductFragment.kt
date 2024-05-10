@@ -108,6 +108,10 @@ class SellerEditProductFragment : Fragment() {
             getPhotoPicker.launch("image/*")
         }
 
+        binding.btnUp.setOnClickListener {
+            // Perform up navigation
+            findNavController().navigateUp()
+        }
     }
 
     private fun editProduct() {

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentBuyerProductListBinding
@@ -47,6 +48,11 @@ class BuyerProductListFragment : Fragment() {
         // Fetch products for the selected category
         categoryName?.let {
             productViewModel.getProductsByCategory(it)
+        }
+
+        binding.btnUp.setOnClickListener {
+            // Perform up navigation
+            findNavController().navigateUp()
         }
     }
 

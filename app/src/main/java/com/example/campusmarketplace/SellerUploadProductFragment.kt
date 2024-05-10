@@ -57,6 +57,11 @@ class SellerUploadProductFragment : Fragment() {
                 showConfirmationDialog()
             }
         }
+
+        binding.btnUp.setOnClickListener {
+            // Perform up navigation
+            findNavController().navigateUp()
+        }
     }
 
     private fun addProduct() {
@@ -75,7 +80,7 @@ class SellerUploadProductFragment : Fragment() {
         Toast.makeText(requireContext(), "Successfully Added Product", Toast.LENGTH_SHORT).show()
 
         // Navigate Back
-        findNavController().popBackStack()
+        findNavController().navigateUp()
     }
 
     private fun validateInput(): Boolean {

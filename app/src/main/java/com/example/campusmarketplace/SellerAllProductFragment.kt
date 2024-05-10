@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentSellerAllProductBinding
@@ -52,6 +53,11 @@ class SellerAllProductFragment : Fragment() {
         viewModel.retrieveAllItems()
         viewModel.productLiveData.observe(viewLifecycleOwner) { productList ->
             productAdapter.setProducts(productList)
+        }
+
+        binding.btnUp.setOnClickListener {
+            // Perform up navigation
+            findNavController().navigateUp()
         }
     }
 

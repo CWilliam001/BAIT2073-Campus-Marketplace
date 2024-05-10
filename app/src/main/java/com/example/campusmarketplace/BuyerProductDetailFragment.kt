@@ -6,15 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.campusmarketplace.databinding.FragmentShoppingCartBinding
+import com.example.campusmarketplace.databinding.FragmentBuyerProductDetailBinding
 
-class ShoppingCartFragment : Fragment() {
-    private lateinit var binding: FragmentShoppingCartBinding
+class BuyerProductDetailFragment : Fragment() {
+    private lateinit var binding: FragmentBuyerProductDetailBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentShoppingCartBinding.inflate(inflater, container, false)
+        binding = FragmentBuyerProductDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -26,4 +26,5 @@ class ShoppingCartFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
+
 }
