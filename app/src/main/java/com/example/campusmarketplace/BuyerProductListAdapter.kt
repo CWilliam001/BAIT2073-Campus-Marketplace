@@ -26,7 +26,7 @@ class BuyerProductListAdapter internal constructor(
             Picasso.get().load(current.productImage).into(binding.buyerProductLstImage)
 
             binding.buyerProductLstCardView.setOnClickListener {
-                // Navigate to the edit page fragment with productId as argument
+                // Navigate to the product details fragment with productId as argument
                 val bundle = Bundle().apply {
                     putString("productID", current.productID)
                     putString("productName", current.productName)
@@ -35,6 +35,8 @@ class BuyerProductListAdapter internal constructor(
                     putString("productPrice", current.productPrice)
                     putString("productCondition", current.productCondition)
                     putString("productUsageDuration", current.productUsageDuration)
+                    putString("uploadTime", current.uploadTime)
+                    putString("sellerID", current.sellerID)
                     putString("productImage", current.productImage) // Add product image URI
                     // Add any other properties here
                 }

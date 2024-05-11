@@ -1,5 +1,6 @@
 package com.example.campusmarketplace
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentBuyerProductDetailBinding
+import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
 class BuyerProductDetailFragment : Fragment() {
@@ -19,6 +21,8 @@ class BuyerProductDetailFragment : Fragment() {
     private lateinit var productPrice: String
     private lateinit var productCondition: String
     private lateinit var productUsageDuration: String
+    private lateinit var uploadTime: String
+    private lateinit var sellerID: String
     private  var productImageUri: Uri = Uri.EMPTY // Initialize with an empty Uri
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,10 +43,28 @@ class BuyerProductDetailFragment : Fragment() {
             productPrice = bundle.getString("productPrice", "")
             productCondition = bundle.getString("productCondition", "")
             productUsageDuration = bundle.getString("productUsageDuration", "")
+            uploadTime = bundle.getString("uploadTime", "")
+            sellerID = bundle.getString("sellerID"," ")
 
             // Retrieve the image URI
             val imageUrl = bundle.getString("productImage", "")
             productImageUri = Uri.parse(imageUrl)
+        }
+
+        val firestore = FirebaseFirestore.getInstance()
+        val userDocRef = firestore.collection("users").document(sellerID!!)
+        userDocRef.get().addOnSuccessListener { document ->
+            if (document != null) {
+                val userName = document.getString("name")
+                val profileImageUrl = document.getString("profileImageUrl")
+                val phoneNumber = document.getString("phoneNumber")
+                val location = document.getString("states")
+
+                binding.tvSellerName.text = userName
+                Picasso.get().load(profileImageUrl).transform(RoundedTransformation()).into(binding.imgSellerImage)
+                binding.tvSellerPhone.text = phoneNumber
+                binding.tvLocation.text = location
+            }
         }
 
         // set the retrieved values to textView
@@ -54,6 +76,7 @@ class BuyerProductDetailFragment : Fragment() {
         binding.tvUsage.text = productUsageDuration
         binding.tvCategory.text= productCategory
         binding.tvDescription.text = productDescription
+        binding.tvUploadTime.text = uploadTime
 
         binding.btnUp.setOnClickListener {
             // Perform up navigation
