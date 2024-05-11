@@ -29,7 +29,7 @@ class BuyerProductListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = binding.buyerProductLtRecyclerview
-        buyerProductLstAdapter = BuyerProductListAdapter(requireContext())
+        buyerProductLstAdapter = BuyerProductListAdapter(requireContext(), R.id.action_navBuyerProductList_to_navBuyerProductDetail)
         recyclerView.adapter = buyerProductLstAdapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
 

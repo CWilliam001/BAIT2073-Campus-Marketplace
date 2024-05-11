@@ -11,7 +11,8 @@ import com.example.campusmarketplace.model.SellerProduct
 import com.squareup.picasso.Picasso
 
 class BuyerProductListAdapter internal constructor(
-    private val context: Context
+    private val context: Context,
+    private val destinationId: Int
 ): RecyclerView.Adapter<BuyerProductListAdapter.BuyerProductListViewHolder>() {
     private var buyerProductLst = emptyList<SellerProduct>()
 
@@ -41,7 +42,7 @@ class BuyerProductListAdapter internal constructor(
                     // Add any other properties here
                 }
                 val navController = Navigation.findNavController(binding.root)
-                navController.navigate(R.id.action_navBuyerProductList_to_navBuyerProductDetail, bundle)
+                navController.navigate(destinationId, bundle)
             }
 
         }

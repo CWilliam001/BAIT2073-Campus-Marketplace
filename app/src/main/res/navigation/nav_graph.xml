@@ -29,6 +29,19 @@
         <action
             android:id="@+id/action_nav_buyer_to_nav_shoppingCart"
             app:destination="@id/nav_shoppingCart" />
+        <action
+            android:id="@+id/action_nav_buyer_to_nav_like"
+            app:destination="@id/nav_like" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_like"
+        android:name="com.example.campusmarketplace.BuyerLikeFragment"
+        android:label="Like"
+        tools:layout="@layout/fragment_buyer_like">
+
+        <action
+            android:id="@+id/action_nav_like_to_nav_productDetail"
+            app:destination="@id/nav_buyerProductDetail" />
 
     </fragment>
     <fragment

@@ -55,6 +55,9 @@ class HomeFragment : Fragment() {
                         findNavController().navigate(R.id.action_nav_buyer_to_nav_shoppingCart)
                     }
 
+                    binding.buyerIbMyLikes.setOnClickListener{
+                        findNavController().navigate(R.id.action_nav_buyer_to_nav_like)
+                    }
                 }
             }
         }
