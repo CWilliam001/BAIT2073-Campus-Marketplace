@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentBuyerCategoryBinding
@@ -35,7 +36,7 @@ override fun onCreateView(
         buyerCategoryAdapter = BuyerCategoryAdapter(requireContext())
         recyclerView.adapter = buyerCategoryAdapter
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
 
         buyerCategoryViewModel.retrieveAllItems()
         buyerCategoryViewModel.productLiveData.observe(viewLifecycleOwner) { productList ->

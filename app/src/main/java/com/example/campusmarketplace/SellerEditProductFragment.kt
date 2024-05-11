@@ -20,6 +20,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentSellerEditProductBinding
 import com.example.campusmarketplace.model.SellerProduct
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class SellerEditProductFragment : Fragment() {
     private lateinit var binding: FragmentSellerEditProductBinding
@@ -34,6 +37,7 @@ class SellerEditProductFragment : Fragment() {
     private lateinit var productPrice: String
     private lateinit var productCondition: String
     private lateinit var productUsageDuration: String
+    private lateinit var uploadTime: String
     private lateinit var sellerID: String
 
 
@@ -73,6 +77,7 @@ class SellerEditProductFragment : Fragment() {
             productPrice = bundle.getString("productPrice", "")
             productCondition = bundle.getString("productCondition", "")
             productUsageDuration = bundle.getString("productUsageDuration", "")
+            uploadTime = bundle.getString("uploadTime", "")
             sellerID = bundle.getString("sellerID"," ")
 
             // Retrieve the image URI
@@ -119,6 +124,7 @@ class SellerEditProductFragment : Fragment() {
     }
 
     private fun editProduct() {
+        uploadTime = getCurrentTimestamp()
 
         if(validateInput()){
             val productId = arguments?.getString("productID") ?: ""
@@ -130,6 +136,7 @@ class SellerEditProductFragment : Fragment() {
                 binding.etProductPrice.text.toString(),
                 binding.spProductCondition.selectedItem.toString(),
                 binding.spUsageDuration.selectedItem.toString(),
+                uploadTime,
                 sellerID
             )
 
@@ -142,6 +149,11 @@ class SellerEditProductFragment : Fragment() {
         }
     }
 
+    private fun getCurrentTimestamp(): String {
+        val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+        return sdf.format(Date())
+
+    }
     private fun setSpinnerSelection(spinner: Spinner, value: String?) {
         val adapter = spinner.adapter as ArrayAdapter<String>
         val position = adapter.getPosition(value)

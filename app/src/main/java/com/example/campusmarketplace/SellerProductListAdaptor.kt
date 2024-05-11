@@ -46,6 +46,7 @@ class SellerProductListAdaptor internal constructor(
                     putString("productPrice", current.productPrice)
                     putString("productCondition", current.productCondition)
                     putString("productUsageDuration", current.productUsageDuration)
+                    putString("uploadTime", current.uploadTime)
                     putString("sellerID", current.sellerID)
                     putString("productImage", current.productImage)
                 }

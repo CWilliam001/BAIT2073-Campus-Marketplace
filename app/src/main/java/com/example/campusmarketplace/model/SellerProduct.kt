@@ -8,6 +8,7 @@ data class SellerProduct(
     var productPrice:String=" ",
     var productCondition:String=" ",
     var productUsageDuration:String=" ",
+    var uploadTime:String = " ",
     var sellerID: String = " ",
     var productImage: String=" "
 

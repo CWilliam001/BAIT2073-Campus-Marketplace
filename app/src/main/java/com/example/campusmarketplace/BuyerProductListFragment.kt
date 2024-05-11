@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentBuyerProductListBinding
@@ -30,7 +31,7 @@ class BuyerProductListFragment : Fragment() {
         recyclerView = binding.buyerProductLtRecyclerview
         buyerProductLstAdapter = BuyerProductListAdapter(requireContext())
         recyclerView.adapter = buyerProductLstAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
 
         // Initialize ViewModel
         productViewModel = ViewModelProvider(this).get(SellerProductViewModel::class.java)
