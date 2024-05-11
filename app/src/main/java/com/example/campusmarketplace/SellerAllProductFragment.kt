@@ -1,5 +1,6 @@
 package com.example.campusmarketplace
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -37,6 +38,10 @@ class SellerAllProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("userID", null)
+
         recyclerView = binding.productUploadRecyclerview // Initialize recyclerView from the binding
 
         // Initialize your storageReference here
@@ -50,7 +55,9 @@ class SellerAllProductFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.retrieveAllItems()
+        // Call retrieveAllItems with sellerID parameter
+        viewModel.retrieveAllItems(userID.toString())
+        //        viewModel.retrieveAllItems()
         viewModel.productLiveData.observe(viewLifecycleOwner) { productList ->
             productAdapter.setProducts(productList)
         }

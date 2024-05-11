@@ -13,9 +13,10 @@ class SellerProductViewModel : ViewModel() {
     private val _productLiveData = MutableLiveData<List<SellerProduct>>()
     val productLiveData: LiveData<List<SellerProduct>> = _productLiveData
 
-    fun retrieveAllItems() {
-        repository.retrieveAllProductItem(_productLiveData)
+    fun retrieveAllItems(sellerID: String) {
+    repository.retrieveAllProductItem(_productLiveData, sellerID)
     }
+
 
     fun updateItem(product: SellerProduct, imageUri: Uri?) {
         viewModelScope.launch {

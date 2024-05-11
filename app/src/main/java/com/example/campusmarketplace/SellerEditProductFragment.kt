@@ -1,6 +1,7 @@
 package com.example.campusmarketplace
 
 import android.app.AlertDialog
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -33,6 +34,8 @@ class SellerEditProductFragment : Fragment() {
     private lateinit var productPrice: String
     private lateinit var productCondition: String
     private lateinit var productUsageDuration: String
+    private lateinit var sellerID: String
+
 
     // Define your Spinners
     private lateinit var categorySpinner: Spinner
@@ -70,6 +73,7 @@ class SellerEditProductFragment : Fragment() {
             productPrice = bundle.getString("productPrice", "")
             productCondition = bundle.getString("productCondition", "")
             productUsageDuration = bundle.getString("productUsageDuration", "")
+            sellerID = bundle.getString("sellerID"," ")
 
             // Retrieve the image URI
             val imageUrl = bundle.getString("productImage", "")
@@ -115,6 +119,7 @@ class SellerEditProductFragment : Fragment() {
     }
 
     private fun editProduct() {
+
         if(validateInput()){
             val productId = arguments?.getString("productID") ?: ""
             val product = SellerProduct(
@@ -124,7 +129,8 @@ class SellerEditProductFragment : Fragment() {
                 binding.spCategory.selectedItem.toString(),
                 binding.etProductPrice.text.toString(),
                 binding.spProductCondition.selectedItem.toString(),
-                binding.spUsageDuration.selectedItem.toString()
+                binding.spUsageDuration.selectedItem.toString(),
+                sellerID
             )
 
             viewModel.updateItem(product, productImageUri)

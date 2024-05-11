@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +29,7 @@ class SellerProductListAdaptor internal constructor(
 
         fun bind(current: SellerProduct){
 
+
             binding.productNameDisplay.text = current.productName
             binding.productPriceDisplay.text = current.productPrice
 
@@ -44,11 +46,13 @@ class SellerProductListAdaptor internal constructor(
                     putString("productPrice", current.productPrice)
                     putString("productCondition", current.productCondition)
                     putString("productUsageDuration", current.productUsageDuration)
-                    putString("productImage", current.productImage) // Add product image URI
-                    // Add any other properties here
+                    putString("sellerID", current.sellerID)
+                    putString("productImage", current.productImage)
                 }
                 val navController = Navigation.findNavController(binding.root)
                 navController.navigate(R.id.nav_seller_edit_product, bundle)
+
+
             }
         }
     }
