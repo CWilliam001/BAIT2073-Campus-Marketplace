@@ -42,6 +42,9 @@ class BuyerProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("userID",null)
+
         arguments?.let { bundle ->
             productId = bundle.getString("productID", "")
             productName = bundle.getString("productName", "")
@@ -91,13 +94,17 @@ class BuyerProductDetailFragment : Fragment() {
         }
 
         binding.btnLike.setOnClickListener {
-            val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
-            val userID = sharedPreferences.getString("userID",null)
             if (userID != null) {
                 userViewModel.addProductToLikeList(userID, productId)
                 Toast.makeText(requireContext(), "Product already added to like list", Toast.LENGTH_SHORT).show()
             }
         }
-    }
 
+        binding.btnAddToCart.setOnClickListener{
+            if (userID != null) {
+                userViewModel.addProductToCartList(userID, productId)
+                Toast.makeText(requireContext(), "Product already added to cart list", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }

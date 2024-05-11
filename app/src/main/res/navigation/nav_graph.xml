@@ -48,7 +48,13 @@
         android:id="@+id/nav_shoppingCart"
         android:name="com.example.campusmarketplace.ShoppingCartFragment"
         android:label="Shopping Cart"
-        tools:layout="@layout/fragment_shopping_cart" />
+        tools:layout="@layout/fragment_shopping_cart">
+
+        <action
+            android:id="@+id/action_nav_cart_to_nav_productDetail"
+            app:destination="@id/nav_buyerProductDetail" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/nav_login"

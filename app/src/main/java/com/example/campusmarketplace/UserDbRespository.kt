@@ -20,7 +20,7 @@ class UserDbRepository {
     private val userReference = database.getReference("User")
     private val productReference = database.getReference("Product")
 
-    // Buyer Like Data
+    // Add Product to Buyer Like
     fun addProductToLikeList(userId: String, productId: String) {
         val userLikeRef = userReference.child(userId).child("Buy").child("Like")
         // Check if the product ID already exists in the "Like" node
@@ -38,6 +38,7 @@ class UserDbRepository {
         })
     }
 
+    // Retrieve Product from Buyer Like
     fun fetchUserLikes(userId: String, onSuccess: (List<SellerProduct>) -> Unit, onError: (DatabaseError) -> Unit) {
         val userLikesRef = userReference.child(userId).child("Buy").child("Like")
 
@@ -81,6 +82,50 @@ class UserDbRepository {
                 }
             })
         }
+    }
+
+
+    // Add Product to Buyer Cart
+    fun addProductToCart(userId: String, productId: String){
+        val userLikeRef = userReference.child(userId).child("Buy").child("Cart")
+        // Check if the product ID already exists in the "Like" node
+        userLikeRef.child(productId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (!snapshot.exists()) {
+                    // Product ID does not exist in the "Like" node
+                    // Add the product to the "Like" list
+                    userLikeRef.child(productId).setValue(true)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("Insert", "Database query cancelled: ${error.message}")
+            }
+        })
+    }
+
+    fun fetchUserCart(userId: String, onSuccess: (List<SellerProduct>) -> Unit, onError: (DatabaseError) -> Unit) {
+        val userLikesRef = userReference.child(userId).child("Buy").child("Cart")
+
+        userLikesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val productIds = mutableListOf<String>()
+                for (likeSnapshot in snapshot.children) {
+                    val productId = likeSnapshot.key
+                    productId?.let {
+                        productIds.add(it)
+                    }
+                }
+                fetchProductInformation(productIds, onSuccess, onError)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                onError(error)
+            }
+        })
+    }
+
+    fun deleteFromCart(userId: String, product: SellerProduct) {
+        userReference.child(userId).child("Buy").child("Cart").child(product.productID).removeValue()
     }
 }
 
