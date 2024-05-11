@@ -10,6 +10,5 @@ data class SellerProduct(
     var productUsageDuration:String=" ",
     var uploadTime:String = " ",
     var sellerID: String = " ",
-    var productImage: String=" ",
-    var isSelected: Boolean = false
+    var productImage: String=" "
 )

@@ -27,6 +27,10 @@ class ShoppingCartFragment : Fragment() {
 
     private lateinit var storageReference: StorageReference // Define storageReference here
 
+    // Define variables to store the checked items and total sales
+    private val checkedItems = mutableListOf<SellerProduct>()
+    private var totalSales = 0.0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,6 +71,21 @@ class ShoppingCartFragment : Fragment() {
         binding.btnUp.setOnClickListener {
             // Perform up navigation
             findNavController().navigateUp()
+        }
+
+        // Listen for changes in checked items in the adapter
+        productAdapter.setOnItemCheckedListener { product, isChecked ->
+            if (isChecked) {
+                checkedItems.add(product)
+                totalSales += product.productPrice.toDouble()
+            } else {
+                checkedItems.remove(product)
+                totalSales -= product.productPrice.toDouble()
+            }
+
+            // Update the total sales TextView
+            binding.tvShowTotalSales.text = String.format("RM %.2f", totalSales)
+
         }
     }
 

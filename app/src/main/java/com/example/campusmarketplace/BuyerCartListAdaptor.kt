@@ -22,6 +22,14 @@ class BuyerCartListAdaptor internal constructor(
 ):
     RecyclerView.Adapter<BuyerCartListAdaptor.ProductViewHolder>() {
     private var products = emptyList<SellerProduct>() // Cached copy of words
+
+    // Define a listener to communicate checkbox state changes to the fragment
+    private var onItemCheckedListener: ((SellerProduct, Boolean) -> Unit)? = null
+
+    fun setOnItemCheckedListener(listener: (SellerProduct, Boolean) -> Unit) {
+        onItemCheckedListener = listener
+    }
+
     //1 single item view in a recycler view
     inner class ProductViewHolder(
         private val binding:BuyerCartListItemViewBinding)
@@ -32,13 +40,6 @@ class BuyerCartListAdaptor internal constructor(
             binding.productPriceDisplay.text = current.productPrice
             // Load image using Picasso
             Picasso.get().load(current.productImage).into(binding.productImageDisplay)
-
-            // Handle checkbox click events
-            binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
-                current.isSelected = isChecked
-                // Notify the fragment about the updated product
-                onUpdateCallBack.invoke(current)
-            }
 
             binding.productSellerCardView.setOnClickListener {
                 // Navigate to the edit page fragment with productId as argument
@@ -56,8 +57,12 @@ class BuyerCartListAdaptor internal constructor(
                 }
                 val navController = Navigation.findNavController(binding.root)
                 navController.navigate(R.id.action_nav_cart_to_nav_productDetail, bundle)
+            }
 
-
+            // Set checkbox state change listener
+            binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
+                // Invoke the listener passing the current product and checkbox state
+                onItemCheckedListener?.invoke(current, isChecked)
             }
         }
     }
