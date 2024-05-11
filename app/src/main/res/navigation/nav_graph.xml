@@ -66,7 +66,17 @@
             android:id="@+id/action_nav_cart_to_nav_productDetail"
             app:destination="@id/nav_buyerProductDetail" />
 
+        <action
+            android:id="@+id/action_nav_cart_to_nav_cardPayment"
+            app:destination="@id/nav_cardPayment" />
+
     </fragment>
+    <fragment
+        android:id="@+id/nav_cardPayment"
+        android:name="com.example.campusmarketplace.CardPaymentFragment"
+        android:label="Card Payment"
+        tools:layout="@layout/fragment_card_payment" />
+
 
     <fragment
         android:id="@+id/nav_login"

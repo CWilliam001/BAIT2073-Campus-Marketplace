@@ -9,6 +9,10 @@ import com.example.campusmarketplace.databinding.FragmentCardPaymentBinding
 
 class CardPaymentFragment : Fragment() {
     private lateinit var binding: FragmentCardPaymentBinding
+
+    private var userID: String? = null
+    private var checkedItemIDs: ArrayList<String>? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -19,6 +23,12 @@ class CardPaymentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Receive the bundle from the previous fragment
+        arguments?.let { bundle ->
+            userID = bundle.getString("userID")
+            checkedItemIDs = bundle.getStringArrayList("checkedItemIDs")
+        }
 
         // Set onClickListener for the Done button
         binding.btnDone.setOnClickListener {

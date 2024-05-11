@@ -1,6 +1,8 @@
 package com.example.campusmarketplace
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,17 +17,21 @@ import com.example.campusmarketplace.databinding.FragmentShoppingCartBinding
 import com.example.campusmarketplace.model.SellerProduct
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class ShoppingCartFragment : Fragment() {
     private lateinit var binding: FragmentShoppingCartBinding
     private lateinit var productAdapter: BuyerCartListAdaptor
-    private lateinit var recyclerView: RecyclerView // Define recyclerView here
+    private lateinit var recyclerView: RecyclerView
 
     private val viewModel: UserViewModel by lazy {
         ViewModelProvider(this).get(UserViewModel::class.java)
     }
 
-    private lateinit var storageReference: StorageReference // Define storageReference here
+    private lateinit var sharedPreferences: SharedPreferences
+    private var userID: String? = null
 
     // Define variables to store the checked items and total sales
     private val checkedItems = mutableListOf<SellerProduct>()
@@ -35,41 +41,36 @@ class ShoppingCartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentShoppingCartBinding.inflate(layoutInflater,container,false)
+        binding = FragmentShoppingCartBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
-        val userID = sharedPreferences.getString("userID", null)
-
-        recyclerView = binding.buyerProductLtRecyclerview // Initialize recyclerView from the binding
-
-        // Initialize your storageReference here
-        storageReference = FirebaseStorage.getInstance().reference
-
+        recyclerView = binding.buyerProductLtRecyclerview
+        val storageReference = FirebaseStorage.getInstance().reference
         productAdapter = BuyerCartListAdaptor(requireContext(), ::onUpdateProduct, viewModel::deleteCartItem)
         recyclerView.adapter = productAdapter
 
+        // Initialize sharedPreferences and userID in onViewCreated
+        sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        userID = sharedPreferences.getString("userID", null)
+
         // Pass the storageReference to enableSwipeToDelete function
         if (userID != null) {
-            productAdapter.enableSwipeToDelete(userID, recyclerView, storageReference)
+            productAdapter.enableSwipeToDelete(userID!!, recyclerView, storageReference)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Call retrieveAllItems with sellerID parameter
         viewModel.getUserCart(userID.toString())
-        //        viewModel.retrieveAllItems()
         viewModel.productLiveData.observe(viewLifecycleOwner) { productList ->
             productAdapter.setProducts(productList)
         }
 
         binding.btnUp.setOnClickListener {
-            // Perform up navigation
             findNavController().navigateUp()
         }
 
@@ -85,13 +86,63 @@ class ShoppingCartFragment : Fragment() {
 
             // Update the total sales TextView
             binding.tvShowTotalSales.text = String.format("RM %.2f", totalSales)
+        }
 
+        binding.btnBuyNow.setOnClickListener {
+            val selectedPaymentMethod = binding.radioPayment.checkedRadioButtonId
+            when (selectedPaymentMethod) {
+                R.id.radioCard -> {
+                    val bundle = Bundle().apply {
+                        putString("userID", userID)
+                        putStringArrayList("checkedItemIDs", ArrayList(checkedItems.map { it.productID }))
+                    }
+                    findNavController().navigate(R.id.action_nav_cart_to_nav_cardPayment, bundle)
+                }
+                R.id.radioCashDelivery -> {
+                    showConfirmationDialog()
+                }
+            }
         }
     }
 
     private fun onUpdateProduct(product: SellerProduct) {
-        // Update the UI or perform any other action after the product is deleted
-        // For example, you can show a toast message
         Toast.makeText(requireContext(), "Product ${product.productName} deleted", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirm Purchase")
+            .setMessage("Are you sure you want to proceed with Cash on Delivery?")
+            .setPositiveButton("Yes") { dialog, which ->
+                for (product in checkedItems) {
+                    if (userID != null) {
+                        viewModel.deleteCartItem(userID!!, product)
+                    }
+                }
+                addPurchaseDetailsToDatabase()
+                Toast.makeText(requireContext(), "Purchase successful!", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("No") { dialog, which ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun addPurchaseDetailsToDatabase() {
+        val currentDate = SimpleDateFormat("dd:MM:yyyy HH:mm", Locale.getDefault()).format(Date())
+        for (product in checkedItems) {
+            if (userID != null) {
+                viewModel.addPurchaseDetails(
+                    userID!!,
+                    product.sellerID,
+                    product.productID,
+                    product.productName,
+                    "Cash on Delivery",
+                    currentDate,
+                    false,
+                    false
+                )
+            }
+        }
     }
 }
