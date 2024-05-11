@@ -109,37 +109,35 @@
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_marginStart="7dp"
-                                android:layout_marginTop="20dp"
                                 android:src="@drawable/sales_summary_completed"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"/>
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
 
                             <TextView
                                 android:id="@+id/tv_showCompleted"
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:textSize="30sp"
                                 android:textStyle="bold"
-                                android:layout_marginStart="40dp"
-                                android:layout_marginEnd="10dp"
-                                android:text="xxx"
-                                android:textAlignment="textEnd"
+                                android:text="0"
+                                android:textAlignment="center"
                                 android:textColor="@color/black"
                                 app:layout_constraintStart_toEndOf="@+id/iv_completed"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"/>
 
                             <TextView
                                 android:id="@+id/tv_completed"
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginStart="50dp"
                                 android:text="@string/completed"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
                                 app:layout_constraintStart_toEndOf="@+id/iv_completed"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_showCompleted"/>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -162,37 +160,35 @@
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_marginStart="7dp"
-                                android:layout_marginTop="20dp"
                                 android:src="@drawable/sales_summary_processing"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"/>
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
 
                             <TextView
                                 android:id="@+id/tv_showProcessing"
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:textSize="30sp"
                                 android:textStyle="bold"
-                                android:layout_marginStart="40dp"
-                                android:layout_marginEnd="10dp"
-                                android:text="xxx"
-                                android:textAlignment="textEnd"
+                                android:text="0"
+                                android:textAlignment="center"
                                 android:textColor="@color/black"
                                 app:layout_constraintStart_toEndOf="@+id/iv_processing"
-                                app:layout_constraintTop_toTopOf="parent"/>
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"/>
 
                             <TextView
                                 android:id="@+id/tv_processing"
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginStart="50dp"
                                 android:text="@string/processing"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
                                 app:layout_constraintStart_toEndOf="@+id/iv_processing"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_showProcessing"/>
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
@@ -215,13 +211,14 @@
                     android:id="@+id/tv_showTotalSales"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="RM XXX.XX"
+                    android:text="RM 0.00"
+                    android:background="@drawable/rounded_background"
                     android:textColor="@color/black"
                     android:textSize="27sp"
+                    android:padding="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+
                     app:layout_constraintStart_toEndOf="@id/guideLine2"
                     app:layout_constraintEnd_toStartOf="@+id/guideLine3"
                     app:layout_constraintTop_toBottomOf="@+id/tv_totalSales"/>
@@ -243,13 +240,13 @@
                     android:id="@+id/tv_showMyRating"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="X.XX"
+                    android:text="0.00"
                     android:textColor="@color/black"
+                    android:background="@drawable/rounded_background"
                     android:textSize="27sp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:padding="5dp"
                     app:layout_constraintStart_toEndOf="@id/guideLine2"
                     app:layout_constraintEnd_toStartOf="@+id/guideLine3"
                     app:layout_constraintTop_toBottomOf="@+id/tv_myRating"/>
