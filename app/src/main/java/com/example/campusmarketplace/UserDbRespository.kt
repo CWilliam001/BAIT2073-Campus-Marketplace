@@ -19,6 +19,7 @@ class UserDbRepository {
     // Get reference to the product node in the database
     private val userReference = database.getReference("User")
     private val productReference = database.getReference("Product")
+    private val orderReference = database.getReference("Order")
 
     // Add Product to Buyer Like
     fun addProductToLikeList(userId: String, productId: String) {
@@ -127,6 +128,30 @@ class UserDbRepository {
     fun deleteFromCart(userId: String, product: SellerProduct) {
         userReference.child(userId).child("Buy").child("Cart").child(product.productID).removeValue()
     }
+
+    fun addToDeliver(userID: String, sellerID: String, productID: String, productName: String, paymentMethod: String, currentDate: String, received: Boolean, delivered: Boolean) {
+        val orderDetails = hashMapOf(
+            "userID" to userID,
+            "sellerID" to sellerID,
+            "productID" to productID,
+            "productName" to productName,
+            "paymentMethod" to paymentMethod,
+            "currentDate" to currentDate,
+            "received" to received,
+            "delivered" to delivered
+        )
+
+        orderReference.child(productID).setValue(orderDetails)
+            .addOnSuccessListener {
+                // Handle success
+                Log.d("addToDeliver", "Order added successfully for product ID: $productID")
+            }
+            .addOnFailureListener { e ->
+                // Handle failure
+                Log.e("addToDeliver", "Error adding order for product ID: $productID, Error: $e")
+            }
+    }
+
 }
 
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.campusmarketplace.model.SellerProduct
+import com.google.protobuf.Method
 import kotlinx.coroutines.launch
 
 class UserViewModel() : ViewModel() {
@@ -50,5 +51,10 @@ class UserViewModel() : ViewModel() {
         viewModelScope.launch {
             repository.deleteFromCart(userId, product)
         }
+    }
+
+    // Add
+    fun addPurchaseDetails(userID: String, sellerID: String, productID: String, productName: String, paymentMethod: String, currentDate: String, received: Boolean, delivered: Boolean) {
+        repository.addToDeliver(userID, sellerID, productID, productName, paymentMethod, currentDate, received, delivered)
     }
 }
