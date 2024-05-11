@@ -22,7 +22,7 @@ class BuyerProductListAdapter internal constructor(
 
         fun bind(current: SellerProduct) {
             binding.buyerProductLstName.text = current.productName
-            binding.buyerProductLstPrice.text = current.productPrice
+            binding.buyerProductLstPrice.text = String.format("RM %s",current.productPrice)
             binding.buyerProductLstCondition.text = current.productCondition
             Picasso.get().load(current.productImage).into(binding.buyerProductLstImage)
 

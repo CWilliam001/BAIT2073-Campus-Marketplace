@@ -23,16 +23,14 @@ class SellerProductListAdaptor internal constructor(
     RecyclerView.Adapter<SellerProductListAdaptor.ProductViewHolder>() {
     private var products = emptyList<SellerProduct>() // Cached copy of words
 
-    //1 single item view in a recycler view
+
     inner class ProductViewHolder(
         private val binding:SellerProductItemViewBinding)
         : RecyclerView.ViewHolder(binding.root){
 
         fun bind(current: SellerProduct){
-
-
             binding.productNameDisplay.text = current.productName
-            binding.productPriceDisplay.text = current.productPrice
+            binding.productPriceDisplay.text = String.format("RM %s",current.productPrice)
 
             // Load image using Picasso
             Picasso.get().load(current.productImage).into(binding.productImageDisplay)
@@ -53,7 +51,6 @@ class SellerProductListAdaptor internal constructor(
                 }
                 val navController = Navigation.findNavController(binding.root)
                 navController.navigate(R.id.nav_seller_edit_product, bundle)
-
 
             }
         }

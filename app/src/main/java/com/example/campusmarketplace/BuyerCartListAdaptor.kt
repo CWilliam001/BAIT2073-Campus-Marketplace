@@ -37,7 +37,7 @@ class BuyerCartListAdaptor internal constructor(
 
         fun bind(current: SellerProduct){
             binding.productNameDisplay.text = current.productName
-            binding.productPriceDisplay.text = current.productPrice
+            binding.productPriceDisplay.text = String.format("RM %s",current.productPrice)
             // Load image using Picasso
             Picasso.get().load(current.productImage).into(binding.productImageDisplay)
 

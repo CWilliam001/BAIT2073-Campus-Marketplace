@@ -70,10 +70,10 @@ class BuyerProductDetailFragment : Fragment() {
                 val phoneNumber = document.getString("phoneNumber")
                 val location = document.getString("states")
 
-                binding.tvSellerName.text = userName
+                binding.tvSellerName.text = userName.toString()
                 Picasso.get().load(profileImageUrl).transform(RoundedTransformation()).into(binding.imgSellerImage)
-                binding.tvSellerPhone.text = phoneNumber
-                binding.tvLocation.text = location
+                binding.tvSellerPhone.text = phoneNumber.toString()
+                binding.tvLocation.text = location.toString()
             }
         }
 
