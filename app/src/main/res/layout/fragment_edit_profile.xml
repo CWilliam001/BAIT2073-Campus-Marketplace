@@ -117,6 +117,8 @@
                     android:layout_marginTop="15dp"
                     android:text="@string/name_label"
                     android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/end_guideline"
                     app:layout_constraintStart_toStartOf="@+id/start_guideline"
                     app:layout_constraintTop_toBottomOf="@+id/change_photo_text_view"
@@ -137,7 +139,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
-                        android:textColorHint="#546E7A"
+                        android:background="@drawable/rounded_background"
+                        android:textColorHint="@color/dark_Grey"
+                        android:textColor="@color/black"
                         tools:ignore="VisualLintTextFieldSize,DuplicateSpeakableTextCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,7 +151,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/email_label"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@id/name_text_input_layout"
                     app:layout_constraintStart_toStartOf="@id/name_text_input_layout"
                     app:layout_constraintTop_toBottomOf="@id/name_text_input_layout"
@@ -168,7 +174,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
-                        android:textColorHint="#546E7A"
+                        android:background="@drawable/rounded_background"
+                        android:textColorHint="@color/dark_Grey"
+                        android:textColor="@color/black"
                         tools:ignore="VisualLintTextFieldSize,DuplicateSpeakableTextCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -178,7 +186,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/phone_number_label"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@id/email_text_input_layout"
                     app:layout_constraintStart_toStartOf="@id/email_text_input_layout"
                     app:layout_constraintTop_toBottomOf="@id/email_text_input_layout"
@@ -199,7 +209,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="phone|number"
-                        android:textColorHint="#546E7A"
+                        android:background="@drawable/rounded_background"
+                        android:textColorHint="@color/dark_Grey"
+                        android:textColor="@color/black"
                         tools:ignore="VisualLintTextFieldSize,DuplicateSpeakableTextCheck,TextContrastCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -209,6 +221,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/address_label"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="@id/phone_number_text_input_layout"
                     app:layout_constraintStart_toStartOf="@id/phone_number_text_input_layout"
@@ -230,6 +244,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPostalAddress"
+                        android:background="@drawable/rounded_background"
+                        android:textColorHint="@color/dark_Grey"
+                        android:textColor="@color/black"
                         tools:ignore="VisualLintTextFieldSize,DuplicateSpeakableTextCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -241,6 +258,8 @@
                     android:layout_marginEnd="10dp"
                     android:text="@string/state_label"
                     android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@id/mid_guideline"
                     app:layout_constraintStart_toStartOf="@id/address_text_input_layout"
                     app:layout_constraintTop_toBottomOf="@id/address_text_input_layout"
@@ -253,6 +272,8 @@
                     android:layout_marginStart="10dp"
                     android:text="@string/zip_code_label"
                     android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/state_text_view"
                     app:layout_constraintEnd_toEndOf="@id/address_text_input_layout"
                     app:layout_constraintStart_toStartOf="@id/mid_guideline"
@@ -286,19 +307,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:textColorHint="#546E7A"
+                        android:background="@drawable/rounded_background"
+                        android:textColorHint="@color/dark_Grey"
+                        android:textColor="@color/black"
                         tools:ignore="VisualLintTextFieldSize,DuplicateSpeakableTextCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/save_btn"
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:backgroundTint="@color/blue_Light"
+                    android:backgroundTint="@color/blue_Dark"
                     android:text="@string/save_label"
-                    android:textColor="#212121"
+                    android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="@+id/zip_code_text_input_layout"
                     app:layout_constraintStart_toStartOf="@+id/state_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/zip_code_text_input_layout"

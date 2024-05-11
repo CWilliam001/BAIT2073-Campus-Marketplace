@@ -88,7 +88,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/message_label"
                     android:inputType="text"
-                    android:textColorHint="#546E7A"
+                    android:textColorHint="@color/dark_Grey"
+                    android:textColor="@color/black"
                     tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,6 +100,7 @@
                 android:layout_marginStart="5dp"
                 android:backgroundTint="@color/blue_Dark"
                 android:text="@string/send_label"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

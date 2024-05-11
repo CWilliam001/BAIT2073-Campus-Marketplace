@@ -52,13 +52,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.65"/>
+            app:layout_constraintGuide_percent="0.7"/>
 
         <TextView
             android:id="@+id/tv_paymentLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/payment_method"
+            android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/guideline1"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="20dp"
@@ -89,6 +90,7 @@
                 android:textStyle="bold"
                 android:layoutDirection="rtl"
                 android:textAlignment="textStart"
+                android:textColor="@color/black"
                 android:layout_gravity="end"
                 tools:ignore="RtlCompat"
                 android:paddingLeft="10dp"
@@ -100,6 +102,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/cash_on_delivery"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 android:layoutDirection="rtl"
                 android:textAlignment="textStart"
                 android:layout_gravity="end"

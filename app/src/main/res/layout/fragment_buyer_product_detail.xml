@@ -333,7 +333,7 @@
 
                 <Button
                     android:id="@+id/btn_addToCart"
-                    android:layout_width="120dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="Add to cart"
                     app:layout_constraintEnd_toEndOf="parent"
