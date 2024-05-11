@@ -39,4 +39,9 @@ class SellerProductViewModel : ViewModel() {
         repository.getProductsByCategory(_productLiveData, categoryName)
     }
 
+
+    fun retrieveProductsByUploadTime() {
+        repository.retrieveProductsByUploadTime(_productLiveData)
+    }
+
 }

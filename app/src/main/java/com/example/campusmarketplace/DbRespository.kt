@@ -166,4 +166,49 @@ fun retrieveAllProductItem(
         })
     }
 
+    fun retrieveProductsByUploadTime(liveData: MutableLiveData<List<SellerProduct>>) {
+        // Query to get products ordered by uploadTime in descending order
+        val query = productReference.orderByChild("uploadTime").limitToLast(10)
+
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val productList = mutableListOf<SellerProduct>()
+
+                for (productSnapshot in snapshot.children) {
+                    val product = productSnapshot.getValue(SellerProduct::class.java)
+                    product?.let {
+                        // Fetch image URL from Firebase Storage based on product ID
+                        val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                        productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+                            // Update product with image URL
+                            val productWithImage = product.copy(productImage = imageUrl.toString())
+                            productList.add(productWithImage)
+
+                            // Sort the list by upload time in descending order
+                            productList.sortByDescending { it.uploadTime }
+
+                            // Post sorted list to LiveData
+                            liveData.postValue(productList.toList()) // Ensure immutability of the list
+                        }.addOnFailureListener { e ->
+                            // Handle image download failure
+                            // You can add logging or error handling here
+                        }
+                    }
+                }
+
+                // Move sorting and posting outside the loop for efficiency
+                // Sort the list by upload time in descending order
+                productList.sortByDescending { it.uploadTime }
+
+                // Post sorted list to LiveData
+                liveData.postValue(productList.toList()) // Ensure immutability of the list
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle database query cancellation
+                // You can add logging or error handling here
+            }
+        })
+    }
+
 }

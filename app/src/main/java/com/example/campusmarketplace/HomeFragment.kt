@@ -11,14 +11,20 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentHomeBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-
+    private lateinit var buyerProductLstAdapter: BuyerProductListAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var productViewModel: SellerProductViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,6 +64,26 @@ class HomeFragment : Fragment() {
                     binding.buyerIbMyLikes.setOnClickListener{
                         findNavController().navigate(R.id.action_nav_buyer_to_nav_like)
                     }
+
+
+                    // Initialize RecyclerView and Adapter
+                    recyclerView = binding.buyerProductLtRecyclerview
+                    buyerProductLstAdapter = BuyerProductListAdapter(requireContext(), R.id.action_nav_buyer_to_nav_productDetail)
+                    recyclerView.adapter = buyerProductLstAdapter
+                    recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+
+                    // Initialize ViewModel
+                    productViewModel = ViewModelProvider(this).get(SellerProductViewModel::class.java)
+
+                    // Observe LiveData from ViewModel
+                    productViewModel.productLiveData.observe(viewLifecycleOwner, Observer { products ->
+                        // Update RecyclerView adapter with the new list of products
+                        buyerProductLstAdapter.setBuyerProductLst(products)
+                    })
+
+                    // Call the function from ViewModel to retrieve products
+                    productViewModel.retrieveProductsByUploadTime()
+
                 }
             }
         }
