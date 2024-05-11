@@ -1,5 +1,6 @@
 package com.example.campusmarketplace
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -78,43 +79,56 @@ class SellerProductListAdaptor internal constructor(
         notifyDataSetChanged()
     }
 
-    fun enableSwipeToDelete(recyclerView: RecyclerView, storageReference: StorageReference) {
-        val swipeToDeleteCallback = object : ItemTouchHelper.SimpleCallback(
-            0,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                val deletedProduct = products[position]
-
-                // Remove the product from the list
-                val updatedList = products.toMutableList()
-                updatedList.removeAt(position)
-                setProducts(updatedList)
-
-                // Invoke the onDeleteCallback to handle deletion in ViewModel or repository
-                onDeleteCallback.invoke(deletedProduct)
-
-                // Remove associated image from Firebase Storage
-                val imageRef = storageReference.child("images/${deletedProduct.productID}.jpg")
-                imageRef.delete()
-                    .addOnSuccessListener {
-                        Log.d("ProductListAdapter", "Image deleted successfully")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("ProductListAdapter", "Error deleting image: ${e.message}")
-                    }
-            }
+fun enableSwipeToDelete(recyclerView: RecyclerView, storageReference: StorageReference) {
+    val swipeToDeleteCallback = object : ItemTouchHelper.SimpleCallback(
+        0,
+        ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+    ) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return false
         }
-        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val position = viewHolder.adapterPosition
+            val deletedProduct = products[position]
+
+            // Show confirmation dialog before deletion
+            val builder = AlertDialog.Builder(recyclerView.context)
+            builder.setTitle("Deletion Confirmation")
+                .setMessage("Are you sure you want to delete this product?")
+                .setPositiveButton("Delete") { dialog, which ->
+                    // Remove the product from the list
+                    val updatedList = products.toMutableList()
+                    updatedList.removeAt(position)
+                    setProducts(updatedList)
+
+                    // Invoke the onDeleteCallback to handle deletion in ViewModel or repository
+                    onDeleteCallback.invoke(deletedProduct)
+
+                    // Remove associated image from Firebase Storage
+                    val imageRef = storageReference.child("images/${deletedProduct.productID}.jpg")
+                    imageRef.delete()
+                        .addOnSuccessListener {
+                            Log.d("ProductListAdapter", "Image deleted successfully")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("ProductListAdapter", "Error deleting image: ${e.message}")
+                        }
+                }
+                .setNegativeButton("Cancel") { dialog, which ->
+                    // Notify the adapter to refresh the view to cancel the swipe action
+                    notifyDataSetChanged()
+                }
+                .setCancelable(false) // Prevent dialog cancellation on outside touch
+                .show()
+        }
     }
+    val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+    itemTouchHelper.attachToRecyclerView(recyclerView)
+}
+
 }

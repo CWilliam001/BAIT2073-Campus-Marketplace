@@ -198,6 +198,8 @@
         <item>Digital</item>
         <item>Electronic</item>
         <item>Beauty</item>
+        <item>Sports</item>
+        <item>Stationery</item>
     </string-array>
     <string-array name="productCondition">
         <item>Brand New</item>
