@@ -122,16 +122,21 @@ class SellerUploadProductFragment : Fragment() {
             return false
         }
         if (!isValidProductPrice(productPrice)) {
-            binding.etProductPrice.setError("Enter a valid product price (e.g., 9999.99)")
+            binding.etProductPrice.setError("Enter a valid product price (e.g., 9999.99 or more than 0)")
             return false
         }
         return true
     }
 
-    private fun isValidProductPrice(productPrice: String): Boolean {
-        val regex = "^\\d{1,4}(\\.\\d{1,2})?\$".toRegex()
-        return productPrice.matches(regex)
-    }
+private fun isValidProductPrice(productPrice: String): Boolean {
+    val regex = "^\\d{1,4}(\\.\\d{1,2})?\$".toRegex()
+    val isValidFormat = productPrice.matches(regex)
+    val priceValue = productPrice.toDoubleOrNull() ?: 0.0
+    val isGreaterThanZero = priceValue > 0
+
+    return isValidFormat && isGreaterThanZero
+}
+
 
     private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())
