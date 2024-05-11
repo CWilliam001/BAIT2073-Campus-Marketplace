@@ -17,12 +17,14 @@
         android:layout_marginRight="8dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="6dp"
-        app:contentPadding="4dp">
+        app:contentPadding="4dp"
+        android:backgroundTint="@color/light_Grey">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayoutProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/grey"
             android:padding="16dp">
 
             <ImageView
@@ -40,13 +42,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:textSize="21.5sp"
-                android:textColor="#698976"
+                android:textSize="20sp"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintLeft_toRightOf="@+id/productImageDisplay"
                 app:layout_constraintStart_toEndOf="@+id/productImageDisplay"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/productPriceDisplay"
@@ -54,14 +56,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:textSize="21.5sp"
-                android:textColor="#698976"
+                android:textSize="17sp"
+                android:textColor="@color/blue_Dark"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintLeft_toRightOf="@+id/productImageDisplay"
                 app:layout_constraintStart_toEndOf="@+id/productImageDisplay"
-                app:layout_constraintTop_toBottomOf="@id/productNameDisplay" />
+                app:layout_constraintTop_toBottomOf="@id/productNameDisplay"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

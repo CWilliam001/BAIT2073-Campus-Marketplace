@@ -103,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/upload_product_image"
                         android:textStyle="normal"
-                        android:textSize="17sp"
+                        android:textSize="13sp"
                         android:textColor="@color/black"
                         android:layout_gravity="center_horizontal" />
 
@@ -134,6 +134,9 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:hint="@string/enter_product_name"
+                    android:textColorHint="@color/dark_Grey"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
                     android:maxLength="20"
                     android:background="@drawable/rounded_background"
                     android:padding="5dp" />
@@ -162,6 +165,9 @@
                     android:layout_marginBottom="20dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
+                    android:textColorHint="@color/dark_Grey"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
                     android:hint="@string/enter_product_description"
                     android:maxLength="100"
                     android:background="@drawable/rounded_background"
@@ -272,6 +278,9 @@
                     android:layout_marginBottom="20dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
+                    android:textColorHint="@color/dark_Grey"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
                     android:hint="@string/enter_product_price"
                     android:background="@drawable/rounded_background"
                     android:inputType="numberDecimal"
@@ -279,18 +288,20 @@
 
                 <Button
                     android:id="@+id/btn_upload"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:text="@string/upload"
                     android:backgroundTint="@color/blue_Dark"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="50dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
+                    android:textColor="@color/white"
                     app:layout_constraintTop_toBottomOf="@+id/et_productPrice"
                     app:layout_constraintStart_toEndOf="@+id/guideLine2"
                     app:layout_constraintEnd_toEndOf="@+id/guideLine3"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:padding="5dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

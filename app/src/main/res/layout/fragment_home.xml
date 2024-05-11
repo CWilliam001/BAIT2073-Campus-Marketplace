@@ -6,7 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment">
+        tools:context=".ui.home.HomeFragment"
+        android:background="@color/white">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -93,6 +94,8 @@
                             android:background="@drawable/buyer_search_background"
                             android:drawableStart="@drawable/buyer_search_icon"
                             android:drawablePadding="8dp"
+                            android:textColorHint="@color/dark_Grey"
+                            android:textColor="@color/black"
                             android:hint="@string/search_anything"
                             android:padding="8dp"
                             android:textSize="16sp"
@@ -106,11 +109,10 @@
                     android:id="@+id/buyer_iw_tarumt"
                     android:layout_width="wrap_content"
                     android:layout_height="200dp"
-                    android:layout_marginStart="0dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="0dp"
+                    android:layout_marginEnd="20dp"
                     android:background="#FFFFFF"
-
                     android:src="@drawable/tarumt" />
 
                 <TextView
@@ -148,6 +150,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
+                            android:textSize="13sp"
                             android:text="@string/buyer_cat_digital"
                             android:textAlignment="center"
                             android:textColor="@color/black" />
@@ -173,6 +176,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="@string/buyer_cat_fashion"
+                            android:textSize="13sp"
                             android:textAlignment="center"
                             android:textColor="@color/black" />
 
@@ -197,6 +201,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="@string/buyer_cat_electronics"
+                            android:textSize="13sp"
                             android:textAlignment="center"
                             android:textColor="@color/black" />
 
@@ -221,6 +226,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="@string/buyer_cat_beauty"
+                            android:textSize="13sp"
                             android:textAlignment="center"
                             android:textColor="@color/black" />
 
@@ -245,6 +251,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="@string/buyer_cat_viewall"
+                            android:textSize="13sp"
                             android:textAlignment="center"
                             android:textColor="@color/black" />
 
