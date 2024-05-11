@@ -64,6 +64,9 @@ class HomeFragment : Fragment() {
                     binding.buyerIbMyLikes.setOnClickListener{
                         findNavController().navigate(R.id.action_nav_buyer_to_nav_like)
                     }
+                    binding.buyerEtSearch.setOnClickListener {
+                        findNavController().navigate(R.id.action_nav_hm_search_to_searchPage)
+                    }
 
 
                     // Initialize RecyclerView and Adapter
