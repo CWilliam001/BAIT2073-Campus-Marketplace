@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentBuyerProductDetailBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,7 +27,10 @@ class BuyerProductDetailFragment : Fragment() {
     private lateinit var sellerID: String
     private  var productImageUri: Uri = Uri.EMPTY // Initialize with an empty Uri
 
-    private lateinit var userViewModel: UserViewModel
+    private val userViewModel: UserViewModel by lazy {
+        ViewModelProvider(this).get(UserViewModel::class.java)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -83,20 +87,17 @@ class BuyerProductDetailFragment : Fragment() {
 
         binding.btnUp.setOnClickListener {
             // Perform up navigation
-            findNavController().popBackStack()
+            findNavController().navigateUp()
         }
 
         binding.btnLike.setOnClickListener {
-            addProductToLike()
+            val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+            val userID = sharedPreferences.getString("userID",null)
+            if (userID != null) {
+                userViewModel.addProductToLikeList(userID, productId)
+                Toast.makeText(requireContext(), "Product already added to like list", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    private fun addProductToLike() {
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
-        val userID = sharedPreferences.getString("userID",null)
-        if (userID != null) {
-            userViewModel.addProductToLikeList(userID, productId)
-            Toast.makeText(requireContext(), "Product already added to like list", Toast.LENGTH_SHORT).show()
-        }
-    }
 }
