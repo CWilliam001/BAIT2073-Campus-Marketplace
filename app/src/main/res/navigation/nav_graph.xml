@@ -26,9 +26,17 @@
         <action
             android:id="@+id/action_nav_buyer_to_nav_pickUp"
             app:destination="@id/nav_buyerToPickUp" />
-
+        <action
+            android:id="@+id/action_nav_buyer_to_nav_shoppingCart"
+            app:destination="@id/nav_shoppingCart" />
 
     </fragment>
+    <fragment
+        android:id="@+id/nav_shoppingCart"
+        android:name="com.example.campusmarketplace.ShoppingCartFragment"
+        android:label="Shopping Cart"
+        tools:layout="@layout/fragment_shopping_cart" />
+
     <fragment
         android:id="@+id/nav_login"
         android:name="com.example.campusmarketplace.LoginFragment"
@@ -102,9 +110,35 @@
         <action
             android:id="@+id/action_nav_seller_to_nav_sellerSalesSummary"
             app:destination="@id/nav_seller_sales_summary" />
+        <action
+            android:id="@+id/action_nav_seller_to_nav_toDeliver"
+            app:destination="@id/nav_seller_to_deliver" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/nav_seller_to_deliver"
+        android:name="com.example.campusmarketplace.SellerToDeliverFragment"
+        android:label="Seller To Deliver"
+        tools:layout="@layout/fragment_seller_to_deliver">
+        <action
+            android:id="@+id/action_nav_sellerToDeliver_to_nav_complete"
+            app:destination="@id/nav_seller_complete" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_seller_complete"
+        android:name="com.example.campusmarketplace.SellerCompleteFragment"
+        android:label="Seller To Complete"
+        tools:layout="@layout/fragment_seller_complete">
+        <action
+            android:id="@+id/action_nav_sellerComplete_to_nav_seller"
+            app:destination="@id/nav_seller" />
+        <action
+            android:id="@+id/action_nav_sellerComplete_to_nav_toDeliver"
+            app:destination="@id/nav_seller_to_deliver" />
 
     </fragment>
+
     <fragment
         android:id="@+id/nav_seller_upload_product"
         android:name="com.example.campusmarketplace.SellerUploadProductFragment"
@@ -188,6 +222,9 @@
         <action
             android:id="@+id/action_nav_complete_to_nav_home"
             app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_nav_complete_to_nav_pickUp"
+            app:destination="@id/nav_buyerToPickUp" />
 
     </fragment>
 

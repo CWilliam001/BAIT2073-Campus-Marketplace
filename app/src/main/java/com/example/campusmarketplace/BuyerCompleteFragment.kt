@@ -22,9 +22,12 @@ class BuyerCompleteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.tvToPickUp.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_complete_to_nav_pickUp)
+        }
+
         binding.btnUp.setOnClickListener {
-            // Perform up navigation
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.action_nav_complete_to_nav_home)
         }
     }
 }

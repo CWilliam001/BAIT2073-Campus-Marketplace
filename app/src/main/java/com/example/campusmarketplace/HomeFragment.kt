@@ -24,9 +24,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,6 +46,15 @@ class HomeFragment : Fragment() {
                     binding.buyerIvCat5.setOnClickListener {
                         findNavController().navigate(R.id.action_nav_home_to_nav_buyerCategory)
                     }
+
+                    binding.buyerIbMyOrder.setOnClickListener {
+                        findNavController().navigate(R.id.action_nav_buyer_to_nav_pickUp)
+                    }
+
+                    binding.buyerIbMyCart.setOnClickListener{
+                        findNavController().navigate(R.id.action_nav_buyer_to_nav_shoppingCart)
+                    }
+
                 }
             }
         }

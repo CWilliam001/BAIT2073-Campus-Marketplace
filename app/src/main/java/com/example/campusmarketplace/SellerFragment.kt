@@ -33,5 +33,9 @@ class SellerFragment : Fragment() {
         binding.sellerIbSales.setOnClickListener {
             findNavController().navigate(R.id.action_nav_seller_to_nav_sellerSalesSummary)
         }
+
+        binding.sellerIbOrders.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_seller_to_nav_toDeliver)
+        }
     }
 }
