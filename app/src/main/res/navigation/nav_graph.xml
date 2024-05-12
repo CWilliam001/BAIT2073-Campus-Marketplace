@@ -209,7 +209,20 @@
         <action
             android:id="@+id/action_nav_sellerToDeliver_to_nav_complete"
             app:destination="@id/nav_seller_complete" />
+
+        <action
+            android:id="@+id/action_nav_sellerToDeliver_to_nav_orderDetails"
+            app:destination="@id/nav_deliver_to_orderDetails" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_deliver_to_orderDetails"
+        android:name="com.example.campusmarketplace.SellerToPickUpProductDetails"
+        android:label="Seller Order Details"
+        tools:layout="@layout/fragment_seller_to_pick_up_product_details">
+    </fragment>
+
+
 
     <fragment
         android:id="@+id/nav_seller_complete"
@@ -222,6 +235,10 @@
         <action
             android:id="@+id/action_nav_sellerComplete_to_nav_toDeliver"
             app:destination="@id/nav_seller_to_deliver" />
+
+        <action
+            android:id="@+id/action_nav_sellerComplete_to_nav_orderDetails"
+            app:destination="@id/nav_deliver_to_orderDetails" />
 
     </fragment>
 

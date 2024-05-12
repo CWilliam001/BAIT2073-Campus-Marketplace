@@ -418,7 +418,7 @@ class DbRepository {
     }
 
     // Seller To pick up
-    fun retrieveSellerToPickUpProducts(
+    fun retrieveSellerToDeliverProducts(
         liveData: MutableLiveData<List<SellerProduct>>,
         sellerID: String
     ) {
@@ -434,7 +434,7 @@ class DbRepository {
                     val product = productSnapshot.getValue(SellerProduct::class.java)
                     product?.let {
                         // Check paymentMethod, received, and delivered status
-                        if (!it.paymentMethod.isNullOrEmpty() || !it.received || !it.delivered) {
+                        if (!it.paymentMethod.isNullOrEmpty() && (!it.received || !it.delivered)) {
                             // Fetch image URL from Firebase Storage based on product ID
                             val productImageRef = storageReference.child("images/${product.productID}.jpg")
                             productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
