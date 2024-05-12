@@ -84,6 +84,12 @@ class SellerUploadProductFragment : Fragment() {
             binding.spUsageDuration.selectedItem.toString(),
             uploadTime,
             userID.toString(),
+            " ",
+            " ",
+            " ",
+            false,
+            false,
+            0.00,
             imageUri.toString() // Add image URI to product,
 
         )
