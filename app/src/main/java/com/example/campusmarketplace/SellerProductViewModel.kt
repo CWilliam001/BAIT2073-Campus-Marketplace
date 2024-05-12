@@ -57,4 +57,12 @@ class SellerProductViewModel : ViewModel() {
             repository.updateOrder(product)
         }
     }
+
+    fun retrieveBuyerToPickUpProducts(buyerID:String){
+        repository.retrieveBuyerToPickUpProducts(_productLiveData,buyerID)
+    }
+
+    fun retrieveBuyerToCompleteProducts(buyerID:String){
+        repository.retrieveBuyerCompleteProducts(_productLiveData,buyerID)
+    }
 }

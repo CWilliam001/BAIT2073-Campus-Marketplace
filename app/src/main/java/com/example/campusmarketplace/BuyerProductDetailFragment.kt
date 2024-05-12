@@ -25,7 +25,7 @@ class BuyerProductDetailFragment : Fragment() {
     private lateinit var productUsageDuration: String
     private lateinit var uploadTime: String
     private lateinit var sellerID: String
-    private  var productImageUri: Uri = Uri.EMPTY // Initialize with an empty Uri
+    private var productImageUri: Uri = Uri.EMPTY // Initialize with an empty Uri
 
     private val userViewModel: UserViewModel by lazy {
         ViewModelProvider(this).get(UserViewModel::class.java)
@@ -42,8 +42,9 @@ class BuyerProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
-        val userID = sharedPreferences.getString("userID",null)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("userID", null)
 
         arguments?.let { bundle ->
             productId = bundle.getString("productID", "")
@@ -54,7 +55,7 @@ class BuyerProductDetailFragment : Fragment() {
             productCondition = bundle.getString("productCondition", "")
             productUsageDuration = bundle.getString("productUsageDuration", "")
             uploadTime = bundle.getString("uploadTime", "")
-            sellerID = bundle.getString("sellerID"," ")
+            sellerID = bundle.getString("sellerID", " ")
 
             // Retrieve the image URI
             val imageUrl = bundle.getString("productImage", "")
@@ -71,7 +72,8 @@ class BuyerProductDetailFragment : Fragment() {
                 val location = document.getString("states")
 
                 binding.tvSellerName.text = userName.toString()
-                Picasso.get().load(profileImageUrl).transform(RoundedTransformation()).into(binding.imgSellerImage)
+                Picasso.get().load(profileImageUrl).transform(RoundedTransformation())
+                    .into(binding.imgSellerImage)
                 binding.tvSellerPhone.text = phoneNumber.toString()
                 binding.tvLocation.text = location.toString()
             }
@@ -81,10 +83,10 @@ class BuyerProductDetailFragment : Fragment() {
         // Load and display the image using Picasso or Glide
         Picasso.get().load(productImageUri).into(binding.imgProductImage)
         binding.tvProductName.text = productName
-        binding.tvProductPrice.text = String.format("RM %s",productPrice)
+        binding.tvProductPrice.text = String.format("RM %s", productPrice)
         binding.tvCondition.text = productCondition
         binding.tvUsage.text = productUsageDuration
-        binding.tvCategory.text= productCategory
+        binding.tvCategory.text = productCategory
         binding.tvDescription.text = productDescription
         binding.tvUploadTime.text = uploadTime
 
@@ -96,14 +98,22 @@ class BuyerProductDetailFragment : Fragment() {
         binding.btnLike.setOnClickListener {
             if (userID != null) {
                 userViewModel.addProductToLikeList(userID, productId)
-                Toast.makeText(requireContext(), "Product already added to like list", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Product already added to like list",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
-        binding.btnAddToCart.setOnClickListener{
+        binding.btnAddToCart.setOnClickListener {
             if (userID != null) {
                 userViewModel.addProductToCartList(userID, productId)
-                Toast.makeText(requireContext(), "Product already added to cart list", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Product already added to cart list",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

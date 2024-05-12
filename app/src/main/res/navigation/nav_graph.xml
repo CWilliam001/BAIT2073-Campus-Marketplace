@@ -298,6 +298,16 @@
         <action
             android:id="@+id/action_nav_pickUp_to_nav_complete"
             app:destination="@id/nav_buyerToComplete" />
+        <action
+            android:id="@+id/action_nav_pickUp_to_nav_orderDetail"
+            app:destination="@id/nav_buyerOrderDetails" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_buyerOrderDetails"
+        android:name="com.example.campusmarketplace.BuyerBoughtProductDetailsFragment"
+        android:label="buyerOrderDetails"
+        tools:layout="@layout/fragment_buyer_bought_product_details" >
     </fragment>
 
     <fragment
@@ -311,6 +321,9 @@
         <action
             android:id="@+id/action_nav_complete_to_nav_pickUp"
             app:destination="@id/nav_buyerToPickUp" />
+        <action
+            android:id="@+id/action_nav_complete_to_nav_orderDetail"
+            app:destination="@id/nav_buyerOrderDetails" />
 
     </fragment>
 
