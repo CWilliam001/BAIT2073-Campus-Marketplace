@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +31,6 @@ class BuyerCartListAdaptor internal constructor(
         onItemCheckedListener = listener
     }
 
-    //1 single item view in a recycler view
     inner class ProductViewHolder(
         private val binding:BuyerCartListItemViewBinding)
         : RecyclerView.ViewHolder(binding.root){
@@ -40,6 +40,20 @@ class BuyerCartListAdaptor internal constructor(
             binding.productPriceDisplay.text = String.format("RM %s",current.productPrice)
             // Load image using Picasso
             Picasso.get().load(current.productImage).into(binding.productImageDisplay)
+
+            if (current.paymentMethod.isNullOrEmpty() || current.paymentMethod.trim()=="") {
+                // If not bought, enable the checkbox and set the listener
+                binding.checkBox.isEnabled = true
+                binding.checkBox.isChecked = false // Ensure the checkbox is unchecked
+                binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
+                    // Invoke the listener passing the current product and checkbox state
+                    onItemCheckedListener?.invoke(current, isChecked)
+                }
+            } else {
+                binding.checkBox.isChecked = false
+                binding.checkBox.isEnabled = false
+                binding.checkBox.setOnCheckedChangeListener(null) // Remove any previous listener
+            }
 
             binding.productSellerCardView.setOnClickListener {
                 // Navigate to the edit page fragment with productId as argument
@@ -57,12 +71,6 @@ class BuyerCartListAdaptor internal constructor(
                 }
                 val navController = Navigation.findNavController(binding.root)
                 navController.navigate(R.id.action_nav_cart_to_nav_productDetail, bundle)
-            }
-
-            // Set checkbox state change listener
-            binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
-                // Invoke the listener passing the current product and checkbox state
-                onItemCheckedListener?.invoke(current, isChecked)
             }
         }
     }

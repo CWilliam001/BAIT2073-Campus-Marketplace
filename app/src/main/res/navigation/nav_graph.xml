@@ -101,8 +101,8 @@
         android:label="Card Payment"
         tools:layout="@layout/fragment_card_payment" >
         <action
-            android:id="@+id/action_nav_cardPayment_to_nav_buyerToComplete"
-            app:destination="@id/nav_buyerToComplete" />
+            android:id="@+id/action_nav_cardPayment_to_nav_buyerToPickUp"
+            app:destination="@id/nav_buyerToPickUp" />
     </fragment>
 
 

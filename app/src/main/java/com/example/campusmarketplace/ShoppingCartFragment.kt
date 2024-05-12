@@ -99,7 +99,7 @@ class ShoppingCartFragment : Fragment() {
                         putString("userID", userID)
                         putParcelableArrayList("checkedItems", productList)
                     }
-
+                    totalSales = 0.0
                     findNavController().navigate(R.id.action_nav_cart_to_nav_cardPayment, bundle)
                 }
                 R.id.radioCashDelivery -> {
@@ -107,7 +107,6 @@ class ShoppingCartFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private fun onUpdateProduct(product: SellerProduct) {
@@ -134,6 +133,8 @@ class ShoppingCartFragment : Fragment() {
 
                 // Notify the adapter that the dataset has changed
                 productAdapter.notifyDataSetChanged()
+
+                totalSales = 0.0
 
                 Toast.makeText(requireContext(), "Purchase successful!", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_nav_shoppingCart_to_nav_buyerToPickUp)
