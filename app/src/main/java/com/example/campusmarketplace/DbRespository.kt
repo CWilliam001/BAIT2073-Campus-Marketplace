@@ -11,6 +11,7 @@ import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.util.Locale
 
 class DbRepository {
     // Get reference to the database
@@ -206,6 +207,105 @@ class DbRepository {
             override fun onCancelled(error: DatabaseError) {
                 // Handle database query cancellation
                 // You can add logging or error handling here
+            }
+        })
+    }
+
+fun retrieveProductByName(
+    liveData: MutableLiveData<List<SellerProduct>>,
+    partialProductName: String
+) {
+    // Convert partialProductName to lowercase for consistent case matching
+    val partialProductNameLower = partialProductName.lowercase(Locale.ROOT)
+
+    // Query products by partial product name
+    productReference.addValueEventListener(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val productList = mutableListOf<SellerProduct>()
+
+            for (productSnapshot in snapshot.children) {
+                val product = productSnapshot.getValue(SellerProduct::class.java)
+                product?.let {
+                    val productName = it.productName?.lowercase(Locale.ROOT) // Convert productName to lowercase if not null
+
+                    // Check if productName contains partialProductNameLower
+                    if (productName != null && productName.contains(partialProductNameLower)) {
+                        // Fetch image URL from Firebase Storage based on product ID
+                        val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                        productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+                            // Update product with image URL
+                            val productWithImage = product.copy(productImage = imageUrl.toString())
+                            productList.add(productWithImage)
+
+                            // Post updated list to LiveData
+                            liveData.postValue(productList)
+                        }.addOnFailureListener { e ->
+                            // Handle image download failure
+                            Log.e("RetrieveProducts", "Failed to download image: ${e.message}")
+                        }
+                    }
+                }
+            }
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            // Handle database query cancellation
+            Log.e("RetrieveProducts", "Database query cancelled: ${error.message}")
+        }
+    })
+}
+
+
+    fun retrieveProductFilter(
+        liveData: MutableLiveData<List<SellerProduct>>,
+        partialProductName: String,
+        productCategory: String?,
+        productCondition: String?,
+        productUsageDuration: String?
+    ) {
+        // Convert partial product name to lowercase for consistent case matching
+        val partialProductNameLower = partialProductName.lowercase(Locale.ROOT)
+
+        // Query products by partial product name and exact matches for other parameters
+        productReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val productList = mutableListOf<SellerProduct>()
+
+                for (productSnapshot in snapshot.children) {
+                    val product = productSnapshot.getValue(SellerProduct::class.java)
+                    product?.let {
+                        val productName = it.productName?.lowercase(Locale.ROOT) // Convert productName to lowercase if not null
+
+                        // Check if productName contains partialProductNameLower
+                        val nameMatch = productName != null && productName.contains(partialProductNameLower)
+
+                        // Check exact matches for other parameters
+                        val categoryMatch = productCategory?.lowercase(Locale.ROOT) == null || it.productCategory?.lowercase(Locale.ROOT) == productCategory?.lowercase(Locale.ROOT)
+                        val conditionMatch = productCondition?.lowercase(Locale.ROOT) == null || it.productCondition?.lowercase(Locale.ROOT) == productCondition?.lowercase(Locale.ROOT)
+                        val usageDurationMatch = productUsageDuration?.lowercase(Locale.ROOT) == null || it.productUsageDuration?.lowercase(Locale.ROOT) == productUsageDuration?.lowercase(Locale.ROOT)
+
+                        if (nameMatch && categoryMatch && conditionMatch && usageDurationMatch) {
+                            // Fetch image URL from Firebase Storage based on product ID
+                            val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                            productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+                                // Update product with image URL
+                                val productWithImage = product.copy(productImage = imageUrl.toString())
+                                productList.add(productWithImage)
+
+                                // Post updated list to LiveData
+                                liveData.postValue(productList)
+                            }.addOnFailureListener { e ->
+                                // Handle image download failure
+                                Log.e("RetrieveProducts", "Failed to download image: ${e.message}")
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle database query cancellation
+                Log.e("RetrieveProducts", "Database query cancelled: ${error.message}")
             }
         })
     }

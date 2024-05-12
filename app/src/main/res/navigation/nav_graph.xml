@@ -39,12 +39,33 @@
             android:id="@+id/action_nav_hm_search_to_searchPage"
             app:destination="@id/nav_by_search"/>
     </fragment>
-   <fragment
-       android:id="@+id/nav_by_search"
-       android:name="com.example.campusmarketplace.BuyerSearchFragment"
-       android:label="Buyer Search"
-       tools:layout="@layout/fragment_buyer_search">
-   </fragment>
+    <fragment
+        android:id="@+id/nav_by_search"
+        android:name="com.example.campusmarketplace.BuyerSearchFragment"
+        android:label="Buyer Search"
+        tools:layout="@layout/fragment_buyer_search">
+        <action
+            android:id="@+id/action_nav_searchPage_to_search_product"
+            app:destination="@id/nav_to_search_product"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_to_search_product"
+        android:name="com.example.campusmarketplace.BuyerSearchListFragment"
+        android:label="Search Product"
+        tools:layout="@layout/fragment_buyer_search_list">
+    <action
+        android:id="@+id/action_nav_search_product_to_productDetails"
+        app:destination="@id/nav_buyerProductDetail"/>
+
+
+    <action
+        android:id="@+id/action_nav_buyer_to_nav_productDetail"
+        app:destination="@id/nav_buyerProductDetail" />
+    <action
+        android:id="@+id/action_nav_hm_search_to_searchPage"
+        app:destination="@id/nav_by_search"/>
+    </fragment>
     <fragment
         android:id="@+id/nav_like"
         android:name="com.example.campusmarketplace.BuyerLikeFragment"
