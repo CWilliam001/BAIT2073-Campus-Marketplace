@@ -22,7 +22,7 @@
         android:id="@+id/loading_appName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UniMart"
+        android:text="Campus Marketplace"
         android:textStyle="bold"
         android:layout_marginTop="15dp"
         android:textColor="@color/black"
