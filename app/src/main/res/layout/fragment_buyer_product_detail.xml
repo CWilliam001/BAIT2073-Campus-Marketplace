@@ -199,7 +199,7 @@
                     android:layout_marginLeft="20dp"
                     app:layout_constraintTop_toBottomOf="@+id/tv_productName"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/black"
+                    android:textColor="@color/blue_Dark"
                     />
 
                 <TextView
@@ -258,6 +258,7 @@
                     android:text="Brand New"
                     android:layout_marginRight="20dp"
                     app:layout_constraintTop_toTopOf="@+id/tv_conditionLabel"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_conditionLabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:textColor="@color/black"
                     />
@@ -269,6 +270,7 @@
                     android:text="2 Years"
                     android:layout_marginRight="20dp"
                     app:layout_constraintTop_toTopOf="@+id/tv_usageLabel"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_usageLabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:textColor="@color/black"
                     />
@@ -280,6 +282,7 @@
                     android:text="Cash on delivery/Card"
                     android:layout_marginRight="20dp"
                     app:layout_constraintTop_toTopOf="@+id/tv_paymentLabel"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_paymentLabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:textColor="@color/black"
                     />
@@ -291,6 +294,7 @@
                     android:text="Computer &amp; Tech"
                     android:layout_marginRight="20dp"
                     app:layout_constraintTop_toTopOf="@+id/tv_categoryLabel"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_categoryLabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:textColor="@color/black"
                     />
