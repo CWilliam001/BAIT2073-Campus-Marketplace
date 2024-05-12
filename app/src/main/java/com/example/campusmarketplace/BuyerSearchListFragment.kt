@@ -57,9 +57,16 @@ class BuyerSearchListFragment : Fragment() {
             buyerProductLstAdapter.setBuyerProductLst(products)
         })
 
+        if ((productCategory.isNullOrEmpty() || productCategory.trim() == "") &&
+            (productCondition.isNullOrEmpty() || productCondition.trim() == "") &&
+            (productUsageDuration.isNullOrEmpty() || productUsageDuration.trim() == "")
+        ) {
+            // Call the function from ViewModel to retrieve products
+            productViewModel.retrieveProductsByProductName(productName.toString())
+        }
 
-        // Call the function from ViewModel to retrieve products
-        productViewModel.retrieveProductFilter(productName.toString(),productCategory.toString(),productCondition.toString(),productUsageDuration.toString())
+
+
 
     }
 

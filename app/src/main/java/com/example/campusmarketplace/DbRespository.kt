@@ -54,6 +54,43 @@ class DbRepository {
         })
     }
 
+//    fun retrieveAllProductItem(
+//        liveData: MutableLiveData<List<SellerProduct>>,
+//        sellerID: String
+//    ) {
+//        val query = productReference.orderByChild("sellerID").equalTo(sellerID)
+//
+//        query.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                val productList = mutableListOf<SellerProduct>()
+//
+//                for (productSnapshot in snapshot.children) {
+//                    val product = productSnapshot.getValue(SellerProduct::class.java)
+//                    product?.let {
+//                        // Fetch image URL from Firebase Storage based on product ID
+//                        val productImageRef = storageReference.child("images/${product.productID}.jpg")
+//                        productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+//                            // Update product with image URL
+//                            val productWithImage = product.copy(productImage = imageUrl.toString())
+//                            productList.add(productWithImage)
+//
+//                            // Post updated list to LiveData
+//                            liveData.postValue(productList)
+//                        }.addOnFailureListener { e ->
+//                            // Handle image download failure
+//                            Log.e("RetrieveProducts", "Failed to download image: ${e.message}")
+//                        }
+//                    }
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                // Handle database query cancellation
+//                Log.e("RetrieveProducts", "Database query cancelled: ${error.message}")
+//            }
+//        })
+//    }
+
     fun retrieveAllProductItem(
         liveData: MutableLiveData<List<SellerProduct>>,
         sellerID: String
@@ -67,18 +104,21 @@ class DbRepository {
                 for (productSnapshot in snapshot.children) {
                     val product = productSnapshot.getValue(SellerProduct::class.java)
                     product?.let {
-                        // Fetch image URL from Firebase Storage based on product ID
-                        val productImageRef = storageReference.child("images/${product.productID}.jpg")
-                        productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
-                            // Update product with image URL
-                            val productWithImage = product.copy(productImage = imageUrl.toString())
-                            productList.add(productWithImage)
+                        // Check if paymentMethod is empty or null
+                        if (it.paymentMethod.isNullOrEmpty() || it.paymentMethod.trim() == "") {
+                            // Fetch image URL from Firebase Storage based on product ID
+                            val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                            productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+                                // Update product with image URL
+                                val productWithImage = product.copy(productImage = imageUrl.toString())
+                                productList.add(productWithImage)
 
-                            // Post updated list to LiveData
-                            liveData.postValue(productList)
-                        }.addOnFailureListener { e ->
-                            // Handle image download failure
-                            Log.e("RetrieveProducts", "Failed to download image: ${e.message}")
+                                // Post updated list to LiveData
+                                liveData.postValue(productList)
+                            }.addOnFailureListener { e ->
+                                // Handle image download failure
+                                Log.e("RetrieveProducts", "Failed to download image: ${e.message}")
+                            }
                         }
                     }
                 }
@@ -90,6 +130,8 @@ class DbRepository {
             }
         })
     }
+
+
 
     fun update(product: SellerProduct, imageUri: Uri?) {
         val productKey = product.productID
@@ -140,18 +182,21 @@ class DbRepository {
                 for (productSnapshot in snapshot.children) {
                     val product = productSnapshot.getValue(SellerProduct::class.java)
                     product?.let {
-                        val productImageRef =
-                            storageReference.child("images/${product.productID}.jpg")
-                        productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
-                            val productWithImage =
-                                product.copy(productImage = imageUrl.toString())
-                            productList.add(productWithImage)
-                            liveData.postValue(productList)
-                        }.addOnFailureListener { e ->
-                            Log.e(
-                                "GetProductsByCategory",
-                                "Failed to download image: ${e.message}"
-                            )
+                        // Check if paymentMethod is empty or null
+                        if (it.paymentMethod.isNullOrEmpty() || it.paymentMethod.trim() == "") {
+                            val productImageRef =
+                                storageReference.child("images/${product.productID}.jpg")
+                            productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+                                val productWithImage =
+                                    product.copy(productImage = imageUrl.toString())
+                                productList.add(productWithImage)
+                                liveData.postValue(productList)
+                            }.addOnFailureListener { e ->
+                                Log.e(
+                                    "GetProductsByCategory",
+                                    "Failed to download image: ${e.message}"
+                                )
+                            }
                         }
                     }
                 }
@@ -166,6 +211,8 @@ class DbRepository {
         })
     }
 
+
+
     fun retrieveProductsByUploadTime(liveData: MutableLiveData<List<SellerProduct>>) {
         // Query to get products ordered by uploadTime in descending order
         val query = productReference.orderByChild("uploadTime").limitToLast(10)
@@ -177,21 +224,24 @@ class DbRepository {
                 for (productSnapshot in snapshot.children) {
                     val product = productSnapshot.getValue(SellerProduct::class.java)
                     product?.let {
-                        // Fetch image URL from Firebase Storage based on product ID
-                        val productImageRef = storageReference.child("images/${product.productID}.jpg")
-                        productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
-                            // Update product with image URL
-                            val productWithImage = product.copy(productImage = imageUrl.toString())
-                            productList.add(productWithImage)
+                        // Check if paymentMethod is empty or null
+                        if (it.paymentMethod.isNullOrEmpty() || it.paymentMethod.trim() == "") {
+                            // Fetch image URL from Firebase Storage based on product ID
+                            val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                            productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+                                // Update product with image URL
+                                val productWithImage = product.copy(productImage = imageUrl.toString())
+                                productList.add(productWithImage)
 
-                            // Sort the list by upload time in descending order
-                            productList.sortByDescending { it.uploadTime }
+                                // Sort the list by upload time in descending order
+                                productList.sortByDescending { it.uploadTime }
 
-                            // Post sorted list to LiveData
-                            liveData.postValue(productList.toList()) // Ensure immutability of the list
-                        }.addOnFailureListener { e ->
-                            // Handle image download failure
-                            // You can add logging or error handling here
+                                // Post sorted list to LiveData
+                                liveData.postValue(productList.toList()) // Ensure immutability of the list
+                            }.addOnFailureListener { e ->
+                                // Handle image download failure
+                                // You can add logging or error handling here
+                            }
                         }
                     }
                 }
@@ -211,51 +261,54 @@ class DbRepository {
         })
     }
 
-fun retrieveProductByName(
-    liveData: MutableLiveData<List<SellerProduct>>,
-    partialProductName: String
-) {
-    // Convert partialProductName to lowercase for consistent case matching
-    val partialProductNameLower = partialProductName.lowercase(Locale.ROOT)
 
-    // Query products by partial product name
-    productReference.addValueEventListener(object : ValueEventListener {
-        override fun onDataChange(snapshot: DataSnapshot) {
-            val productList = mutableListOf<SellerProduct>()
+    fun retrieveProductByName(
+        liveData: MutableLiveData<List<SellerProduct>>,
+        partialProductName: String
+    ) {
+        // Convert partialProductName to lowercase for consistent case matching
+        val partialProductNameLower = partialProductName.lowercase(Locale.ROOT)
 
-            for (productSnapshot in snapshot.children) {
-                val product = productSnapshot.getValue(SellerProduct::class.java)
-                product?.let {
-                    val productName = it.productName?.lowercase(Locale.ROOT) // Convert productName to lowercase if not null
+        // Query products by partial product name
+        productReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val productList = mutableListOf<SellerProduct>()
 
-                    // Check if productName contains partialProductNameLower
-                    if (productName != null && productName.contains(partialProductNameLower)) {
-                        // Fetch image URL from Firebase Storage based on product ID
-                        val productImageRef = storageReference.child("images/${product.productID}.jpg")
-                        productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
-                            // Update product with image URL
-                            val productWithImage = product.copy(productImage = imageUrl.toString())
-                            productList.add(productWithImage)
+                for (productSnapshot in snapshot.children) {
+                    val product = productSnapshot.getValue(SellerProduct::class.java)
+                    product?.let {
+                        val productName = it.productName?.lowercase(Locale.ROOT) // Convert productName to lowercase if not null
 
-                            // Post updated list to LiveData
-                            liveData.postValue(productList)
-                        }.addOnFailureListener { e ->
-                            // Handle image download failure
-                            Log.e("RetrieveProducts", "Failed to download image: ${e.message}")
+                        // Check if productName contains partialProductNameLower
+                        if (productName != null && productName.contains(partialProductNameLower) &&
+                            (it.paymentMethod.isNullOrEmpty() || it.paymentMethod.trim() == "")
+                        ) {
+                            // Fetch image URL from Firebase Storage based on product ID
+                            val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                            productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+                                // Update product with image URL
+                                val productWithImage = product.copy(productImage = imageUrl.toString())
+                                productList.add(productWithImage)
+
+                                // Post updated list to LiveData
+                                liveData.postValue(productList)
+                            }.addOnFailureListener { e ->
+                                // Handle image download failure
+                                Log.e("RetrieveProducts", "Failed to download image: ${e.message}")
+                            }
                         }
                     }
                 }
             }
-        }
 
-        override fun onCancelled(error: DatabaseError) {
-            // Handle database query cancellation
-            Log.e("RetrieveProducts", "Database query cancelled: ${error.message}")
-        }
-    })
-}
+            override fun onCancelled(error: DatabaseError) {
+                // Handle database query cancellation
+                Log.e("RetrieveProducts", "Database query cancelled: ${error.message}")
+            }
+        })
+    }
 
-
+    // not change yet
     fun retrieveProductFilter(
         liveData: MutableLiveData<List<SellerProduct>>,
         partialProductName: String,

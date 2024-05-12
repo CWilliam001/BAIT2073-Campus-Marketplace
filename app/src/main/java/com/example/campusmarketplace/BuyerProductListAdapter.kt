@@ -8,6 +8,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.BuyerProductLstItemViewBinding
 import com.example.campusmarketplace.model.SellerProduct
+import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
 class BuyerProductListAdapter internal constructor(
@@ -26,6 +27,18 @@ class BuyerProductListAdapter internal constructor(
             binding.buyerProductLstCondition.text = current.productCondition
             Picasso.get().load(current.productImage).into(binding.buyerProductLstImage)
 
+            val firestore = FirebaseFirestore.getInstance()
+            val userDocRef = firestore.collection("users").document(current.sellerID!!)
+            userDocRef.get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val userName = document.getString("name")
+                    val profileImageUrl = document.getString("profileImageUrl")
+
+                    binding.sellerName.text = userName.toString()
+                    Picasso.get().load(profileImageUrl).transform(RoundedTransformation()).into(binding.sellerPicture)
+                }
+            }
+
             binding.buyerProductLstCardView.setOnClickListener {
                 // Navigate to the product details fragment with productId as argument
                 val bundle = Bundle().apply {
@@ -38,8 +51,8 @@ class BuyerProductListAdapter internal constructor(
                     putString("productUsageDuration", current.productUsageDuration)
                     putString("uploadTime", current.uploadTime)
                     putString("sellerID", current.sellerID)
-                    putString("productImage", current.productImage) // Add product image URI
-                    // Add any other properties here
+                    putString("productImage", current.productImage)
+
                 }
                 val navController = Navigation.findNavController(binding.root)
                 navController.navigate(destinationId, bundle)

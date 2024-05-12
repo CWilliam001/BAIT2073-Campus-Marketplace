@@ -62,7 +62,7 @@ class BuyerCategoryRespository {
                 var isExists = false
                 for (productSnapshot in snapshot.children) {
                     val product = productSnapshot.getValue(SellerProduct::class.java)
-                    if (product?.productCategory == categoryName) {
+                    if (product?.productCategory == categoryName && (product.paymentMethod.isNullOrEmpty() || product.paymentMethod.trim() == "")) {
                         isExists = true
                         break
                     }
@@ -77,4 +77,5 @@ class BuyerCategoryRespository {
             }
         })
     }
+
 }
