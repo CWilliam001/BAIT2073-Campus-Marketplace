@@ -220,6 +220,12 @@
     <string name="nav_seller_edit_product_label">Seller Edit Product</string>
     <string name="nav_seller_label">Seller</string>
     <string name="nav_seller_upload_product_label">Seller Upload Product</string>
+    <string name="change_email">Change Email</string>
+    <string name="enter_password_hint">Enter Password</string>
+    <string name="new_email_label">New Email</string>
+    <string name="enter_new_email_hint">Enter New Email</string>
+    <string name="new_email_required_error">New Email Required</string>
+    <string name="incorrect_password_error">Incorrect password</string>
     <string-array name="search_sellerRating">
         <item>0 – 1.0</item>
         <item>1.1 – 2.0</item>

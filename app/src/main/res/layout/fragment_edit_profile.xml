@@ -146,41 +146,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
-                    android:id="@+id/email_text_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/email_label"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@id/name_text_input_layout"
-                    app:layout_constraintStart_toStartOf="@id/name_text_input_layout"
-                    app:layout_constraintTop_toBottomOf="@id/name_text_input_layout"
-                    tools:ignore="TextSizeCheck" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/email_text_input_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintStart_toStartOf="@id/email_text_view"
-                    app:layout_constraintEnd_toEndOf="@id/email_text_view"
-                    app:layout_constraintTop_toBottomOf="@id/email_text_view"
-                    android:hint="@string/email_label">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/email_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:background="@drawable/rounded_background"
-                        android:textColorHint="@color/dark_Grey"
-                        android:textColor="@color/black"
-                        tools:ignore="VisualLintTextFieldSize,DuplicateSpeakableTextCheck" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
                     android:id="@+id/phone_number_text_view"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -189,9 +154,9 @@
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@id/email_text_input_layout"
-                    app:layout_constraintStart_toStartOf="@id/email_text_input_layout"
-                    app:layout_constraintTop_toBottomOf="@id/email_text_input_layout"
+                    app:layout_constraintEnd_toEndOf="@id/name_text_input_layout"
+                    app:layout_constraintStart_toStartOf="@id/name_text_input_layout"
+                    app:layout_constraintTop_toBottomOf="@id/name_text_input_layout"
                     tools:ignore="TextSizeCheck" />
 
                 <com.google.android.material.textfield.TextInputLayout

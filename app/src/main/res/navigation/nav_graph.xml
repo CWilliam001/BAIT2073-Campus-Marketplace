@@ -181,6 +181,9 @@
         <action
             android:id="@+id/action_nav_profile_to_nav_editProfile"
             app:destination="@id/nav_editProfile" />
+        <action
+            android:id="@+id/action_nav_profile_to_nav_changeEmail"
+            app:destination="@id/nav_changeEmail" />
     </fragment>
     <fragment
         android:id="@+id/nav_seller"
@@ -347,6 +350,11 @@
             app:destination="@id/nav_buyerOrderDetails" />
 
     </fragment>
+    <fragment
+        android:id="@+id/nav_changeEmail"
+        android:name="com.example.campusmarketplace.ChangeEmailFragment"
+        android:label="ChangeEmailFragment"
+        tools:layout="@layout/fragment_change_email"/>
 
 
 </navigation>

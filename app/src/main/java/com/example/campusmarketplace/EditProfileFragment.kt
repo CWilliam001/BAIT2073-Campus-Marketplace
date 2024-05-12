@@ -66,7 +66,6 @@ class EditProfileFragment : Fragment() {
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         val userName = document.getString("name")
-                        val email = firebaseAuth.currentUser?.email
                         val phoneNumber = document.getString("phoneNumber")
                         profileImageUrl = document.getString("profileImageUrl")
                         val address = document.getString("address")
@@ -75,7 +74,6 @@ class EditProfileFragment : Fragment() {
 
                         Picasso.get().load(profileImageUrl).transform(RoundedTransformation()).into(binding.uploadProfileImageView)
                         binding.nameEditText.setText(userName)
-                        binding.emailEditText.setText(email)
                         binding.phoneNumberEditText.setText(phoneNumber)
                         binding.addressEditText.setText(address)
                         binding.stateSpinner.setSelection(getStateIndex(states))
@@ -92,7 +90,6 @@ class EditProfileFragment : Fragment() {
         binding.saveBtn.setOnClickListener {
             val imageUri = imageStorageURL
             val name = binding.nameEditText.text.toString().trim()
-            val email = binding.emailEditText.text.toString().trim()
             val phoneNumber = binding.phoneNumberEditText.text.toString().trim()
             val address = binding.addressEditText.text.toString().trim()
             val states = binding.stateSpinner.selectedItemPosition
@@ -100,59 +97,70 @@ class EditProfileFragment : Fragment() {
 
             val userDocRef = firestore.collection("users").document(userID!!)
 
-            if (name.isNotEmpty() && email.isNotEmpty() && phoneNumber.isNotEmpty() && address.isNotEmpty() && zipCode.isNotEmpty() && (imageUri != null || profileImageUrl.toString().isNotEmpty())) {
+            if (name.isNotEmpty() && phoneNumber.isNotEmpty() && address.isNotEmpty() && zipCode.isNotEmpty() && (imageUri != null || profileImageUrl.toString().isNotEmpty())) {
                 if (userID != null) {
                     // How to perform update profile in firestore
                     // Need to consider bout profileImageUrl also if they had changed the profileImageUrl then need to save the new value of profileImageUrl as well
-                    // When the user has changed the email, their email will be updated at FirebaseAuth not FirebaseFireStore
 
-                    val updateData = hashMapOf<String, Any>(
+
+                    val statesArray = resources.getStringArray(R.array.arrStates)
+                    val selectedState = statesArray[states]
+                    var updateData = hashMapOf<String, Any>(
                         "name" to name,
-                        "email" to email,
                         "phoneNumber" to phoneNumber,
                         "address" to address,
-                        "states" to states,
+                        "states" to selectedState,
                         "zipCode" to zipCode,
                     )
 
-                    if (imageUri != null) {
-                        // Upload the new profile image to Firebase Storage
-                        val imageName = "profile_${userID}"
-                        val imageRef = storageReference.child("user/$imageName")
-                        imageRef.putFile(imageUri)
-                            .addOnSuccessListener { taskSnapshot ->
-                                imageRef.downloadUrl.addOnSuccessListener { uri ->
-                                    val imageUrl = uri.toString()
-                                    updateData["profileImageUrl"] = imageUrl
+                    val currentUser = firebaseAuth.currentUser
+                    if (currentUser != null) {
 
-                                    // Update the user document in Firestore
-                                    userDocRef.update(updateData)
-                                        .addOnCompleteListener {
-                                            Toast.makeText(requireContext(), getString(R.string.profile_updated_label), Toast.LENGTH_SHORT).show()
-                                            findNavController().navigate(R.id.nav_profile)
-                                        }
-                                        .addOnFailureListener {
-                                            // Handle error updating user data in firestore
-                                            Toast.makeText(requireContext(), getString(R.string.update_data_error), Toast.LENGTH_SHORT).show()
-                                        }
+                        if (imageUri != null) {
+                            // Upload the new profile image to Firebase Storage
+                            val imageName = "profile_${userID}"
+                            val imageRef = storageReference.child("user/$imageName")
+                            imageRef.putFile(imageUri)
+                                .addOnSuccessListener { taskSnapshot ->
+                                    imageRef.downloadUrl.addOnSuccessListener { uri ->
+
+                                        // Insert profileImageUrl into hashmap
+                                        val imageUrl = uri.toString()
+                                        updateData["profileImageUrl"] = imageUrl
+
+                                        // Update the user document in Firestore
+                                        userDocRef.update(updateData)
+                                            .addOnCompleteListener {
+                                                Toast.makeText(requireContext(), getString(R.string.profile_updated_label), Toast.LENGTH_SHORT).show()
+                                                findNavController().navigate(R.id.nav_profile)
+                                            }
+                                            .addOnFailureListener {
+                                                // Handle error updating user data in firestore
+                                                Toast.makeText(requireContext(), getString(R.string.update_data_error), Toast.LENGTH_SHORT).show()
+                                            }
+                                    }
+
                                 }
-
-                            }
-                            .addOnFailureListener {
-                                // Handle error uploading profile image to Firebase Storage
-                                Toast.makeText(requireContext(), getString(R.string.upload_image_error), Toast.LENGTH_SHORT).show()
-                            }
+                                .addOnFailureListener {
+                                    // Handle error uploading profile image to Firebase Storage
+                                    Toast.makeText(requireContext(), getString(R.string.upload_image_error), Toast.LENGTH_SHORT).show()
+                                }
+                        } else {
+                            // Update without profile image changes
+                            userDocRef.update(updateData)
+                                .addOnCompleteListener {
+                                    Toast.makeText(requireContext(), getString(R.string.profile_updated_label), Toast.LENGTH_SHORT).show()
+                                    findNavController().navigate(R.id.nav_profile)
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(requireContext(), getString(R.string.update_data_error), Toast.LENGTH_SHORT).show()
+                                }
+                        }
                     } else {
-                        userDocRef.update(updateData)
-                            .addOnCompleteListener {
-                                Toast.makeText(requireContext(), getString(R.string.profile_updated_label), Toast.LENGTH_SHORT).show()
-                                findNavController().navigate(R.id.nav_profile)
-                            }
-                            .addOnFailureListener {
-                                Toast.makeText(requireContext(), getString(R.string.update_data_error), Toast.LENGTH_SHORT).show()
-                            }
+                        // Clear session let them re-login again
+                        sharedPreferences.edit().remove("userID").apply()
+                        findNavController().navigate(R.id.nav_login)
                     }
-
                 }
             } else {
                 if (imageUri == null) {
@@ -162,10 +170,6 @@ class EditProfileFragment : Fragment() {
 
                 if (name.isEmpty()) {
                     binding.nameEditText.error = getString(R.string.name_required_error)
-                }
-
-                if (email.isEmpty()) {
-                    binding.emailEditText.error = getString(R.string.email_required_error)
                 }
 
                 if (phoneNumber.isEmpty()) {

@@ -84,7 +84,7 @@ class SignUp : Fragment() {
 
                                     val profileImageUrl = downloadUri.toString()
 
-                                    val  selectedStateIndex = binding.stateSpinner.selectedItemPosition
+                                    val selectedStateIndex = binding.stateSpinner.selectedItemPosition
                                     val statesArray = resources.getStringArray(R.array.arrStates)
                                     val selectedState = statesArray[selectedStateIndex]
                                     val user = User(name, Date(), phoneNumber, profileImageUrl, address, selectedState, zipCode)

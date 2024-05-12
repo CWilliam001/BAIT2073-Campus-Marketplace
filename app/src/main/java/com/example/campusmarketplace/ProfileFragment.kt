@@ -1,7 +1,9 @@
 package com.example.campusmarketplace
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentProfileBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.actionCodeSettings
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
@@ -17,6 +21,7 @@ import com.squareup.picasso.Picasso
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
+    private lateinit var firebaseAuth: FirebaseAuth
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,6 +60,10 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_nav_profile_to_nav_editProfile)
         }
 
+        binding.changeEmailViewBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_profile_to_nav_changeEmail)
+        }
+
         binding.changePasswordViewBtn.setOnClickListener {
             findNavController().navigate(R.id.action_nav_profile_to_nav_changePassword)
         }
@@ -65,7 +74,6 @@ class ProfileFragment : Fragment() {
 
         binding.logoutBtn.setOnClickListener {
             sharedPreferences.edit().remove("userID").apply()
-
             findNavController().navigate(R.id.nav_login)
         }
 

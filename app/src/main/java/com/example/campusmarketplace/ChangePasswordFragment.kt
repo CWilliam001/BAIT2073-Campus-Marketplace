@@ -70,11 +70,6 @@ class ChangePasswordFragment : Fragment() {
                 binding.oldPasswordEditText.error = getString(R.string.old_password_required_error)
             }
         }
-
-        binding.btnUp.setOnClickListener {
-            // Perform up navigation
-            findNavController().navigateUp()
-        }
     }
 
 }
