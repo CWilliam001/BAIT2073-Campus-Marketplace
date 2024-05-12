@@ -21,6 +21,9 @@ class BuyerToPickUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+
         binding.tvCompleted.setOnClickListener{
             findNavController().navigate(R.id.action_nav_pickUp_to_nav_complete)
         }

@@ -2,6 +2,7 @@ package com.example.campusmarketplace
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.campusmarketplace.model.Order
 import com.example.campusmarketplace.model.SellerProduct
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -129,27 +130,12 @@ class UserDbRepository {
         userReference.child(userId).child("Buy").child("Cart").child(product.productID).removeValue()
     }
 
-    fun addToDeliver(userID: String, sellerID: String, productID: String, productName: String, paymentMethod: String, currentDate: String, received: Boolean, delivered: Boolean) {
-        val orderDetails = hashMapOf(
-            "userID" to userID,
-            "sellerID" to sellerID,
-            "productID" to productID,
-            "productName" to productName,
-            "paymentMethod" to paymentMethod,
-            "currentDate" to currentDate,
-            "received" to received,
-            "delivered" to delivered
-        )
+    fun addToDeliver(order: Order) {
+        orderReference.child(order.productID).setValue(order)
+    }
 
-        orderReference.child(productID).setValue(orderDetails)
-            .addOnSuccessListener {
-                // Handle success
-                Log.d("addToDeliver", "Order added successfully for product ID: $productID")
-            }
-            .addOnFailureListener { e ->
-                // Handle failure
-                Log.e("addToDeliver", "Error adding order for product ID: $productID, Error: $e")
-            }
+    fun fetchBuyerToReceive(userId: String, onSuccess: (List<SellerProduct>) -> Unit, onError: (DatabaseError) -> Unit) {
+
     }
 
 }

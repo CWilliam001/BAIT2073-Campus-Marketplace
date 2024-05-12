@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentShoppingCartBinding
+import com.example.campusmarketplace.model.Order
 import com.example.campusmarketplace.model.SellerProduct
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -28,6 +29,10 @@ class ShoppingCartFragment : Fragment() {
 
     private val viewModel: UserViewModel by lazy {
         ViewModelProvider(this).get(UserViewModel::class.java)
+    }
+
+    private val productViewModel: SellerProductViewModel by lazy {
+        ViewModelProvider(this).get(SellerProductViewModel::class.java)
     }
 
     private lateinit var sharedPreferences: SharedPreferences
@@ -64,7 +69,6 @@ class ShoppingCartFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Call retrieveAllItems with sellerID parameter
         viewModel.getUserCart(userID.toString())
         viewModel.productLiveData.observe(viewLifecycleOwner) { productList ->
             productAdapter.setProducts(productList)
@@ -96,6 +100,7 @@ class ShoppingCartFragment : Fragment() {
                         putString("userID", userID)
                         putStringArrayList("checkedItemIDs", ArrayList(checkedItems.map { it.productID }))
                     }
+
                     findNavController().navigate(R.id.action_nav_cart_to_nav_cardPayment, bundle)
                 }
                 R.id.radioCashDelivery -> {
@@ -117,10 +122,19 @@ class ShoppingCartFragment : Fragment() {
                 for (product in checkedItems) {
                     if (userID != null) {
                         viewModel.deleteCartItem(userID!!, product)
+                        productViewModel.deleteItem(product)
                     }
                 }
                 addPurchaseDetailsToDatabase()
+
+                // Clear the checked items list
+                checkedItems.clear()
+
+                // Notify the adapter that the dataset has changed
+                productAdapter.notifyDataSetChanged()
+
                 Toast.makeText(requireContext(), "Purchase successful!", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_nav_shoppingCart_to_nav_buyerToPickUp)
             }
             .setNegativeButton("No") { dialog, which ->
                 dialog.dismiss()
@@ -132,16 +146,8 @@ class ShoppingCartFragment : Fragment() {
         val currentDate = SimpleDateFormat("dd:MM:yyyy HH:mm", Locale.getDefault()).format(Date())
         for (product in checkedItems) {
             if (userID != null) {
-                viewModel.addPurchaseDetails(
-                    userID!!,
-                    product.sellerID,
-                    product.productID,
-                    product.productName,
-                    "Cash on Delivery",
-                    currentDate,
-                    false,
-                    false
-                )
+                var order = Order(userID!!, product.sellerID, product.productID, product.productName, "Cash on Delivery", currentDate, false, false)
+                viewModel.addPurchaseDetails(order)
             }
         }
     }

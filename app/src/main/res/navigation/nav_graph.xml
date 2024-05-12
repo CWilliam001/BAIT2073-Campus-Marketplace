@@ -69,13 +69,20 @@
         <action
             android:id="@+id/action_nav_cart_to_nav_cardPayment"
             app:destination="@id/nav_cardPayment" />
+        <action
+            android:id="@+id/action_nav_shoppingCart_to_nav_buyerToPickUp"
+            app:destination="@id/nav_buyerToPickUp" />
 
     </fragment>
     <fragment
         android:id="@+id/nav_cardPayment"
         android:name="com.example.campusmarketplace.CardPaymentFragment"
         android:label="Card Payment"
-        tools:layout="@layout/fragment_card_payment" />
+        tools:layout="@layout/fragment_card_payment" >
+        <action
+            android:id="@+id/action_nav_cardPayment_to_nav_buyerToComplete"
+            app:destination="@id/nav_buyerToComplete" />
+    </fragment>
 
 
     <fragment

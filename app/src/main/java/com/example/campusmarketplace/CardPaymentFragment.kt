@@ -32,7 +32,9 @@ class CardPaymentFragment : Fragment() {
 
         // Set onClickListener for the Done button
         binding.btnDone.setOnClickListener {
-            validateInput()
+            if(validateInput()){
+
+            }
         }
     }
 
@@ -44,28 +46,31 @@ class CardPaymentFragment : Fragment() {
         binding.spinnerYear.setSelection(0)
     }
 
-    private fun validateInput() {
+    private fun validateInput(): Boolean {
         if (binding.etHolderName.text.isEmpty()) {
             binding.etHolderName.setError(getString(R.string.required_input))
-            return
+            return false
         }
 
         if (binding.etCardNumber.text.isEmpty()) {
             binding.etCardNumber.setError(getString(R.string.required_input))
-            return
+            return false
         }
 
         if (binding.etCvv.text.isEmpty()) {
             binding.etCvv.setError(getString(R.string.required_input))
-            return
+            return false
         }
 
         if(binding.etCardNumber.text.length != 16){
             binding.etCardNumber.setError(getString(R.string.card_number_must_be_16_digit))
+            return false
         }
 
         if(binding.etCvv.text.length != 3){
             binding.etCvv.setError(getString(R.string.cvv_must_be_3_digit))
+            return false
         }
+        return true
     }
 }
