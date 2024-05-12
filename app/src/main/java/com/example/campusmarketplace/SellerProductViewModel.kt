@@ -52,4 +52,9 @@ class SellerProductViewModel : ViewModel() {
         repository.retrieveProductFilter(_productLiveData,productName,productCategory,productCondition,productUsageDuration)
     }
 
+    fun updateOrderItem(product: SellerProduct) {
+        viewModelScope.launch {
+            repository.updateOrder(product)
+        }
+    }
 }

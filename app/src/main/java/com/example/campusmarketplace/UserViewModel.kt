@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.campusmarketplace.model.Order
 import com.example.campusmarketplace.model.SellerProduct
-import com.google.protobuf.Method
 import kotlinx.coroutines.launch
 
 class UserViewModel() : ViewModel() {
@@ -54,19 +52,4 @@ class UserViewModel() : ViewModel() {
         }
     }
 
-    // Add purchased details
-    fun addPurchaseDetails(order: Order) {
-        repository.addToDeliver(order)
-    }
-
-    fun getBuyerToReceive(userId: String) {
-        repository.fetchBuyerToReceive(userId,
-            onSuccess = { products ->
-                _productLiveData.value = products
-            },
-            onError = { error ->
-                // Handle error
-            }
-        )
-    }
 }

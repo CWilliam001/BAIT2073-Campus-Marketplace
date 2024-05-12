@@ -1,15 +1,11 @@
 package com.example.campusmarketplace
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import com.example.campusmarketplace.model.Order
 import com.example.campusmarketplace.model.SellerProduct
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import java.util.concurrent.atomic.AtomicInteger
 
 
@@ -129,15 +125,6 @@ class UserDbRepository {
     fun deleteFromCart(userId: String, product: SellerProduct) {
         userReference.child(userId).child("Buy").child("Cart").child(product.productID).removeValue()
     }
-
-    fun addToDeliver(order: Order) {
-        orderReference.child(order.productID).setValue(order)
-    }
-
-    fun fetchBuyerToReceive(userId: String, onSuccess: (List<SellerProduct>) -> Unit, onError: (DatabaseError) -> Unit) {
-
-    }
-
 }
 
 

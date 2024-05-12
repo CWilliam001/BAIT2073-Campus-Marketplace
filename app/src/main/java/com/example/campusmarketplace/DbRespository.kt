@@ -310,4 +310,8 @@ fun retrieveProductByName(
         })
     }
 
+    fun updateOrder(product: SellerProduct) {
+        productReference.child(product.productID).setValue(product)
+    }
+
 }

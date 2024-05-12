@@ -14,10 +14,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentShoppingCartBinding
-import com.example.campusmarketplace.model.Order
 import com.example.campusmarketplace.model.SellerProduct
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -96,9 +94,10 @@ class ShoppingCartFragment : Fragment() {
             val selectedPaymentMethod = binding.radioPayment.checkedRadioButtonId
             when (selectedPaymentMethod) {
                 R.id.radioCard -> {
+                    val productList = ArrayList(checkedItems)
                     val bundle = Bundle().apply {
                         putString("userID", userID)
-                        putStringArrayList("checkedItemIDs", ArrayList(checkedItems.map { it.productID }))
+                        putParcelableArrayList("checkedItems", productList)
                     }
 
                     findNavController().navigate(R.id.action_nav_cart_to_nav_cardPayment, bundle)
@@ -108,6 +107,7 @@ class ShoppingCartFragment : Fragment() {
                 }
             }
         }
+
     }
 
     private fun onUpdateProduct(product: SellerProduct) {
@@ -121,11 +121,13 @@ class ShoppingCartFragment : Fragment() {
             .setPositiveButton("Yes") { dialog, which ->
                 for (product in checkedItems) {
                     if (userID != null) {
+                        product.paymentMethod = "Cash On Delivery"
+                        product.paymentDate = getCurrentTimestamp()
+                        product.buyerID = userID.toString()
                         viewModel.deleteCartItem(userID!!, product)
-                        productViewModel.deleteItem(product)
+                        productViewModel.updateOrderItem(product)
                     }
                 }
-                addPurchaseDetailsToDatabase()
 
                 // Clear the checked items list
                 checkedItems.clear()
@@ -142,13 +144,8 @@ class ShoppingCartFragment : Fragment() {
             .show()
     }
 
-    private fun addPurchaseDetailsToDatabase() {
-        val currentDate = SimpleDateFormat("dd:MM:yyyy HH:mm", Locale.getDefault()).format(Date())
-        for (product in checkedItems) {
-            if (userID != null) {
-                var order = Order(userID!!, product.sellerID, product.productID, product.productName, "Cash on Delivery", currentDate, false, false)
-                viewModel.addPurchaseDetails(order)
-            }
-        }
+    private fun getCurrentTimestamp(): String {
+        val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+        return sdf.format(Date())
     }
 }
