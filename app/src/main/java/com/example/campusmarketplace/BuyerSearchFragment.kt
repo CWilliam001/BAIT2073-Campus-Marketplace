@@ -29,17 +29,38 @@ class BuyerSearchFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.searchBtnSearch.setOnClickListener {
+
             val userInput = binding.searchEtSearchBar.text.toString()
-//            val productCategory = binding.searchSpCategories.selectedItem.toString()
-//            val productCondition = binding.searchSpCondition.selectedItem.toString()
-////          val productSellerRating = binding.searchSpCategories.selectedItem.toString()
-//            val productUsageDuration = binding.searchSpUsageDuration.selectedItem.toString()
+            var productCategory:String = " "
+            var productCondition:String = " "
+            var productUsageDuration:String = " "
             val bundle = Bundle()
-            bundle.putString("userInput", userInput)
-//            bundle.putString("productCategory", productCategory)
-//            bundle.putString("productCondition", productCondition)
-//            bundle.putString("productUsageDuration", productUsageDuration)
-            findNavController().navigate(R.id.action_nav_searchPage_to_search_product, bundle)
+
+            arguments?.let { bundle ->
+                productCategory = bundle.getString("productCategory", "")
+                productCondition = bundle.getString("productCondition", "")
+                productUsageDuration = bundle.getString("productUsageDuration", "")
+
+            }
+
+            if ((productCategory.isNullOrEmpty() || productCategory.trim() == "") &&
+                (productCondition.isNullOrEmpty() || productCondition.trim() == "") &&
+                (productUsageDuration.isNullOrEmpty() || productUsageDuration.trim() == ""))
+            {
+                bundle.putString("userInput", userInput)
+                findNavController().navigate(R.id.action_nav_searchPage_to_search_product, bundle)
+            }else{
+                bundle.putString("userInput", userInput)
+                bundle.putString("productCategory", productCategory)
+                bundle.putString("productCondition", productCondition)
+                bundle.putString("productUsageDuration", productUsageDuration)
+                findNavController().navigate(R.id.action_nav_searchPage_to_search_product, bundle)
+            }
+
+
+        }
+        binding.btnFilter.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_searchPage_to_search_filter)
         }
 
 

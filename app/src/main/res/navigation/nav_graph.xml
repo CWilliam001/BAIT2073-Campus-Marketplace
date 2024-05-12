@@ -39,6 +39,7 @@
             android:id="@+id/action_nav_hm_search_to_searchPage"
             app:destination="@id/nav_by_search"/>
     </fragment>
+
     <fragment
         android:id="@+id/nav_by_search"
         android:name="com.example.campusmarketplace.BuyerSearchFragment"
@@ -47,6 +48,22 @@
         <action
             android:id="@+id/action_nav_searchPage_to_search_product"
             app:destination="@id/nav_to_search_product"/>
+
+        <action
+            android:id="@+id/action_nav_searchPage_to_search_filter"
+            app:destination="@id/nav_to_filter"/>
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/nav_to_filter"
+        android:name="com.example.campusmarketplace.BuyerSearchFilterFragment"
+        android:label="Buyer Filter"
+        tools:layout="@layout/fragment_buyer_search_filter">
+
+        <action
+            android:id="@+id/action_nav_filterPage_to_searchPage"
+            app:destination="@id/nav_by_search"/>
     </fragment>
 
     <fragment

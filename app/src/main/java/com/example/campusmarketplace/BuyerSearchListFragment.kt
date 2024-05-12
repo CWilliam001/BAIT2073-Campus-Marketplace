@@ -63,10 +63,9 @@ class BuyerSearchListFragment : Fragment() {
         ) {
             // Call the function from ViewModel to retrieve products
             productViewModel.retrieveProductsByProductName(productName.toString())
+        }else{
+            productViewModel.retrieveProductFilter(productName.toString(),productCategory.toString(),productCondition.toString(),productUsageDuration.toString())
         }
-
-
-
 
     }
 
