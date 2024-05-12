@@ -167,7 +167,8 @@
                     app:layout_constraintStart_toStartOf="@id/name_text_input_layout"
                     app:layout_constraintEnd_toEndOf="@id/name_text_input_layout"
                     app:layout_constraintTop_toBottomOf="@id/name_text_input_layout"
-                    android:hint="@string/email_label">
+                    android:hint="@string/email_label"
+                    android:importantForAutofill="no">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email_edit_text"
@@ -177,6 +178,7 @@
                         android:inputType="textEmailAddress"
                         android:textColorHint="@color/dark_Grey"
                         android:textColor="@color/black"
+
                         tools:ignore="VisualLintTextFieldSize" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -188,7 +190,8 @@
                     app:layout_constraintStart_toStartOf="@id/email_text_input_layout"
                     app:layout_constraintEnd_toEndOf="@id/email_text_input_layout"
                     app:layout_constraintTop_toBottomOf="@id/email_text_input_layout"
-                    android:hint="@string/password_label">
+                    android:hint="@string/password_label"
+                    android:importantForAutofill="no">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password_edit_text"
@@ -209,7 +212,8 @@
                     app:layout_constraintStart_toStartOf="@id/password_text_input_layout"
                     app:layout_constraintEnd_toEndOf="@id/password_text_input_layout"
                     app:layout_constraintTop_toBottomOf="@id/password_text_input_layout"
-                    android:hint="@string/confirm_password_label">
+                    android:hint="@string/confirm_password_label"
+                    android:importantForAutofill="no">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/confirm_password_edit_text"

@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentBuyerProductDetailBinding
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
@@ -103,6 +104,68 @@ class BuyerProductDetailFragment : Fragment() {
                     "Product already added to like list",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+        }
+
+        binding.btnChatSeller.setOnClickListener {
+
+            if (userID != null) {
+                val firestore = FirebaseFirestore.getInstance()
+                val conversationRef = firestore.collection("conversations")
+
+                var matchedSellerID = false
+                var conversationID = ""
+                conversationRef.whereArrayContains("userIDs", userID)
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        var index = 0
+                        while (index < querySnapshot.documents.size && !matchedSellerID) {
+                            val document = querySnapshot.documents[index]
+                            val documentID = document.id
+                            if (documentID != null) {
+                                val otherUserIDs = document.get("userIDs") as List<String>
+                                otherUserIDs?.let {
+                                    val otherUserID = it.find { it != userID }
+                                    if (otherUserID != null) {
+                                        if (otherUserID == sellerID) {
+                                            matchedSellerID = true
+                                            conversationID = documentID
+                                        }
+                                    }
+                                }
+                            }
+                            index++
+                        }
+
+                        if (matchedSellerID) {
+//                            Toast.makeText(requireContext(), "Chatting with Existed Seller: $sellerID", Toast.LENGTH_SHORT).show()
+                            val bundle = Bundle()
+                            bundle.putSerializable("conversationID", conversationID)
+                            findNavController().navigate(R.id.action_nav_buyerProductDetail_to_nav_chat, bundle)
+                        } else {
+//                            Toast.makeText(requireContext(), "Chatting with New Seller: $sellerID", Toast.LENGTH_SHORT).show()
+                            val userIDs = listOf(userID, sellerID)
+                            val conversationData = hashMapOf("userIDs" to userIDs)
+                            // Create conversation into firestore database
+                            conversationRef.add(conversationData).addOnSuccessListener { documentRef ->
+                                // Conversation document created, navigate to chat screen with conversation ID
+                                val conversationID = documentRef.id
+
+                                // Create conversation in realtime database
+                                val database = FirebaseDatabase.getInstance()
+                                val chatRef = database.getReference("chats")
+                                chatRef.child(conversationID).setValue(hashMapOf("messages" to null))
+                                    .addOnSuccessListener {
+                                        val bundle = Bundle()
+                                        bundle.putString("conversationID", conversationID)
+                                        findNavController().navigate(R.id.nav_chat, bundle)
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Toast.makeText(requireContext(), "Failed to create conversation", Toast.LENGTH_SHORT).show()
+                                    }
+                            }
+                        }
+                    }
             }
         }
 

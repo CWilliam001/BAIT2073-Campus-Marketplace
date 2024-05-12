@@ -137,18 +137,6 @@
             app:layout_constraintTop_toBottomOf="@+id/about_us_view_btn"
             tools:ignore="TextContrastCheck" />
 
-        <Button
-            android:id="@+id/contact_seller_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/blue_Light"
-            android:text="@string/contact_seller_label"
-            app:layout_constraintEnd_toStartOf="@+id/end_guideline"
-            app:layout_constraintStart_toStartOf="@+id/start_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/logout_btn"
-            tools:ignore="TextContrastCheck" />
-
         <TextView
             android:id="@+id/conversation_text_view"
             android:layout_width="wrap_content"

@@ -305,7 +305,11 @@
         android:id="@+id/nav_buyerProductDetail"
         android:name="com.example.campusmarketplace.BuyerProductDetailFragment"
         android:label="Buyer Product Detail"
-        tools:layout="@layout/fragment_buyer_product_detail" />
+        tools:layout="@layout/fragment_buyer_product_detail" >
+        <action
+            android:id="@+id/action_nav_buyerProductDetail_to_nav_chat"
+            app:destination="@id/nav_chat" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_buyerToPickUp"

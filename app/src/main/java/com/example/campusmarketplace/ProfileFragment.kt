@@ -69,59 +69,5 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.nav_login)
         }
 
-
-//        binding.contactSellerBtn.setOnClickListener {
-//            // Chia Choong's User UID in Firebase Authentication = "LZ9l4C1b1OaeUvIKDuw6i9F0Bn42"
-//            // Use your own User UID to find you and Chia Choong's User UID combination array exist in FirebaseFirestore or not
-//            // If exist then redirect them to nav_chat page with
-//            // var bundle = Bundle()
-//            // bundle.putSerializable("conversationID", document.id)
-//            // The document.id is come from conversations collection in FirebaseFirestore
-//            // If the combination array does not exist then
-//            // Create a conversation document with random ID then set userIDs = [your UID, Chia Choong's UID]
-//            // After that return the document ID that has been generated from FirebaseFirestore
-//            // Create an object in Firebase Realtime database with the documentID under chats
-//            // {
-//            //  "jkashfdsikfhasuif":
-//            //                      messages: null
-//            // }
-//
-//            val sellerUID = "LZ9l4C1b1OaeUvIKDuw6i9F0Bn42"
-//            if (userID != null) {
-//                val firestore = FirebaseFirestore.getInstance()
-//                val conversationRef = firestore.collection("conversations")
-//
-//                val query = conversationRef.whereArrayContains("userIDs", userID).whereArrayContains("userIDs", sellerUID)
-//
-//                query.get().addOnSuccessListener { documents ->
-//                    if (!documents.isEmpty) {
-//                        val conversationID = documents.first().id
-//                        val bundle = Bundle()
-//                        bundle.putString("conversationID", conversationID)
-//                        findNavController().navigate(R.id.nav_chat, bundle)
-//                    } else {
-//                        val userIDs = listOf(userID, sellerUID)
-//                        val conversationData = hashMapOf("userIDs" to userIDs)
-//
-//                        conversationRef.add(conversationData).addOnSuccessListener { documentRef ->
-//                            // Conversation document created, navigate to chat screen with conversation ID
-//                            val conversationID = documentRef.id
-//
-//                            val database = FirebaseDatabase.getInstance()
-//                            val chatRef = database.getReference("chats")
-//                            chatRef.child(conversationID).setValue(hashMapOf("messages" to null))
-//                                .addOnSuccessListener {
-//                                    val bundle = Bundle()
-//                                    bundle.putString("conversationID", conversationID)
-//                                    findNavController().navigate(R.id.nav_chat, bundle)
-//                                }
-//                                .addOnFailureListener { e ->
-//                                    Toast.makeText(requireContext(), "Failed to create conversation", Toast.LENGTH_SHORT).show()
-//                                }
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 }
