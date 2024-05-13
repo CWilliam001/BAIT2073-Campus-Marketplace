@@ -28,25 +28,8 @@ class ChatFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
-        val userID = sharedPreferences.getString("userID", null)
 
         binding = FragmentChatBinding.inflate(inflater, container, false)
-        adapter = ChatAdapter(requireContext(), userID.toString())
-        binding.chatRecyclerView.adapter = adapter
-        binding.chatRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val args = arguments
-
-        val conversationID = args?.getString("conversationID")
-        this.conversationID = conversationID.toString()
-        Log.d("ChatFragment", "Chat Fragment Conversation ID: $conversationID")
-
-        viewModel.retrieveAllItems(conversationID.toString())
-        viewModel.chatLiveData.observe(viewLifecycleOwner) { chatList ->
-            adapter.setChat(chatList)
-//            adapter.notifyDataSetChanged()
-            binding.chatRecyclerView.scrollToPosition(adapter.itemCount - 1)
-        }
 
         return binding.root
     }
@@ -60,15 +43,31 @@ class ChatFragment : Fragment() {
 
         val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
+        adapter = ChatAdapter(requireContext(), userID.toString())
+        binding.chatRecyclerView.adapter = adapter
+        binding.chatRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        val args = arguments
+        val conversationID = args?.getString("conversationID")
+        this.conversationID = conversationID.toString()
+        Log.d("ChatFragment", "Chat Fragment Conversation ID: $conversationID")
+
+        viewModel.retrieveAllItems(conversationID.toString())
+        viewModel.chatLiveData.observe(viewLifecycleOwner) { chatList ->
+            adapter.setChat(chatList)
+//            adapter.notifyDataSetChanged()
+            binding.chatRecyclerView.scrollToPosition(adapter.itemCount - 1)
+        }
+
 
         binding.sendBtn.setOnClickListener {
             val message = binding.messageEditText.text.toString()
 
             Log.d(TAG, "Message: $message")
             if (message.isNotEmpty()) {
-                if (userID != null && conversationID.isNotEmpty()) {
+                if (userID != null && conversationID != null) {
                     val chat = Chat(userID.toString(), message, "text", System.currentTimeMillis())
-                    viewModel.insertItem(conversationID, chat)
+                    viewModel.insertItem(conversationID.toString(), chat)
                     binding.messageEditText.text?.clear()
                     binding.chatRecyclerView.scrollToPosition(adapter.itemCount - 1)
                 }

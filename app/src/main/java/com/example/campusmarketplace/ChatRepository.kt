@@ -28,7 +28,7 @@ class ChatRepository {
         val query = conversationNodeRef.orderByChild("timestamp").limitToLast(30)
 
         // Add a listener to fetch messages from the database
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
+        query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val chatItems: List<Chat> = snapshot.children.map { dataSnapshot ->
                     dataSnapshot.getValue(Chat::class.java)!!
@@ -45,9 +45,9 @@ class ChatRepository {
 
     fun insertChatItem(conversationID: String, chatItem: Chat) {
 
-        Log.d(ContentValues.TAG, "Insert Item in Repository")
-        Log.d(ContentValues.TAG, "$chatItem")
-        Log.d(ContentValues.TAG, "Conversation ID: $conversationID")
+//        Log.d(ContentValues.TAG, "Insert Item in Repository")
+//        Log.d(ContentValues.TAG, "$chatItem")
+//        Log.d(ContentValues.TAG, "Conversation ID: $conversationID")
         val conversationNodeRef = chatRef.child(conversationID).child("messages")
 
         val chatKey = conversationNodeRef.push().key ?:return // Exit if key is null
@@ -59,25 +59,5 @@ class ChatRepository {
             .addOnFailureListener { exception ->
                 Log.e(TAG, "Failed to send message, $exception")
             }
-//        qry.addListenerForSingleValueEvent(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                if (!snapshot.exists()) {
-//                    val chatKey = chatRef.push().key
-//                    if (chatKey != null) {
-//                        chatRef.child(chatKey).setValue(chatItem)
-//                            .addOnSuccessListener {
-//                                Log.d(TAG, "Chat item inserted successfully")
-//                            }
-//                            .addOnFailureListener {exception ->
-//                                Log.e(TAG, "Failed to send message, $exception")
-//                            }
-//                    }
-//                }
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                Log.e(TAG, "$error")
-//            }
-//        })
     }
 }

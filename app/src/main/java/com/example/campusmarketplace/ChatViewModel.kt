@@ -11,6 +11,7 @@ import com.example.campusmarketplace.model.Chat
 import kotlinx.coroutines.launch
 
 class ChatViewModel: ViewModel() {
+
     private val repository = ChatRepository()
 
     private val _chatLiveData = MutableLiveData<List<Chat>>()
@@ -22,9 +23,8 @@ class ChatViewModel: ViewModel() {
 
     fun insertItem(conversationID:  String, chat: Chat) {
         viewModelScope.launch {
-            Log.d(TAG, "Passing data from view model to repository")
+//            Log.d(TAG, "Passing data from view model to repository")
             repository.insertChatItem(conversationID, chat)
-            repository.retrieveAllChatItem(conversationID, _chatLiveData)
         }
     }
 }

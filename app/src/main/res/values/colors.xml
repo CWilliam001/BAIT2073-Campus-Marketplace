@@ -12,4 +12,10 @@
     <color name="grey">#E8EEF1</color>
     <color name="light_Grey">#f5f5f5</color>
     <color name="dark_Grey">#698976</color>
+    <color name="DBluePrimary">#011F4B</color>
+    <color name="DBlueSecondary">#005B96</color>
+    <color name="DBlueTertiary">#6497B1</color>
+    <color name="LBluePrimary">#011F4B</color>
+    <color name="LBlueSecondary">#005B96</color>
+    <color name="LBlueTertiary">#6497B1</color>
 </resources>
