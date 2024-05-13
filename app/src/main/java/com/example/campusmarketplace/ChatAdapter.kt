@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentChatItemBinding
 import com.example.campusmarketplace.model.Chat
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -32,13 +34,25 @@ class ChatAdapter internal constructor (
 //            Log.d("ChatAdapter", "User ID: $userID")
 
             // Check if the message is sended by current user then modify the design of UI
-            if (current.senderId == userID) {
-                val layoutParams = binding.messageTextView.layoutParams as ConstraintLayout.LayoutParams
-                layoutParams.startToStart = ConstraintLayout.LayoutParams.UNSET
-                layoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-                binding.messageTextView.layoutParams = layoutParams
-                binding.messageTextView.setTextColor(ContextCompat.getColor(context, R.color.white))
-                binding.messageTextView.setBackgroundResource(R.drawable.rounded_rectangle_primary)
+//            if (current.senderId == userID) {
+//                val layoutParams = binding.messageTextView.layoutParams as ConstraintLayout.LayoutParams
+//                layoutParams.startToStart = ConstraintLayout.LayoutParams.UNSET
+//                layoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+//                binding.messageTextView.layoutParams = layoutParams
+//                binding.messageTextView.setTextColor(ContextCompat.getColor(context, R.color.white))
+//                binding.messageTextView.setBackgroundResource(R.drawable.rounded_rectangle_primary)
+//            }
+
+            if (current.senderId != null) {
+                val firestore = FirebaseFirestore.getInstance()
+                val userRef = firestore.collection("users").document(current.senderId)
+                userRef.get().addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot != null) {
+                        binding.nameTextView.text = documentSnapshot.getString("name")
+                        val profileImageUrl = documentSnapshot.getString("profileImageUrl")
+                        Picasso.get().load(profileImageUrl).transform(RoundedTransformation()).into(binding.profileImageView)
+                    }
+                }
             }
             binding.timeTextView.text = convertTimestampToDateTime(current.timestamp)
         }
