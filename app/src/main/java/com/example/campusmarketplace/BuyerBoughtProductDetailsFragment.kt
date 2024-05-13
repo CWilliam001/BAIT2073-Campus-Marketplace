@@ -12,8 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.campusmarketplace.databinding.DialogRateProductBinding
 import com.example.campusmarketplace.databinding.FragmentBuyerBoughtProductDetailsBinding
 import com.example.campusmarketplace.model.SellerProduct
 import com.google.firebase.database.FirebaseDatabase
@@ -64,6 +66,21 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
                 binding.tvSellerPhone.text = phoneNumber.toString()
                 binding.tvLocation.text = location.toString()
             }
+        }
+
+        if(product.received && product.delivered){
+            binding.btnReceived.visibility = View.GONE
+            binding.btnRate.visibility = View.VISIBLE
+        }
+
+        if(product.rating.toString().isNullOrEmpty()){
+            val params = binding.btnChatNow.layoutParams as ConstraintLayout.LayoutParams
+            params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+            params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+            params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+            params.marginStart = 0
+            params.width = 0
+            binding.btnChatNow.layoutParams = params
         }
 
         // set the retrieved values to textView
@@ -147,29 +164,59 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        if(product.received){
-            binding.btnReceived.visibility = View.GONE
-            val params = binding.btnChatNow.layoutParams as ConstraintLayout.LayoutParams
-            params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
-            params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-            params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-            params.marginStart = 0
-            binding.btnChatNow.layoutParams = params
-        }else{
-            binding.btnReceived.visibility = View.VISIBLE
-        }
 
         binding.btnReceived.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Confirm")
-            builder.setMessage("Confirm received the order?")
-            builder.setPositiveButton("Yes") { _, _ ->
-                product.received = true
-                viewModel.updateOrderItem(product)
+            if(product.received){
+                Toast.makeText(
+                    requireContext(),
+                    "Product confirmed received",
+                    Toast.LENGTH_SHORT * 3
+                ).show()
+            }else{
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Confirmation")
+                builder.setMessage("Confirm received the product?")
+                builder.setPositiveButton("Yes") { _, _ ->
+                    product.received = true
+                    viewModel.updateOrderItem(product)
+
+                    Toast.makeText(
+                        requireContext(),
+                        "Successfully received the product",
+                        Toast.LENGTH_SHORT * 3
+                    ).show()
+                }
+                builder.setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                val dialog = builder.create()
+                dialog.show()
             }
-            builder.setNegativeButton("No") { dialog, _ ->
+        }
+
+        binding.btnRate.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Rate This Product")
+
+            // Inflate the layout using data binding
+            val dialogLayoutBinding = DialogRateProductBinding.inflate(layoutInflater)
+            val ratingBar = dialogLayoutBinding.ratingBar
+
+            builder.setView(dialogLayoutBinding.root)
+
+            builder.setPositiveButton("Submit") { dialog, _ ->
+                // Get the user's rating from the RatingBar
+                val rating = ratingBar.rating.toInt()
+                // Process the rating as needed
+                // For example, you can send it to a server or save it locally
+                Toast.makeText(requireContext(), "You rated $rating stars", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
+
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+
             val dialog = builder.create()
             dialog.show()
         }

@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentSellerToPickUpProductDetailsBinding
@@ -65,6 +66,16 @@ class SellerToPickUpProductDetails : Fragment() {
                 binding.tvBuyerPhone.text = phoneNumber.toString()
                 binding.tvLocation.text = location.toString()
             }
+        }
+
+        if(product.received && product.delivered){
+            binding.btnCompleted.isVisible = false
+            val params = binding.btnChatNow.layoutParams as ConstraintLayout.LayoutParams
+            params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+            params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+            params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+            params.marginStart = 0
+            binding.btnChatNow.layoutParams = params
         }
 
         // set the retrieved values to textView
@@ -154,18 +165,33 @@ class SellerToPickUpProductDetails : Fragment() {
         }
 
         binding.btnCompleted.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Confirm")
-            builder.setMessage("Confirm delivered the order?")
-            builder.setPositiveButton("Yes") { _, _ ->
-                product.received = true
-                viewModel.updateOrderItem(product)
+            if (product.delivered) {
+                Toast.makeText(
+                    requireContext(),
+                    "Product confirmed delivered",
+                    Toast.LENGTH_SHORT * 3
+                ).show()
+            } else {
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Confirmation")
+                builder.setMessage("Confirm delivered the product?")
+                builder.setPositiveButton("Yes") { _, _ ->
+                    product.delivered = true
+                    viewModel.updateOrderItem(product)
+
+                    Toast.makeText(
+                        requireContext(),
+                        "Successfully delivered the product",
+                        Toast.LENGTH_SHORT * 3
+                    ).show()
+
+                }
+                builder.setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                val dialog = builder.create()
+                dialog.show()
             }
-            builder.setNegativeButton("No") { dialog, _ ->
-                dialog.dismiss()
-            }
-            val dialog = builder.create()
-            dialog.show()
         }
 
         binding.btnUp.setOnClickListener {

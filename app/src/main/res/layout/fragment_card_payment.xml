@@ -90,6 +90,7 @@
             android:textColor="@color/black"
             android:background="@drawable/rounded_background"
             android:inputType="text"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
             android:padding="5dp"
             />
 
@@ -195,25 +196,19 @@
             android:inputType="number"
             android:maxLength="3" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintGuide_percent="0.9"
-            android:orientation="horizontal" />
-
         <Button
             android:id="@+id/btn_done"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/done"
             android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline4"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideline1"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             android:backgroundTint="@color/blue_Dark"
             android:textColor="@color/white"
             android:textSize="17sp"
+            android:layout_margin="20dp"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

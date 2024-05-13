@@ -29,7 +29,7 @@ class SellerUploadProductFragment : Fragment() {
         ViewModelProvider(this).get(SellerProductViewModel::class.java)
     }
     private lateinit var getPhotoPicker: ActivityResultLauncher<String>
-    private var imageUri: Uri?=null
+    private var imageUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,19 +57,30 @@ class SellerUploadProductFragment : Fragment() {
         }
 
         binding.btnUpload.setOnClickListener {
-            if(validateInput()){
+            if (validateInput()) {
                 showConfirmationDialog()
             }
         }
 
         binding.btnUp.setOnClickListener {
-            // Perform up navigation
-            findNavController().navigateUp()
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Confirmation")
+            builder.setMessage("Discard this product?")
+            builder.setPositiveButton("Discard") { _, _ ->
+                // Perform up navigation
+                findNavController().navigateUp()
+            }
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 
     private fun addProduct() {
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
 
         val uploadTime = getCurrentTimestamp()
@@ -95,60 +106,53 @@ class SellerUploadProductFragment : Fragment() {
         )
         viewModel.insertItem(product, imageUri)
 
-        Toast.makeText(requireContext(), "Successfully Added Product", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Successfully uploaded product", Toast.LENGTH_SHORT * 3).show()
 
         // Navigate Back
         findNavController().navigateUp()
     }
+
     private fun getCurrentTimestamp(): String {
         val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
         return sdf.format(Date())
 
     }
+
     private fun validateInput(): Boolean {
         val productName = binding.etProductName.text.toString().trim()
         val productDescription = binding.etProductDescription.text.toString().trim()
-        val productPrice = binding.etProductPrice.text.toString().trim()
+        val productPrice = binding.etProductPrice.text.toString().trim().toDoubleOrNull()
 
         // Check if any field is empty
         if (imageUri == null) {
-            Toast.makeText(requireContext(), "You have not chosen any product picture", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Please upload image of product", Toast.LENGTH_SHORT)
+                .show()
             return false
         }
-        if(productName.isEmpty()){
-            binding.etProductName.setError(getString(R.string.required_input))
+        if (productName.isEmpty()) {
+            binding.etProductName.error = getString(R.string.required_input)
             return false
         }
-        if(productDescription.isEmpty()){
-            binding.etProductDescription.setError(getString(R.string.required_input))
+        if (productDescription.isEmpty()) {
+            binding.etProductDescription.error = getString(R.string.required_input)
             return false
         }
-        if(productPrice.isEmpty()){
-            binding.etProductPrice.setError(getString(R.string.required_input))
+        if (productPrice == null) {
+            binding.etProductPrice.error = getString(R.string.required_input)
             return false
         }
-        if (!isValidProductPrice(productPrice)) {
-            binding.etProductPrice.setError("Enter a valid product price (e.g., 9999.99 or more than 0)")
+        if (productPrice == 0.0) {
+            binding.etProductPrice.error = "Price must be more than 0"
             return false
         }
         return true
     }
 
-private fun isValidProductPrice(productPrice: String): Boolean {
-    val regex = "^\\d{1,4}(\\.\\d{1,2})?\$".toRegex()
-    val isValidFormat = productPrice.matches(regex)
-    val priceValue = productPrice.toDoubleOrNull() ?: 0.0
-    val isGreaterThanZero = priceValue > 0
-
-    return isValidFormat && isGreaterThanZero
-}
-
-
     private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirm Upload")
-            .setMessage("Are you sure you want to upload this product?")
-            .setPositiveButton("Save") { _, _ ->
+        builder.setTitle("Confirmation")
+            .setMessage("Confirm upload product?")
+            .setPositiveButton("Upload") { _, _ ->
                 addProduct()
             }
             .setNegativeButton("Cancel") { dialog, _ ->

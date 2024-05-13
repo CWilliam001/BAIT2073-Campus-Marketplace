@@ -146,7 +146,7 @@
         <item>34</item>
         <item>35</item>
     </string-array>
-    <string name="card">Credit Card</string>
+    <string name="card">Card</string>
     <string name="cash_on_delivery">Cash On Delivery</string>
     <string name="payment_method">Payment Method</string>
     <string name="buy_now">Buy Now</string>
@@ -226,6 +226,7 @@
     <string name="enter_new_email_hint">Enter New Email</string>
     <string name="new_email_required_error">New Email Required</string>
     <string name="incorrect_password_error">Incorrect password</string>
+    <string name="pay_at_meetup">Pay at Meetup</string>
     <string-array name="search_sellerRating">
         <item>0 – 1.0</item>
         <item>1.1 – 2.0</item>
