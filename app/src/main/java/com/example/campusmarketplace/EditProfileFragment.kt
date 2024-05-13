@@ -97,7 +97,9 @@ class EditProfileFragment : Fragment() {
 
             val userDocRef = firestore.collection("users").document(userID!!)
 
-            if (name.isNotEmpty() && phoneNumber.isNotEmpty() && address.isNotEmpty() && zipCode.isNotEmpty() && (imageUri != null || profileImageUrl.toString().isNotEmpty())) {
+            if (name.isNotEmpty() && phoneNumber.isNotEmpty() && address.isNotEmpty() && zipCode.isNotEmpty() &&
+                name.contains(Regex("[a-zA-Z0-9]")) && zipCode.length == 5 &&
+                (imageUri != null || profileImageUrl.toString().isNotEmpty())) {
                 if (userID != null) {
                     // How to perform update profile in firestore
                     // Need to consider bout profileImageUrl also if they had changed the profileImageUrl then need to save the new value of profileImageUrl as well
@@ -172,6 +174,10 @@ class EditProfileFragment : Fragment() {
                     binding.nameEditText.error = getString(R.string.name_required_error)
                 }
 
+                if (name.contains(Regex("[^a-zA-Z0-9 ]"))) {
+                    binding.nameEditText.error = getString(R.string.accept_alpha_numeric_error)
+                }
+
                 if (phoneNumber.isEmpty()) {
                     binding.phoneNumberEditText.error =
                         getString(R.string.phone_number_required_error)
@@ -185,6 +191,11 @@ class EditProfileFragment : Fragment() {
                 if (zipCode.isEmpty()) {
                     binding.zipCodeEditText.error =
                         getString(R.string.zip_code_required_error)
+                }
+
+                if (zipCode.length != 5) {
+                    binding.zipCodeEditText.error =
+                        getString(R.string.invalid_zip_code_error)
                 }
             }
         }

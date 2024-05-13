@@ -299,6 +299,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_background"
                         android:inputType="number"
+                        android:maxLength="5"
                         android:textColorHint="@color/dark_Grey"
                         android:textColor="@color/black"
                         tools:ignore="VisualLintTextFieldSize" />

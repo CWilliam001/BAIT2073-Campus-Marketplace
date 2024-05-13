@@ -32,26 +32,39 @@ class ChangePasswordFragment : Fragment() {
 
             val currentUser = FirebaseAuth.getInstance().currentUser
 
+            // Regex pattern to validate password with at least 6 characters, 1 alphabet, and 1 digit
+            val passwordPattern = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}\$")
+
+            // Check if the old password is not empty
             if (oldPassword.isNotEmpty()) {
+
+                // Re-authenticate the user with the provided old password
                 val credential = EmailAuthProvider.getCredential(currentUser?.email!!, oldPassword)
                 currentUser.reauthenticate(credential)
                     .addOnCompleteListener { reauthTask ->
+                        // Check if the re-authentication was successful
                         if (reauthTask.isSuccessful) {
+                            // Check if new password and confirm password are not empty
                             if (newPassword.isNotEmpty() && confirmPassword.isNotEmpty()) {
-                                if (newPassword == confirmPassword) {
-                                    currentUser.updatePassword(newPassword)
-                                        .addOnCompleteListener { updatePasswordTask ->
-                                            if (updatePasswordTask.isSuccessful) {
-                                                Toast.makeText(requireContext(),
-                                                    getString(R.string.password_updated_successfully_label), Toast.LENGTH_SHORT).show()
-                                                findNavController().navigate(R.id.nav_profile)
-                                            } else {
-                                                Toast.makeText(requireContext(),
-                                                    getString(R.string.failed_to_update_password_label), Toast.LENGTH_SHORT).show()
+                                // Validate the new password
+                                if (newPassword.matches(passwordPattern)) {
+                                    if (newPassword == confirmPassword) {
+                                        currentUser.updatePassword(newPassword)
+                                            .addOnCompleteListener { updatePasswordTask ->
+                                                if (updatePasswordTask.isSuccessful) {
+                                                    Toast.makeText(requireContext(),
+                                                        getString(R.string.password_updated_successfully_label), Toast.LENGTH_SHORT).show()
+                                                    findNavController().navigate(R.id.nav_profile)
+                                                } else {
+                                                    Toast.makeText(requireContext(),
+                                                        getString(R.string.failed_to_update_password_label), Toast.LENGTH_SHORT).show()
+                                                }
                                             }
-                                        }
+                                    } else {
+                                        binding.confirmPasswordEditText.error = getString(R.string.password_not_matched_error)
+                                    }
                                 } else {
-                                    binding.confirmPasswordEditText.error = getString(R.string.password_not_matched_error)
+                                    binding.newPasswordEditText.error = getString(R.string.invalid_password_format_error)
                                 }
                             } else {
                                 if (newPassword.isEmpty()) {

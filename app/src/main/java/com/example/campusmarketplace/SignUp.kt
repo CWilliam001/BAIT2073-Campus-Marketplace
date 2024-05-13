@@ -68,7 +68,16 @@ class SignUp : Fragment() {
             val state = binding.stateSpinner.selectedItemPosition
             val zipCode = binding.zipCodeEditText.text.toString().trim()
 
-            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() && phoneNumber.isNotEmpty() && imageUri != null && (password == confirmPassword)) {
+            // Regex pattern to validate email with TARC domain
+            val emailPattern = Regex("[a-zA-Z0-9._%+-]+@(?:student\\.)?tarc\\.edu\\.my")
+
+            // Regex pattern to validate password with at least 6 characters, 1 alphabet, and 1 digit
+            val passwordPattern = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}\$")
+
+            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() &&
+                phoneNumber.isNotEmpty() && imageUri != null && (password == confirmPassword)
+                && name.contains(Regex("[a-zA-Z0-9]")) && email.matches(emailPattern) && password.matches(passwordPattern) &&
+                address.isNotEmpty() && zipCode.length == 5) {
                 firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { signUpTask ->
                     if (signUpTask.isSuccessful) {
                         val storageRef = FirebaseStorage.getInstance().reference
@@ -114,12 +123,24 @@ class SignUp : Fragment() {
                     binding.nameEditText.error = getString(R.string.name_required_error)
                 }
 
+                if (name.contains(Regex("[^a-zA-Z0-9 ]"))) {
+                    binding.nameEditText.error = getString(R.string.accept_alpha_numeric_error)
+                }
+
                 if (email.isEmpty()) {
                     binding.emailEditText.error = getString(R.string.email_required_error)
                 }
 
+                if (!email.matches(emailPattern)) {
+                    binding.emailEditText.error = getString(R.string.invalid_email_format_error)
+                }
+
                 if (password.isEmpty()) {
                     binding.passwordEditText.error = getString(R.string.password_required_error)
+                }
+
+                if (!password.matches(passwordPattern)) {
+                    binding.passwordEditText.error = getString(R.string.invalid_password_format_error)
                 }
 
                 if (confirmPassword.isEmpty()) {
@@ -145,6 +166,11 @@ class SignUp : Fragment() {
                 if (zipCode.isEmpty()) {
                     binding.zipCodeEditText.error =
                         getString(R.string.zip_code_required_error)
+                }
+
+                if (zipCode.length != 5) {
+                    binding.zipCodeEditText.error =
+                        getString(R.string.invalid_zip_code_error)
                 }
             }
         }

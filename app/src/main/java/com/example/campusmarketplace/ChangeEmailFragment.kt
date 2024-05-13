@@ -32,6 +32,9 @@ class ChangeEmailFragment : Fragment() {
         binding.sendBtn.setOnClickListener {
             val password = binding.passwordEditText.text.toString()
 
+            // Regex pattern to validate email with TARC domain
+            val emailPattern = Regex("[a-zA-Z0-9._%+-]+@(?:student\\.)?tarc\\.edu\\.my")
+
             if (password.isNotEmpty()) {
                 if (currentUser != null && currentUser.email != null) {
                     val credential = EmailAuthProvider.getCredential(currentUser.email!!, password)
@@ -39,25 +42,33 @@ class ChangeEmailFragment : Fragment() {
                     // Re-authenticate the user with the provided credential
                     currentUser.reauthenticate(credential)
                         .addOnCompleteListener { reauthTask ->
+                            // Re-authentication successful
                             if (reauthTask.isSuccessful) {
                                 val newEmail = binding.newEmailEditText.text.toString()
+                                // Check if the new email is not empty
                                 if (newEmail.isNotEmpty()) {
-                                    currentUser.verifyBeforeUpdateEmail(newEmail)
-                                        .addOnCompleteListener { updateEmailTask ->
-                                            if (updateEmailTask.isSuccessful) {
-                                                currentUser.sendEmailVerification()
-                                                    .addOnCompleteListener { verificationTask ->
-                                                        if (verificationTask.isSuccessful) {
-                                                            Toast.makeText(requireContext(), "Email verification sent", Toast.LENGTH_SHORT).show()
-                                                        } else {
-                                                            Toast.makeText(requireContext(), "Failed to send verification email", Toast.LENGTH_SHORT).show()
+                                    if (newEmail.matches(emailPattern)) {
+                                        currentUser.verifyBeforeUpdateEmail(newEmail)
+                                            .addOnCompleteListener { updateEmailTask ->
+                                                // Email verification sent
+                                                if (updateEmailTask.isSuccessful) {
+                                                    currentUser.sendEmailVerification()
+                                                        .addOnCompleteListener { verificationTask ->
+                                                            // Email verification sent
+                                                            if (verificationTask.isSuccessful) {
+                                                                Toast.makeText(requireContext(), "Email verification sent", Toast.LENGTH_SHORT).show()
+                                                            } else {
+                                                                Toast.makeText(requireContext(), "Failed to send verification email", Toast.LENGTH_SHORT).show()
+                                                            }
                                                         }
-                                                    }
+                                                }
                                             }
-                                        }
 
-                                    // Update the user's email address
-                                    currentUser.updateEmail(newEmail)
+                                        // Update the user's email address
+                                        currentUser.updateEmail(newEmail)
+                                    } else {
+                                        binding.newEmailEditText.error = getString(R.string.invalid_email_format_error)
+                                    }
                                 } else {
                                     binding.newEmailEditText.error = getString(R.string.new_email_required_error)
                                 }

@@ -227,6 +227,10 @@
     <string name="new_email_required_error">New Email Required</string>
     <string name="incorrect_password_error">Incorrect password</string>
     <string name="pay_at_meetup">Pay at Meetup</string>
+    <string name="accept_alpha_numeric_error">Only accept alpha numeric value</string>
+    <string name="invalid_email_format_error">Only allow TARUMT email access</string>
+    <string name="invalid_password_format_error">Password must have at least 6 character with at least 1 alphabet and 1 digit</string>
+    <string name="invalid_zip_code_error">Zip Code should contain 5 digit only</string>
     <string-array name="search_sellerRating">
         <item>0 – 1.0</item>
         <item>1.1 – 2.0</item>
