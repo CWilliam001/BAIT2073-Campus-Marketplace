@@ -74,6 +74,10 @@ class BuyerProductListAdapter internal constructor(
         return buyerProductLst.size
     }
 
+//    fun isListEmpty(): Boolean {
+//        return buyerProductLst.isEmpty()
+//    }
+
     override fun onBindViewHolder(holder: BuyerProductListViewHolder, position: Int) {
         val current = buyerProductLst[position]
         holder.bind(current)

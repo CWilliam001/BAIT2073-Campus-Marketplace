@@ -66,11 +66,12 @@ class SellerProductViewModel : ViewModel() {
         repository.retrieveBuyerCompleteProducts(_productLiveData,buyerID)
     }
 
-    fun retrieveSellerToDeliverProducts(sellerID:String){
+    fun retrieveSellerDeliverProducts(sellerID:String){
         repository.retrieveSellerToDeliverProducts(_productLiveData,sellerID)
     }
 
     fun retrieveSellerCompleteProducts(sellerID:String){
         repository.retrieveSellerCompleteProducts(_productLiveData,sellerID)
     }
+
 }

@@ -63,7 +63,7 @@
                     android:id="@+id/tv_toPickUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="To Pick Up"
+                    android:text="To Deliver"
                     android:textAlignment="center"
                     android:layout_marginTop="5dp"
                     android:textSize="20sp"

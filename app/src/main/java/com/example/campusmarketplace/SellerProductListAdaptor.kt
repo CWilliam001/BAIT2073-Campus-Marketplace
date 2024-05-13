@@ -17,7 +17,6 @@ import com.squareup.picasso.Picasso
 
 class SellerProductListAdaptor internal constructor(
     context: Context,
-    private val onUpdateCallBack:(SellerProduct)->Unit,
     private val onDeleteCallback: (SellerProduct) -> Unit // Callback for item removal
 ):
     RecyclerView.Adapter<SellerProductListAdaptor.ProductViewHolder>() {

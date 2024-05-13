@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -68,7 +69,49 @@ class HomeFragment : Fragment() {
                         findNavController().navigate(R.id.action_nav_hm_search_to_searchPage)
                     }
 
+                    // Category navigation
+                    var categoryName:String = " "
+                    binding.buyerIvCat1.setOnClickListener {
+                        categoryName = "Digital"
+                        val bundle = Bundle().apply {
+                            putString("productCategoryName", categoryName)
+                        }
+                        // Navigate to the buyer product list fragment with the bundle
+                        Navigation.findNavController(binding.root)
+                            .navigate(R.id.action_nav_home_to_nav_productList,bundle)
+                    }
+                    binding.buyerIvCat2.setOnClickListener {
+                        categoryName = "Fashion"
+                        val bundle = Bundle().apply {
+                            putString("productCategoryName", categoryName)
+                        }
 
+                        Navigation.findNavController(binding.root)
+                            .navigate(R.id.action_nav_home_to_nav_productList,bundle)
+
+                    }
+                    binding.buyerIvCat3.setOnClickListener {
+                        categoryName = "Electronic"
+                        val bundle = Bundle().apply {
+                            putString("productCategoryName", categoryName)
+                        }
+
+                        Navigation.findNavController(binding.root)
+                            .navigate(R.id.action_nav_home_to_nav_productList,bundle)
+                    }
+                    binding.buyerIvCat4.setOnClickListener {
+                        categoryName = "Beauty"
+                        val bundle = Bundle().apply {
+                            putString("productCategoryName", categoryName)
+                        }
+
+                        Navigation.findNavController(binding.root)
+                            .navigate(R.id.action_nav_home_to_nav_productList,bundle)
+                    }
+
+
+
+                    // Latest product uploaded
                     // Initialize RecyclerView and Adapter
                     recyclerView = binding.buyerProductLtRecyclerview
                     buyerProductLstAdapter = BuyerProductListAdapter(requireContext(), R.id.action_nav_buyer_to_nav_productDetail)

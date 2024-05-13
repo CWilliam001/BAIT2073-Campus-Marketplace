@@ -47,7 +47,7 @@ class SellerAllProductFragment : Fragment() {
         // Initialize your storageReference here
         storageReference = FirebaseStorage.getInstance().reference
 
-        productAdapter = SellerProductListAdaptor(requireContext(), ::onUpdateProduct, viewModel::deleteItem)
+        productAdapter = SellerProductListAdaptor(requireContext(), viewModel::deleteItem)
         recyclerView.adapter = productAdapter
 
         // Pass the storageReference to enableSwipeToDelete function
@@ -68,9 +68,9 @@ class SellerAllProductFragment : Fragment() {
         }
     }
 
-    private fun onUpdateProduct(product: SellerProduct) {
-        // Update the UI or perform any other action after the product is deleted
-        // For example, you can show a toast message
-        Toast.makeText(requireContext(), "Product ${product.productName} deleted", Toast.LENGTH_SHORT).show()
-    }
+//    private fun onUpdateProduct(product: SellerProduct) {
+//        // Update the UI or perform any other action after the product is deleted
+//        // For example, you can show a toast message
+//        Toast.makeText(requireContext(), "Product ${product.productName} deleted", Toast.LENGTH_SHORT).show()
+//    }
 }

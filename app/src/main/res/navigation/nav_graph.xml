@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_nav_hm_search_to_searchPage"
             app:destination="@id/nav_by_search"/>
+        <action
+            android:id="@+id/action_nav_home_to_nav_productList"
+            app:destination="@id/nav_buyerProductLst"/>
     </fragment>
 
     <fragment
@@ -304,6 +307,9 @@
         <action
             android:id="@+id/action_navBuyerProductList_to_navBuyerProductDetail"
             app:destination="@id/nav_buyerProductDetail" />
+        <action
+            android:id="@+id/action_navBuyerProductList_to_nav_home"
+            app:destination="@id/nav_home" />
 
     </fragment>
 

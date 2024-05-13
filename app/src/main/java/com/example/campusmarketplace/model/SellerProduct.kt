@@ -20,7 +20,6 @@ data class SellerProduct(
     var received:Boolean = false,
     var delivered:Boolean = false,
     var rating:Double = 0.00,
-
     var productImage: String=""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(

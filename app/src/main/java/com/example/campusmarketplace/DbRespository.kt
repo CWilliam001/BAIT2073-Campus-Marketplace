@@ -418,47 +418,6 @@ class DbRepository {
     }
 
     // Seller To pick up
-    fun retrieveSellerToDeliverProducts(
-        liveData: MutableLiveData<List<SellerProduct>>,
-        sellerID: String
-    ) {
-        val query = productReference
-            .orderByChild("sellerID")
-            .equalTo(sellerID)
-
-        query.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val productList = mutableListOf<SellerProduct>()
-
-                for (productSnapshot in snapshot.children) {
-                    val product = productSnapshot.getValue(SellerProduct::class.java)
-                    product?.let {
-                        // Check paymentMethod, received, and delivered status
-                        if (!it.paymentMethod.isNullOrEmpty() && (!it.received || !it.delivered)) {
-                            // Fetch image URL from Firebase Storage based on product ID
-                            val productImageRef = storageReference.child("images/${product.productID}.jpg")
-                            productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
-                                // Update product with image URL
-                                val productWithImage = product.copy(productImage = imageUrl.toString())
-                                productList.add(productWithImage)
-
-                                // Post updated list to LiveData
-                                liveData.postValue(productList)
-                            }.addOnFailureListener { e ->
-                                // Handle image download failure
-                                Log.e("RetrieveProducts", "Failed to download image: ${e.message}")
-                            }
-                        }
-                    }
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Handle database query cancellation
-                Log.e("RetrieveProducts", "Database query cancelled: ${error.message}")
-            }
-        })
-    }
 
     fun retrieveSellerCompleteProducts(
         liveData: MutableLiveData<List<SellerProduct>>,
@@ -476,7 +435,7 @@ class DbRepository {
                     val product = productSnapshot.getValue(SellerProduct::class.java)
                     product?.let {
                         // Check paymentMethod, received, and delivered status
-                        if (!it.paymentMethod.isNullOrEmpty() && it.received && it.delivered) {
+                        if (it.paymentMethod.trim().isNotEmpty() && it.received && it.delivered) {
                             // Fetch image URL from Firebase Storage based on product ID
                             val productImageRef = storageReference.child("images/${product.productID}.jpg")
                             productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
@@ -502,7 +461,49 @@ class DbRepository {
         })
     }
 
+    fun retrieveSellerToDeliverProducts(
+        liveData: MutableLiveData<List<SellerProduct>>,
+        sellerID: String
+    ) {
+        val query = productReference.orderByChild("sellerID").equalTo(sellerID)
+
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val productListA = mutableListOf<SellerProduct>()
+
+                for (productSnapshot in snapshot.children) {
+                    val product = productSnapshot.getValue(SellerProduct::class.java)
+                    product?.let {
+                        // Check if buyerID is not null
+                        if (it.buyerID.trim().isNotEmpty()) {
+                            if (it.paymentMethod.trim().isNotEmpty() && (it.received == false || it.delivered == false)) {
+                                // Fetch image URL from Firebase Storage based on product ID
+                                val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                                productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+                                    // Update product with image URL
+                                    val productWithImage = product.copy(productImage = imageUrl.toString())
+                                    productListA.add(productWithImage)
+
+                                    // Post updated list to LiveData
+                                    liveData.postValue(productListA)
+                                }.addOnFailureListener { e ->
+                                    // Handle image download failure
+                                    Log.e("RetrieveProducts", "Failed to download image: ${e.message}")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle database query cancellation
+                Log.e("RetrieveProducts", "Database query cancelled: ${error.message}")
+            }
+        })
+    }
 
 
 
 }
+
