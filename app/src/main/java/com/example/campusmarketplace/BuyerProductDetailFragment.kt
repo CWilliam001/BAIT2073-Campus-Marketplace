@@ -157,8 +157,8 @@ class BuyerProductDetailFragment : Fragment() {
                                 chatRef.child(conversationID).setValue(hashMapOf("messages" to null))
                                     .addOnSuccessListener {
                                         val bundle = Bundle()
-                                        bundle.putString("conversationID", conversationID)
-                                        findNavController().navigate(R.id.nav_chat, bundle)
+                                        bundle.putSerializable("conversationID", conversationID)
+                                        findNavController().navigate(R.id.action_nav_buyerProductDetail_to_nav_chat, bundle)
                                     }
                                     .addOnFailureListener { e ->
                                         Toast.makeText(requireContext(), "Failed to create conversation", Toast.LENGTH_SHORT).show()

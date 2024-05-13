@@ -223,6 +223,9 @@
         android:name="com.example.campusmarketplace.SellerToPickUpProductDetails"
         android:label="Seller Order Details"
         tools:layout="@layout/fragment_seller_to_pick_up_product_details">
+        <action
+            android:id="@+id/action_nav_deliver_to_orderDetails_to_nav_chat"
+            app:destination="@id/nav_chat" />
     </fragment>
 
 

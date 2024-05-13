@@ -1,17 +1,22 @@
 package com.example.campusmarketplace
 
 import android.app.AlertDialog
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentSellerToPickUpProductDetailsBinding
 import com.example.campusmarketplace.model.SellerProduct
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
@@ -22,6 +27,7 @@ class SellerToPickUpProductDetails : Fragment() {
         ViewModelProvider(this).get(SellerProductViewModel::class.java)
     }
     private lateinit var product: SellerProduct
+    private lateinit var buyerID: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,6 +39,9 @@ class SellerToPickUpProductDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("userID", null)
         arguments?.let { bundle ->
             product = bundle.getParcelable("buyerProduct")!!
             product?.let { product ->
@@ -44,6 +53,7 @@ class SellerToPickUpProductDetails : Fragment() {
         val userDocRef = firestore.collection("users").document(product.buyerID!!)
         userDocRef.get().addOnSuccessListener { document ->
             if (document != null) {
+                buyerID = document.id
                 val userName = document.getString("name")
                 val profileImageUrl = document.getString("profileImageUrl")
                 val phoneNumber = document.getString("phoneNumber")
@@ -84,6 +94,63 @@ class SellerToPickUpProductDetails : Fragment() {
             binding.btnChatNow.layoutParams = params
         }else{
             binding.btnCompleted.visibility = View.VISIBLE
+        }
+
+        binding.btnChatNow.setOnClickListener {
+            if (userID != null) {
+                val firestore = FirebaseFirestore.getInstance()
+                val conversationRef = firestore.collection("conversations")
+
+                var matchedBuyerID = false
+                var conversationID = ""
+
+                conversationRef.whereArrayContains("userIDs", userID)
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        var index = 0
+                        while (index < querySnapshot.documents.size && !matchedBuyerID) {
+                            val document = querySnapshot.documents[index]
+                            val documentID = document.id
+                            if (documentID != null) {
+                                val otherUserIDs = document.get("userIDs") as List<String>
+                                otherUserIDs?.let {
+                                    val otherUserID = it.find { it != userID }
+                                    if (otherUserID != null) {
+                                        if (otherUserID == buyerID) {
+                                            matchedBuyerID = true
+                                            conversationID = documentID
+                                        }
+                                    }
+                                }
+                            }
+                            index++
+                        }
+
+                        if (matchedBuyerID) {
+                            val bundle = Bundle()
+                            bundle.putSerializable("conversationID", conversationID)
+                            findNavController().navigate(R.id.action_nav_deliver_to_orderDetails_to_nav_chat, bundle)
+                        } else {
+//                            Log.d(TAG, "Creating new conversation")
+                            val userIDs = listOf(userID, buyerID)
+                            val conversationData = hashMapOf("userIDs" to userIDs)
+                            conversationRef.add(conversationData).addOnSuccessListener { documentRef ->
+                                val conversationID = documentRef.id
+                                val database = FirebaseDatabase.getInstance()
+                                val chatRef = database.getReference("chats")
+                                chatRef.child(conversationID).setValue(hashMapOf("messages" to null))
+                                    .addOnSuccessListener {
+                                        val bundle = Bundle()
+                                        bundle.putSerializable("conversationID", conversationID)
+                                        findNavController().navigate(R.id.action_nav_deliver_to_orderDetails_to_nav_chat, bundle)
+                                    }
+                                    .addOnFailureListener {
+                                        Toast.makeText(requireContext(), "Failed to create conversation", Toast.LENGTH_SHORT).show()
+                                    }
+                            }
+                        }
+                    }
+            }
         }
 
         binding.btnCompleted.setOnClickListener {
