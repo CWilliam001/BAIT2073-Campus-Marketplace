@@ -1,9 +1,11 @@
 package com.example.campusmarketplace
 
 import android.app.AlertDialog
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -38,8 +40,7 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences =
-            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
         arguments?.let { bundle ->
             product = bundle.getParcelable("sellerProduct")!!
@@ -80,11 +81,11 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
 
         binding.btnChatNow.setOnClickListener {
             if (userID != null) {
-                val firestore = FirebaseFirestore.getInstance()
                 val conversationRef = firestore.collection("conversations")
 
                 var matchedSellerID = false
                 var conversationID = ""
+                Log.d(TAG, "User ID: $userID")
                 conversationRef.whereArrayContains("userIDs", userID)
                     .get()
                     .addOnSuccessListener { querySnapshot ->
@@ -107,13 +108,15 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
                             index++
                         }
 
+                        Log.d(TAG, "SellerID: $sellerID")
+                        Log.d(TAG, "Matched Seller ID = $matchedSellerID")
                         if (matchedSellerID) {
-//                            Toast.makeText(requireContext(), "Chatting with Existed Seller: $sellerID", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Chatting with Existed Seller: $sellerID", Toast.LENGTH_SHORT).show()
                             val bundle = Bundle()
                             bundle.putSerializable("conversationID", conversationID)
-                            findNavController().navigate(R.id.action_nav_buyerProductDetail_to_nav_chat, bundle)
+                            findNavController().navigate(R.id.action_nav_buyerOrderDetails_to_nav_chat, bundle)
                         } else {
-//                            Toast.makeText(requireContext(), "Chatting with New Seller: $sellerID", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Chatting with New Seller: $sellerID", Toast.LENGTH_SHORT).show()
                             val userIDs = listOf(userID, sellerID)
                             val conversationData = hashMapOf("userIDs" to userIDs)
                             // Create conversation into firestore database
@@ -128,7 +131,7 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
                                     .addOnSuccessListener {
                                         val bundle = Bundle()
                                         bundle.putSerializable("conversationID", conversationID)
-                                        findNavController().navigate(R.id.action_nav_buyerProductDetail_to_nav_chat, bundle)
+                                        findNavController().navigate(R.id.action_nav_buyerOrderDetails_to_nav_chat, bundle)
                                     }
                                     .addOnFailureListener { e ->
                                         Toast.makeText(requireContext(), "Failed to create conversation", Toast.LENGTH_SHORT).show()
