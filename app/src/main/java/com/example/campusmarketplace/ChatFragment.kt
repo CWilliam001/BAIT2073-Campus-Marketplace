@@ -32,7 +32,7 @@ class ChatFragment : Fragment() {
         val userID = sharedPreferences.getString("userID", null)
 
         binding = FragmentChatBinding.inflate(inflater, container, false)
-        adapter = ChatAdapter(userID.toString())
+        adapter = ChatAdapter(requireContext(), userID.toString())
         binding.chatRecyclerView.adapter = adapter
         binding.chatRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         val args = arguments

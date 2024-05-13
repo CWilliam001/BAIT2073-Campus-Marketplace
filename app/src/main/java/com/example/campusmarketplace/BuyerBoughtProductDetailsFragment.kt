@@ -1,17 +1,20 @@
 package com.example.campusmarketplace
 
 import android.app.AlertDialog
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentBuyerBoughtProductDetailsBinding
 import com.example.campusmarketplace.model.SellerProduct
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
@@ -22,6 +25,7 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
         ViewModelProvider(this).get(SellerProductViewModel::class.java)
     }
     private lateinit var product: SellerProduct
+    private lateinit var sellerID: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +38,9 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("userID", null)
         arguments?.let { bundle ->
             product = bundle.getParcelable("sellerProduct")!!
             product?.let { product ->
@@ -69,6 +76,68 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
         binding.tvDescription.text = product.productDescription
         binding.tvPayment.text = product.paymentMethod
         binding.tvPaymentTime.text = product.paymentDate
+        sellerID = product.sellerID
+
+        binding.btnChatNow.setOnClickListener {
+            if (userID != null) {
+                val firestore = FirebaseFirestore.getInstance()
+                val conversationRef = firestore.collection("conversations")
+
+                var matchedSellerID = false
+                var conversationID = ""
+                conversationRef.whereArrayContains("userIDs", userID)
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        var index = 0
+                        while (index < querySnapshot.documents.size && !matchedSellerID) {
+                            val document = querySnapshot.documents[index]
+                            val documentID = document.id
+                            if (documentID != null) {
+                                val otherUserIDs = document.get("userIDs") as List<String>
+                                otherUserIDs?.let {
+                                    val otherUserID = it.find { it != userID }
+                                    if (otherUserID != null) {
+                                        if (otherUserID == sellerID) {
+                                            matchedSellerID = true
+                                            conversationID = documentID
+                                        }
+                                    }
+                                }
+                            }
+                            index++
+                        }
+
+                        if (matchedSellerID) {
+//                            Toast.makeText(requireContext(), "Chatting with Existed Seller: $sellerID", Toast.LENGTH_SHORT).show()
+                            val bundle = Bundle()
+                            bundle.putSerializable("conversationID", conversationID)
+                            findNavController().navigate(R.id.action_nav_buyerProductDetail_to_nav_chat, bundle)
+                        } else {
+//                            Toast.makeText(requireContext(), "Chatting with New Seller: $sellerID", Toast.LENGTH_SHORT).show()
+                            val userIDs = listOf(userID, sellerID)
+                            val conversationData = hashMapOf("userIDs" to userIDs)
+                            // Create conversation into firestore database
+                            conversationRef.add(conversationData).addOnSuccessListener { documentRef ->
+                                // Conversation document created, navigate to chat screen with conversation ID
+                                val conversationID = documentRef.id
+
+                                // Create conversation in realtime database
+                                val database = FirebaseDatabase.getInstance()
+                                val chatRef = database.getReference("chats")
+                                chatRef.child(conversationID).setValue(hashMapOf("messages" to null))
+                                    .addOnSuccessListener {
+                                        val bundle = Bundle()
+                                        bundle.putSerializable("conversationID", conversationID)
+                                        findNavController().navigate(R.id.action_nav_buyerProductDetail_to_nav_chat, bundle)
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Toast.makeText(requireContext(), "Failed to create conversation", Toast.LENGTH_SHORT).show()
+                                    }
+                            }
+                        }
+                    }
+            }
+        }
 
         binding.btnUp.setOnClickListener {
             // Perform up navigation

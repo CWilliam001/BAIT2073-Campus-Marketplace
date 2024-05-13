@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentChatItemBinding
 import com.example.campusmarketplace.model.Chat
@@ -13,14 +15,16 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ChatAdapter internal constructor (private val userID: String) :
+class ChatAdapter internal constructor (
+    private val context: Context,
+    private val userID: String) :
     RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
         private var chat = emptyList<Chat>()
 
     inner class ChatViewHolder(private val binding: FragmentChatItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
-        fun bind(current: Chat, userID: String) {
+        fun bind(context: Context, current: Chat, userID: String) {
 
             binding.messageTextView.text = current.content
 
@@ -33,6 +37,7 @@ class ChatAdapter internal constructor (private val userID: String) :
                 layoutParams.startToStart = ConstraintLayout.LayoutParams.UNSET
                 layoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
                 binding.messageTextView.layoutParams = layoutParams
+                binding.messageTextView.setTextColor(ContextCompat.getColor(context, R.color.white))
                 binding.messageTextView.setBackgroundResource(R.drawable.rounded_rectangle_primary)
             }
             binding.timeTextView.text = convertTimestampToDateTime(current.timestamp)
@@ -45,7 +50,7 @@ class ChatAdapter internal constructor (private val userID: String) :
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val current = chat[position]
-        holder.bind(current, userID)
+        holder.bind(context, current, userID)
     }
 
     override fun getItemCount() = chat.size

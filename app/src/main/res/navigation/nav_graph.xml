@@ -335,6 +335,9 @@
         android:name="com.example.campusmarketplace.BuyerBoughtProductDetailsFragment"
         android:label="buyerOrderDetails"
         tools:layout="@layout/fragment_buyer_bought_product_details" >
+        <action
+            android:id="@+id/action_nav_buyerOrderDetails_to_nav_chat"
+            app:destination="@id/nav_chat" />
     </fragment>
 
     <fragment
