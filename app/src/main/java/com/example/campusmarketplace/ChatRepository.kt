@@ -1,22 +1,26 @@
 package com.example.campusmarketplace
 
-import android.content.Context
+import android.content.ContentValues
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.campusmarketplace.model.Chat
+import com.google.android.play.integrity.internal.s
+import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.core.Tag
+import com.google.firebase.database.database
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ChatRepository {
 
-    private val database = FirebaseDatabase.getInstance()
-    private val firestore = FirebaseFirestore.getInstance()
+    private val database = Firebase.database
     private val chatRef = database.getReference("chats")
-    fun retrieveAllChatItem(context: Context, conversationID: String, callback: (List<Chat>) -> Unit) {
-        val chatList = mutableListOf<Chat>()
-
+    fun retrieveAllChatItem(conversationID: String, liveData: MutableLiveData<List<Chat>>) {
         // Get reference to the specific conversation node in the database
         val conversationNodeRef = chatRef.child(conversationID).child("messages")
 
@@ -25,22 +29,55 @@ class ChatRepository {
 
         // Add a listener to fetch messages from the database
         query.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (messageSnapshot in dataSnapshot.children) {
-                    // Parse each message from dataSnapshot and add it to the list
-                    var chat = messageSnapshot.getValue(Chat::class.java)
-                    if (chat != null) {
-                        chatList.add(Chat(chat.senderId, chat.content, chat.datatype, chat.timestamp))
-                    }
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val chatItems: List<Chat> = snapshot.children.map { dataSnapshot ->
+                    dataSnapshot.getValue(Chat::class.java)!!
                 }
-                // Once all messages are fetched, invoke the callback function with the list of messages
-                callback(chatList)
+
+                liveData.postValue(chatItems)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
                 // Handle any errors
             }
         })
+    }
 
+    fun insertChatItem(conversationID: String, chatItem: Chat) {
+
+        Log.d(ContentValues.TAG, "Insert Item in Repository")
+        Log.d(ContentValues.TAG, "$chatItem")
+        Log.d(ContentValues.TAG, "Conversation ID: $conversationID")
+        val conversationNodeRef = chatRef.child(conversationID).child("messages")
+
+        val chatKey = conversationNodeRef.push().key ?:return // Exit if key is null
+
+        conversationNodeRef.child(chatKey).setValue(chatItem)
+            .addOnSuccessListener {
+                Log.d(TAG, "Chat item inserted successfully")
+            }
+            .addOnFailureListener { exception ->
+                Log.e(TAG, "Failed to send message, $exception")
+            }
+//        qry.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                if (!snapshot.exists()) {
+//                    val chatKey = chatRef.push().key
+//                    if (chatKey != null) {
+//                        chatRef.child(chatKey).setValue(chatItem)
+//                            .addOnSuccessListener {
+//                                Log.d(TAG, "Chat item inserted successfully")
+//                            }
+//                            .addOnFailureListener {exception ->
+//                                Log.e(TAG, "Failed to send message, $exception")
+//                            }
+//                    }
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                Log.e(TAG, "$error")
+//            }
+//        })
     }
 }

@@ -24,8 +24,10 @@ class ChatAdapter internal constructor (private val userID: String) :
 
             binding.messageTextView.text = current.content
 
-            Log.d("ChatAdapter", "Sender ID: ${current.senderId}")
-            Log.d("ChatAdapter", "User ID: $userID")
+//            Log.d("ChatAdapter", "Sender ID: ${current.senderId}")
+//            Log.d("ChatAdapter", "User ID: $userID")
+
+            // Check if the message is sended by current user then modify the design of UI
             if (current.senderId == userID) {
                 val layoutParams = binding.messageTextView.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.startToStart = ConstraintLayout.LayoutParams.UNSET
@@ -36,17 +38,17 @@ class ChatAdapter internal constructor (private val userID: String) :
             binding.timeTextView.text = convertTimestampToDateTime(current.timestamp)
         }
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatAdapter.ChatViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         val binding = FragmentChatItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ChatViewHolder(binding)
     }
 
-    override fun getItemCount() = chat.size
-
-    override fun onBindViewHolder(holder: ChatAdapter.ChatViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val current = chat[position]
         holder.bind(current, userID)
     }
+
+    override fun getItemCount() = chat.size
 
     internal fun setChat(chat: List<Chat>) {
         this.chat = chat
