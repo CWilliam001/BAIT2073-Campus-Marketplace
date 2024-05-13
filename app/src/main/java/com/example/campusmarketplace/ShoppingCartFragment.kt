@@ -53,7 +53,8 @@ class ShoppingCartFragment : Fragment() {
 
         recyclerView = binding.buyerProductLtRecyclerview
         val storageReference = FirebaseStorage.getInstance().reference
-        productAdapter = BuyerCartListAdaptor(requireContext(), ::onUpdateProduct, viewModel::deleteCartItem)
+        productAdapter =
+            BuyerCartListAdaptor(requireContext(), ::onUpdateProduct, viewModel::deleteCartItem)
         recyclerView.adapter = productAdapter
 
         // Initialize sharedPreferences and userID in onViewCreated
@@ -94,14 +95,29 @@ class ShoppingCartFragment : Fragment() {
             val selectedPaymentMethod = binding.radioPayment.checkedRadioButtonId
             when (selectedPaymentMethod) {
                 R.id.radioCard -> {
-                    val productList = ArrayList(checkedItems)
-                    val bundle = Bundle().apply {
-                        putString("userID", userID)
-                        putParcelableArrayList("checkedItems", productList)
+
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setTitle("Confirmation")
+                    builder.setMessage("Confirm proceed payment with card?")
+                    builder.setPositiveButton("Confirm") { _, _ ->
+                        val productList = ArrayList(checkedItems)
+                        val bundle = Bundle().apply {
+                            putString("userID", userID)
+                            putParcelableArrayList("checkedItems", productList)
+                        }
+                        totalSales = 0.0
+                        findNavController().navigate(
+                            R.id.action_nav_cart_to_nav_cardPayment,
+                            bundle
+                        )
                     }
-                    totalSales = 0.0
-                    findNavController().navigate(R.id.action_nav_cart_to_nav_cardPayment, bundle)
+                    builder.setNegativeButton("Cancel") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    val dialog = builder.create()
+                    dialog.show()
                 }
+
                 R.id.radioCashDelivery -> {
                     showConfirmationDialog()
                 }
@@ -110,17 +126,21 @@ class ShoppingCartFragment : Fragment() {
     }
 
     private fun onUpdateProduct(product: SellerProduct) {
-        Toast.makeText(requireContext(), "Product ${product.productName} deleted", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            requireContext(),
+            "Product ${product.productName} deleted",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirm Purchase")
-            .setMessage("Are you sure you want to proceed with Cash on Delivery?")
-            .setPositiveButton("Yes") { dialog, which ->
+        builder.setTitle("Confirmation")
+            .setMessage("Confirm pay at Meetup?")
+            .setPositiveButton("Confirm") { dialog, which ->
                 for (product in checkedItems) {
                     if (userID != null) {
-                        product.paymentMethod = "Cash On Delivery"
+                        product.paymentMethod = "Pay at Meetup"
                         product.paymentDate = getCurrentTimestamp()
                         product.buyerID = userID.toString()
                         viewModel.deleteCartItem(userID!!, product)
@@ -134,12 +154,13 @@ class ShoppingCartFragment : Fragment() {
                 // Notify the adapter that the dataset has changed
                 productAdapter.notifyDataSetChanged()
 
+                // Refresh the total
                 totalSales = 0.0
 
-                Toast.makeText(requireContext(), "Purchase successful!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Successfully purchase", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_nav_shoppingCart_to_nav_buyerToPickUp)
             }
-            .setNegativeButton("No") { dialog, which ->
+            .setNegativeButton("Cancel") { dialog, which ->
                 dialog.dismiss()
             }
             .show()

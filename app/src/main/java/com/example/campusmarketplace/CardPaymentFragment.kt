@@ -56,22 +56,26 @@ class CardPaymentFragment : Fragment() {
         }
 
 
-
         // Set onClickListener for the Done button
         binding.btnDone.setOnClickListener {
-            if(validateInput()){
+            if (validateInput()) {
                 showConfirmationDialog()
             }
         }
 
         binding.btnUp.setOnClickListener {
-            binding.etHolderName.setText("")
-            binding.etCardNumber.setText("")
-            binding.etCvv.setText("")
-            binding.spinnerMonth.setSelection(0)
-            binding.spinnerYear.setSelection(0)
-
-            findNavController().navigateUp()
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Confirmation")
+            builder.setMessage("Cancel Payment?")
+            builder.setPositiveButton("Yes") { _, _ ->
+                // Perform up navigation
+                findNavController().navigateUp()
+            }
+            builder.setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 
@@ -86,7 +90,7 @@ class CardPaymentFragment : Fragment() {
             return false
         }
 
-        if(binding.etCardNumber.text.length != 16){
+        if (binding.etCardNumber.text.length != 16) {
             binding.etCardNumber.setError(getString(R.string.card_number_must_be_16_digit))
             return false
         }
@@ -96,7 +100,7 @@ class CardPaymentFragment : Fragment() {
             return false
         }
 
-        if(binding.etCvv.text.length != 3){
+        if (binding.etCvv.text.length != 3) {
             binding.etCvv.setError(getString(R.string.cvv_must_be_3_digit))
             return false
         }
@@ -105,8 +109,8 @@ class CardPaymentFragment : Fragment() {
 
     private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirm Purchase")
-            .setMessage("Are you sure you want to proceed with Card Payment?")
+        builder.setTitle("Confirmation")
+            .setMessage("Confirm payment?")
             .setPositiveButton("Yes") { dialog, which ->
                 for (product in productList) {
                     if (userID != null) {
@@ -118,7 +122,7 @@ class CardPaymentFragment : Fragment() {
                     }
                 }
 
-                Toast.makeText(requireContext(), "Purchase successful!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Successfully purchased", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_nav_cardPayment_to_nav_buyerToPickUp)
             }
             .setNegativeButton("No") { dialog, which ->

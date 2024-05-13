@@ -100,7 +100,7 @@ class BuyerProductDetailFragment : Fragment() {
                 userViewModel.addProductToLikeList(userID, productId)
                 Toast.makeText(
                     requireContext(),
-                    "Product already added to like list",
+                    "Successfully added to likes",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -173,7 +173,7 @@ class BuyerProductDetailFragment : Fragment() {
                 userViewModel.addProductToCartList(userID, productId)
                 Toast.makeText(
                     requireContext(),
-                    "Product already added to cart list",
+                    "Successfully added to cart",
                     Toast.LENGTH_SHORT
                 ).show()
             }

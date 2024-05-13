@@ -114,9 +114,9 @@ class BuyerCartListAdaptor internal constructor(
 
                 // Show confirmation dialog before deletion
                 val builder = AlertDialog.Builder(recyclerView.context)
-                builder.setTitle("Deletion Confirmation")
-                    .setMessage("Are you sure you want to delete this product from your cart?")
-                    .setPositiveButton("Delete") { dialog, which ->
+                builder.setTitle("Confirmation")
+                    .setMessage("Confirm remove product from cart?")
+                    .setPositiveButton("Remove") { dialog, which ->
                         // Remove the product from the list
                         val updatedList = products.toMutableList()
                         updatedList.removeAt(position)

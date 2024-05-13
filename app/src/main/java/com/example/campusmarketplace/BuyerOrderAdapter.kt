@@ -23,7 +23,7 @@ class BuyerOrderAdapter internal constructor(
 
         fun bind(current: SellerProduct) {
             binding.productNameDisplay.text = current.productName
-            binding.productPriceDisplay.text = current.productPrice
+            binding.productPriceDisplay.text = String.format("RM %.2f", current.productPrice.toDouble())
             // Load image using Picasso
             Picasso.get().load(current.productImage).into(binding.productImageDisplay)
 

@@ -267,10 +267,17 @@
                     android:textColor="@color/black"
                     />
 
-
-
-
-
+                <View
+                    android:id="@+id/draw_line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_description"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    />
 
                 <TextView
                     android:id="@+id/tv_paymentLabel"
@@ -278,9 +285,9 @@
                     android:layout_height="wrap_content"
                     android:text="Payment Method"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_description"
+                    app:layout_constraintTop_toBottomOf="@+id/draw_line2"
                     app:layout_constraintStart_toStartOf="parent"
                     android:textColor="@color/black"
                     />
@@ -323,7 +330,7 @@
 
                 <Button
                     android:id="@+id/btn_chatNow"
-                    android:layout_width="150dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="Chat Now"
                     app:layout_constraintStart_toStartOf="parent"
@@ -336,7 +343,7 @@
 
                 <Button
                     android:id="@+id/btn_received"
-                    android:layout_width="150dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="Received"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -347,9 +354,20 @@
                     android:textColor="@color/white"
                     />
 
+                <Button
+                    android:id="@+id/btn_rate"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Rate"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="30dp"
+                    android:backgroundTint="@color/blue_Dark"
+                    android:textColor="@color/white"
+                    android:visibility="invisible"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>
