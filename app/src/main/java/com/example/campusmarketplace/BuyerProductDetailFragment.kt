@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentBuyerProductDetailBinding
@@ -61,6 +62,12 @@ class BuyerProductDetailFragment : Fragment() {
             val imageUrl = bundle.getString("productImage", "")
             productImageUri = Uri.parse(imageUrl)
         }
+
+        val sellerRatingLiveData = userViewModel.getSellerRating(sellerID!!)
+        sellerRatingLiveData.observe(viewLifecycleOwner, Observer { averageRating ->
+            binding.tvSellerRating.text = String.format("%.2f ⭐️", averageRating)
+        })
+
 
         val firestore = FirebaseFirestore.getInstance()
         val userDocRef = firestore.collection("users").document(sellerID!!)

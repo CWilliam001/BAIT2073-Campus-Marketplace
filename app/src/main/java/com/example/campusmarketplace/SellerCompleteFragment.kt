@@ -29,7 +29,7 @@ class SellerCompleteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvToPickUp.setOnClickListener{
+        binding.tvToPickUp.setOnClickListener {
             findNavController().navigate(R.id.action_nav_sellerComplete_to_nav_toDeliver)
         }
 
@@ -38,25 +38,31 @@ class SellerCompleteFragment : Fragment() {
             findNavController().navigate(R.id.action_nav_sellerComplete_to_nav_seller)
         }
 
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
 
         if (userID != null) {
             recyclerView = binding.productUploadRecyclerview
-            buyerProductLstAdapter = SellerOrderAdapter(requireContext(), R.id.action_nav_sellerComplete_to_nav_orderDetails)
+            buyerProductLstAdapter = SellerOrderAdapter(
+                requireContext(),
+                R.id.action_nav_sellerComplete_to_nav_orderDetails
+            )
 
             // Set the adapter to the RecyclerView
             recyclerView.adapter = buyerProductLstAdapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             // Initialize ViewModel
-            sellerCompleteViewModel = ViewModelProvider(this).get(SellerProductViewModel::class.java)
+            sellerCompleteViewModel =
+                ViewModelProvider(this).get(SellerProductViewModel::class.java)
 
             // Observe LiveData from ViewModel
-            sellerCompleteViewModel.productLiveData.observe(viewLifecycleOwner, Observer { products ->
-                // Update RecyclerView adapter with the new list of products
-                buyerProductLstAdapter.setProducts(products)
-            })
+            sellerCompleteViewModel.productLiveData.observe(
+                viewLifecycleOwner,
+                Observer { products ->
+                    buyerProductLstAdapter.setProducts(products)
+                })
 
             // Call function to retrieve user likes
             sellerCompleteViewModel.retrieveSellerCompleteProducts(userID)

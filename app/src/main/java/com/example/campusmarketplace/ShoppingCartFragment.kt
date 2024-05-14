@@ -36,7 +36,6 @@ class ShoppingCartFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private var userID: String? = null
 
-    // Define variables to store the checked items and total sales
     private val checkedItems = mutableListOf<SellerProduct>()
     private var totalSales = 0.0
 
@@ -50,34 +49,42 @@ class ShoppingCartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
+        setupRecyclerView()
+        observeViewModel()
+        setupListeners()
+    }
 
+    private fun initViews() {
         recyclerView = binding.buyerProductLtRecyclerview
-        val storageReference = FirebaseStorage.getInstance().reference
-        productAdapter =
-            BuyerCartListAdaptor(requireContext(), ::onUpdateProduct, viewModel::deleteCartItem)
-        recyclerView.adapter = productAdapter
-
-        // Initialize sharedPreferences and userID in onViewCreated
         sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         userID = sharedPreferences.getString("userID", null)
+    }
 
-        // Pass the storageReference to enableSwipeToDelete function
-        if (userID != null) {
-            productAdapter.enableSwipeToDelete(userID!!, recyclerView, storageReference)
-        }
-
+    private fun setupRecyclerView() {
+        productAdapter = BuyerCartListAdaptor(
+            requireContext(),
+            ::onUpdateProduct,
+            viewModel::deleteFromCart,
+            userID ?: ""
+        )
+        recyclerView.adapter = productAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        productAdapter.enableSwipeToDelete(recyclerView)
+    }
 
-        viewModel.getUserCart(userID.toString())
+    private fun observeViewModel() {
+        userID?.let { viewModel.getUserCart(it) }
         viewModel.productLiveData.observe(viewLifecycleOwner) { productList ->
             productAdapter.setProducts(productList)
         }
+    }
 
+    private fun setupListeners() {
         binding.btnUp.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        // Listen for changes in checked items in the adapter
         productAdapter.setOnItemCheckedListener { product, isChecked ->
             if (isChecked) {
                 checkedItems.add(product)
@@ -86,43 +93,70 @@ class ShoppingCartFragment : Fragment() {
                 checkedItems.remove(product)
                 totalSales -= product.productPrice.toDouble()
             }
-
-            // Update the total sales TextView
-            binding.tvShowTotalSales.text = String.format("RM %.2f", totalSales)
+            updateTotalSales()
         }
 
         binding.btnBuyNow.setOnClickListener {
-            val selectedPaymentMethod = binding.radioPayment.checkedRadioButtonId
-            when (selectedPaymentMethod) {
-                R.id.radioCard -> {
-
-                    val builder = AlertDialog.Builder(requireContext())
-                    builder.setTitle("Confirmation")
-                    builder.setMessage("Confirm proceed payment with card?")
-                    builder.setPositiveButton("Confirm") { _, _ ->
-                        val productList = ArrayList(checkedItems)
-                        val bundle = Bundle().apply {
-                            putString("userID", userID)
-                            putParcelableArrayList("checkedItems", productList)
-                        }
-                        totalSales = 0.0
-                        findNavController().navigate(
-                            R.id.action_nav_cart_to_nav_cardPayment,
-                            bundle
-                        )
-                    }
-                    builder.setNegativeButton("Cancel") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    val dialog = builder.create()
-                    dialog.show()
-                }
-
-                R.id.radioCashDelivery -> {
-                    showConfirmationDialog()
-                }
-            }
+            handleBuyNow()
         }
+    }
+
+    private fun updateTotalSales() {
+        binding.tvShowTotalSales.text = String.format("RM %.2f", totalSales)
+    }
+
+    private fun handleBuyNow() {
+        val selectedPaymentMethod = binding.radioPayment.checkedRadioButtonId
+        when (selectedPaymentMethod) {
+            R.id.radioCard -> showCardPaymentConfirmationDialog()
+            R.id.radioCashDelivery -> showCashDeliveryConfirmationDialog()
+        }
+    }
+
+    private fun showCardPaymentConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirmation")
+            .setMessage("Confirm proceed payment with card?")
+            .setPositiveButton("Confirm") { _, _ ->
+                proceedWithPayment("Card Payment")
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun showCashDeliveryConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirmation")
+            .setMessage("Confirm pay at Meetup?")
+            .setPositiveButton("Confirm") { _, _ ->
+                proceedWithPayment("Pay at Meetup")
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun proceedWithPayment(paymentMethod: String) {
+        for (product in checkedItems) {
+            product.paymentMethod = paymentMethod
+            product.paymentDate = getCurrentTimestamp()
+            product.buyerID = userID.toString()
+            viewModel.deleteCartItem(userID!!, product)
+            productViewModel.updateOrderItem(product)
+        }
+        checkedItems.clear()
+        productAdapter.notifyDataSetChanged()
+        totalSales = 0.0
+        Toast.makeText(requireContext(), "Successfully purchased", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(R.id.action_nav_shoppingCart_to_nav_buyerToPickUp)
+    }
+
+    private fun getCurrentTimestamp(): String {
+        val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+        return sdf.format(Date())
     }
 
     private fun onUpdateProduct(product: SellerProduct) {
@@ -131,43 +165,5 @@ class ShoppingCartFragment : Fragment() {
             "Product ${product.productName} deleted",
             Toast.LENGTH_SHORT
         ).show()
-    }
-
-    private fun showConfirmationDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirmation")
-            .setMessage("Confirm pay at Meetup?")
-            .setPositiveButton("Confirm") { dialog, which ->
-                for (product in checkedItems) {
-                    if (userID != null) {
-                        product.paymentMethod = "Pay at Meetup"
-                        product.paymentDate = getCurrentTimestamp()
-                        product.buyerID = userID.toString()
-                        viewModel.deleteCartItem(userID!!, product)
-                        productViewModel.updateOrderItem(product)
-                    }
-                }
-
-                // Clear the checked items list
-                checkedItems.clear()
-
-                // Notify the adapter that the dataset has changed
-                productAdapter.notifyDataSetChanged()
-
-                // Refresh the total
-                totalSales = 0.0
-
-                Toast.makeText(requireContext(), "Successfully purchase", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_nav_shoppingCart_to_nav_buyerToPickUp)
-            }
-            .setNegativeButton("Cancel") { dialog, which ->
-                dialog.dismiss()
-            }
-            .show()
-    }
-
-    private fun getCurrentTimestamp(): String {
-        val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
-        return sdf.format(Date())
     }
 }

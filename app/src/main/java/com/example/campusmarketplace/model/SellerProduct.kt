@@ -19,7 +19,7 @@ data class SellerProduct(
     var buyerID:String = "",
     var received:Boolean = false,
     var delivered:Boolean = false,
-    var rating:Double = 0.00,
+    var rating:Boolean = false,
     var productImage: String=""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -37,7 +37,7 @@ data class SellerProduct(
         parcel.readString() ?: "",
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
-        parcel.readDouble(),
+        parcel.readByte() != 0.toByte(),
         parcel.readString() ?: ""
     )
 
@@ -56,7 +56,7 @@ data class SellerProduct(
         parcel.writeString(buyerID)
         parcel.writeByte(if (received) 1 else 0)
         parcel.writeByte(if (delivered) 1 else 0)
-        parcel.writeDouble(rating)
+        parcel.writeByte(if (rating) 1 else 0)
         parcel.writeString(productImage)
     }
 

@@ -61,10 +61,6 @@ class SellerToDeliverFragment : Fragment() {
                 // Update RecyclerView adapter with the new list of products
                 sellerOrderProductLstAdapter.setProducts(products)
             })
-
-
-
-
         }
     }
 }

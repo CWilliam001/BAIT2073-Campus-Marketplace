@@ -4,6 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.BuyerProductLstItemViewBinding
@@ -13,7 +16,9 @@ import com.squareup.picasso.Picasso
 
 class BuyerProductListAdapter internal constructor(
     private val context: Context,
-    private val destinationId: Int
+    private val destinationId: Int,
+    private val userViewModel: UserViewModel,
+    private val lifecycleOwner: LifecycleOwner
 ): RecyclerView.Adapter<BuyerProductListAdapter.BuyerProductListViewHolder>() {
     private var buyerProductLst = emptyList<SellerProduct>()
 
@@ -22,6 +27,11 @@ class BuyerProductListAdapter internal constructor(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(current: SellerProduct) {
+            val ratingLiveData = userViewModel.getSellerRating(current.sellerID!!)
+            ratingLiveData.observe(lifecycleOwner) { averageRating ->
+                binding.sellerRating.text = String.format("%.2f ⭐️", averageRating)
+            }
+
             binding.buyerProductLstName.text = current.productName
             binding.buyerProductLstPrice.text = String.format("RM %s",current.productPrice)
             binding.buyerProductLstCondition.text = current.productCondition

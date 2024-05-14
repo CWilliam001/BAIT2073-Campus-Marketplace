@@ -35,7 +35,7 @@ class BuyerToPickUpFragment : Fragment() {
         }
 
         binding.btnUp.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.action_nav_pickUp_to_nav_home)
         }
 
 
@@ -61,8 +61,6 @@ class BuyerToPickUpFragment : Fragment() {
 
             // Call function to retrieve user likes
             buyerToPickUpViewModel.retrieveBuyerToPickUpProducts(userID)
-
-
         }
     }
 }

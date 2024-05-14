@@ -13,11 +13,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.DialogRateProductBinding
 import com.example.campusmarketplace.databinding.FragmentBuyerBoughtProductDetailsBinding
 import com.example.campusmarketplace.model.SellerProduct
+import com.example.campusmarketplace.model.User
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
@@ -28,6 +30,11 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
     private val viewModel: SellerProductViewModel by lazy {
         ViewModelProvider(this).get(SellerProductViewModel::class.java)
     }
+
+    private val userViewModel: UserViewModel by lazy {
+        ViewModelProvider(this).get(UserViewModel::class.java)
+    }
+
     private lateinit var product: SellerProduct
     private lateinit var sellerID: String
 
@@ -44,12 +51,18 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
 
         val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
+
         arguments?.let { bundle ->
             product = bundle.getParcelable("sellerProduct")!!
             product?.let { product ->
                 productImageUri = Uri.parse(product.productImage)
             }
         }
+
+        val sellerRatingLiveData = userViewModel.getSellerRating(product.sellerID!!)
+        sellerRatingLiveData.observe(viewLifecycleOwner, Observer { averageRating ->
+            binding.tvSellerRating.text = String.format("%.2f ⭐️", averageRating)
+        })
 
         val firestore = FirebaseFirestore.getInstance()
         val userDocRef = firestore.collection("users").document(product.sellerID!!)
@@ -185,6 +198,8 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
                         "Successfully received the product",
                         Toast.LENGTH_SHORT * 3
                     ).show()
+
+                    findNavController().popBackStack()
                 }
                 builder.setNegativeButton("No") { dialog, _ ->
                     dialog.dismiss()
@@ -210,6 +225,9 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
                 // Process the rating as needed
                 // For example, you can send it to a server or save it locally
                 Toast.makeText(requireContext(), "You rated $rating stars", Toast.LENGTH_SHORT).show()
+                userViewModel.addRating(product.sellerID, rating)
+                product.rating = true
+                viewModel.updateOrderItem(product)
                 dialog.dismiss()
             }
 

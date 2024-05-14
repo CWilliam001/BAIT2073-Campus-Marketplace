@@ -95,7 +95,7 @@ class SellerToPickUpProductDetails : Fragment() {
             findNavController().popBackStack()
         }
 
-        if(product.received){
+        if(product.delivered){
             binding.btnCompleted.visibility = View.GONE
             val params = binding.btnChatNow.layoutParams as ConstraintLayout.LayoutParams
             params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
@@ -185,6 +185,7 @@ class SellerToPickUpProductDetails : Fragment() {
                         Toast.LENGTH_SHORT * 3
                     ).show()
 
+                    findNavController().navigateUp()
                 }
                 builder.setNegativeButton("No") { dialog, _ ->
                     dialog.dismiss()

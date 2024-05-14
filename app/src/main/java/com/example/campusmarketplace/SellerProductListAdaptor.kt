@@ -94,8 +94,8 @@ fun enableSwipeToDelete(recyclerView: RecyclerView, storageReference: StorageRef
 
             // Show confirmation dialog before deletion
             val builder = AlertDialog.Builder(recyclerView.context)
-            builder.setTitle("Deletion Confirmation")
-                .setMessage("Are you sure you want to delete this product?")
+            builder.setTitle("Confirmation")
+                .setMessage("Confirm remove this product?")
                 .setPositiveButton("Delete") { dialog, which ->
                     // Remove the product from the list
                     val updatedList = products.toMutableList()

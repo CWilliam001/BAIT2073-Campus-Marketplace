@@ -81,27 +81,27 @@ class CardPaymentFragment : Fragment() {
 
     private fun validateInput(): Boolean {
         if (binding.etHolderName.text.isEmpty()) {
-            binding.etHolderName.setError(getString(R.string.required_input))
+            binding.etHolderName.error = getString(R.string.required_input)
             return false
         }
 
         if (binding.etCardNumber.text.isEmpty()) {
-            binding.etCardNumber.setError(getString(R.string.required_input))
+            binding.etCardNumber.error = getString(R.string.required_input)
             return false
         }
 
         if (binding.etCardNumber.text.length != 16) {
-            binding.etCardNumber.setError(getString(R.string.card_number_must_be_16_digit))
+            binding.etCardNumber.error = getString(R.string.card_number_must_be_16_digit)
             return false
         }
 
         if (binding.etCvv.text.isEmpty()) {
-            binding.etCvv.setError(getString(R.string.required_input))
+            binding.etCvv.error = getString(R.string.required_input)
             return false
         }
 
         if (binding.etCvv.text.length != 3) {
-            binding.etCvv.setError(getString(R.string.cvv_must_be_3_digit))
+            binding.etCvv.error = getString(R.string.cvv_must_be_3_digit)
             return false
         }
         return true
@@ -122,7 +122,8 @@ class CardPaymentFragment : Fragment() {
                     }
                 }
 
-                Toast.makeText(requireContext(), "Successfully purchased", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Successfully purchased", Toast.LENGTH_SHORT)
+                    .show()
                 findNavController().navigate(R.id.action_nav_cardPayment_to_nav_buyerToPickUp)
             }
             .setNegativeButton("No") { dialog, which ->

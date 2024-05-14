@@ -32,14 +32,15 @@ class SellerAllProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentSellerAllProductBinding.inflate(layoutInflater,container,false)
+        binding = FragmentSellerAllProductBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
 
         recyclerView = binding.productUploadRecyclerview // Initialize recyclerView from the binding
@@ -57,7 +58,6 @@ class SellerAllProductFragment : Fragment() {
 
         // Call retrieveAllItems with sellerID parameter
         viewModel.retrieveAllItems(userID.toString())
-        //        viewModel.retrieveAllItems()
         viewModel.productLiveData.observe(viewLifecycleOwner) { productList ->
             productAdapter.setProducts(productList)
         }
@@ -67,10 +67,4 @@ class SellerAllProductFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
-
-//    private fun onUpdateProduct(product: SellerProduct) {
-//        // Update the UI or perform any other action after the product is deleted
-//        // For example, you can show a toast message
-//        Toast.makeText(requireContext(), "Product ${product.productName} deleted", Toast.LENGTH_SHORT).show()
-//    }
 }

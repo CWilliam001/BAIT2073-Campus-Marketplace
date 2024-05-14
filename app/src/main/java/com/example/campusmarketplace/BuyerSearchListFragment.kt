@@ -19,6 +19,9 @@ class BuyerSearchListFragment : Fragment() {
     private lateinit var buyerProductLstAdapter: BuyerProductListAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var productViewModel: SellerProductViewModel
+    private val userViewModel: UserViewModel by lazy {
+        ViewModelProvider(this).get(UserViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +47,7 @@ class BuyerSearchListFragment : Fragment() {
 
         // Initialize RecyclerView and Adapter
         recyclerView = binding.buyerProductLtRecyclerview
-        buyerProductLstAdapter = BuyerProductListAdapter(requireContext(), R.id.action_nav_search_product_to_productDetails)
+        buyerProductLstAdapter = BuyerProductListAdapter(requireContext(), R.id.action_nav_search_product_to_productDetails, userViewModel, viewLifecycleOwner)
         recyclerView.adapter = buyerProductLstAdapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 

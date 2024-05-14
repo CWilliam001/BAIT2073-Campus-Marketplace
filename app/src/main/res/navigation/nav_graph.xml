@@ -334,6 +334,9 @@
         <action
             android:id="@+id/action_nav_pickUp_to_nav_orderDetail"
             app:destination="@id/nav_buyerOrderDetails" />
+        <action
+            android:id="@+id/action_nav_pickUp_to_nav_home"
+            app:destination="@id/nav_home" />
     </fragment>
 
     <fragment
