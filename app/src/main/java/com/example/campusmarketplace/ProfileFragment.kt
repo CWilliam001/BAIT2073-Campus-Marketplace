@@ -1,5 +1,6 @@
 package com.example.campusmarketplace
 
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
@@ -73,8 +74,19 @@ class ProfileFragment : Fragment() {
         }
 
         binding.logoutBtn.setOnClickListener {
-            sharedPreferences.edit().remove("userID").apply()
-            findNavController().navigate(R.id.nav_login)
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Confirmation")
+            builder.setMessage("Are you sure you want to log out?")
+            builder.setPositiveButton("Logout") { _, _ ->
+                // Perform logout action
+                sharedPreferences.edit().remove("userID").apply()
+                findNavController().navigate(R.id.nav_login)
+            }
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            val dialog = builder.create()
+            dialog.show()
         }
 
     }

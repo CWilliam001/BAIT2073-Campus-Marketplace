@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import androidx.core.view.setMargins
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentSellerToPickUpProductDetailsBinding
@@ -68,14 +69,23 @@ class SellerToPickUpProductDetails : Fragment() {
             }
         }
 
-        if (product.received && product.delivered) {
-            binding.btnCompleted.isVisible = false
+        if (product.delivered) {
+            binding.btnCompleted.visibility = View.GONE
             val params = binding.btnChatNow.layoutParams as ConstraintLayout.LayoutParams
             params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
             params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
             params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-            params.marginStart = 0
+            params.setMargins(70)
+            params.width = 0
             binding.btnChatNow.layoutParams = params
+
+            if (product.received) {
+                // Additional logic when both delivered and received
+                binding.tvCompleteTimeLabel.visibility = View.VISIBLE
+                binding.tvCompleteTime.visibility = View.VISIBLE
+            }
+        } else {
+            binding.btnCompleted.visibility = View.VISIBLE
         }
 
         // set the retrieved values to textView
@@ -93,18 +103,6 @@ class SellerToPickUpProductDetails : Fragment() {
         binding.btnUp.setOnClickListener {
             // Perform up navigation
             findNavController().popBackStack()
-        }
-
-        if (product.delivered) {
-            binding.btnCompleted.visibility = View.GONE
-            val params = binding.btnChatNow.layoutParams as ConstraintLayout.LayoutParams
-            params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
-            params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-            params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-            params.marginStart = 0
-            binding.btnChatNow.layoutParams = params
-        } else {
-            binding.btnCompleted.visibility = View.VISIBLE
         }
 
         binding.btnChatNow.setOnClickListener {

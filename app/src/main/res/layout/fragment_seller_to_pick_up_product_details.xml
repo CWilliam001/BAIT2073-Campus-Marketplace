@@ -279,7 +279,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="Payment Time"
+                    android:text="Order Placed Time"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -290,11 +290,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
-                    android:text="Payment Time"
+                    android:text="Order Placed Time"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_paymentTimeLabel"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_paymentTimeLabel" />
+
+                <TextView
+                    android:id="@+id/tv_completeTimeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Completed Time"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_paymentTimeLabel" />
+
+                <TextView
+                    android:id="@+id/tv_completeTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="Completed Time"
+                    android:textColor="@color/black"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_completeTimeLabel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_completeTimeLabel" />
 
                 <Button
                     android:id="@+id/btn_chatNow"

@@ -51,7 +51,7 @@ class BuyerLikeAdapter internal constructor(
                         putParcelable("buyerProduct", current)
                     }
                     val navController = Navigation.findNavController(binding.root)
-                    navController.navigate(R.id.action_nav_cart_to_nav_productDetail, bundle)
+                    navController.navigate(R.id.action_nav_like_to_nav_productDetail, bundle)
                 }
             }
         }

@@ -53,20 +53,22 @@ class SellerEditProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentSellerEditProductBinding.inflate(layoutInflater,container,false)
+        binding = FragmentSellerEditProductBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         storageReference = FirebaseStorage.getInstance().reference
 
-        getPhotoPicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                imageStorageURL = uri
-                Picasso.get().load(uri).into(binding.ivProductImageUpload)
+        getPhotoPicker =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                uri?.let {
+                    imageStorageURL = uri
+                    Picasso.get().load(uri).into(binding.ivProductImageUpload)
+                }
             }
-        }
 
         categorySpinner = binding.spCategory
         conditionSpinner = binding.spProductCondition
@@ -86,10 +88,10 @@ class SellerEditProductFragment : Fragment() {
             productCondition = bundle.getString("productCondition", "")
             productUsageDuration = bundle.getString("productUsageDuration", "")
             uploadTime = bundle.getString("uploadTime", "")
-            sellerID = bundle.getString("sellerID"," ")
+            sellerID = bundle.getString("sellerID", " ")
 
             // Retrieve the image URI
-            profileImageUrl= bundle.getString("productImage", "")
+            profileImageUrl = bundle.getString("productImage", "")
         }
         // Set the retrieved values to the EditText views
         binding.etProductName.setText(productName)
@@ -110,12 +112,10 @@ class SellerEditProductFragment : Fragment() {
         }
 
         binding.btnEdit.setOnClickListener {
-            if(validateInput()){
+            if (validateInput()) {
                 showConfirmationDialog()
             }
         }
-
-
 
         binding.btnUp.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
@@ -134,7 +134,8 @@ class SellerEditProductFragment : Fragment() {
     }
 
     private fun editProduct() {
-        uploadTime = getCurrentTimestamp() // Ensure getCurrentTimestamp() provides the correct format
+        uploadTime =
+            getCurrentTimestamp() // Ensure getCurrentTimestamp() provides the correct format
         val productId = arguments?.getString("productID") ?: ""
         val productName = binding.etProductName.text.toString()
         val productDescription = binding.etProductDescription.text.toString()
@@ -167,27 +168,40 @@ class SellerEditProductFragment : Fragment() {
                             updateData["productImage"] = imageUrl
 
                             // Call the ViewModel to update the product
-                            val viewModel: SellerProductViewModel by lazy {
-                                ViewModelProvider(this).get(SellerProductViewModel::class.java)
-                            }
-                            viewModel.updateItem(productId, updateData)
-
+                            updateProduct(productId, updateData)
+                            showToastAndNavigateBack("Successfully updated product")
                         }
                     }
                     .addOnFailureListener { e ->
                         Log.e("EditProduct", "Failed to upload new image to Storage: ${e.message}")
+                        showToast("Failed to update product")
                         // Handle image upload failure (e.g., show error to user)
                     }
             } else {
                 // Update without profile image changes
-                val viewModel: SellerProductViewModel by lazy {
-                    ViewModelProvider(this).get(SellerProductViewModel::class.java)
-                }
-                viewModel.updateItem(productId, updateData)
+                updateProduct(productId, updateData)
+                showToastAndNavigateBack("Successfully updated product")
             }
-            Toast.makeText(requireContext(), "Successfully updated product", Toast.LENGTH_SHORT * 3).show()
-            // Navigate Back
-            findNavController().popBackStack()
+
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showToastAndNavigateBack(message: String) {
+        showToast(message)
+        // Navigate Back
+        findNavController().popBackStack()
+    }
+
+    private fun updateProduct(productId: String, updateData: HashMap<String, Any>) {
+        if (requireActivity() != null) {
+            val viewModel: SellerProductViewModel by lazy {
+                ViewModelProvider(requireActivity()).get(SellerProductViewModel::class.java)
+            }
+            viewModel.updateItem(productId, updateData)
         }
     }
 
@@ -196,6 +210,7 @@ class SellerEditProductFragment : Fragment() {
         return sdf.format(Date())
 
     }
+
     private fun setSpinnerSelection(spinner: Spinner, value: String?) {
         val adapter = spinner.adapter as ArrayAdapter<String>
         val position = adapter.getPosition(value)
@@ -204,21 +219,24 @@ class SellerEditProductFragment : Fragment() {
 
     private fun setupCategorySpinner() {
         val categories = resources.getStringArray(R.array.productCategory)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
+        val adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         categorySpinner.adapter = adapter
     }
 
     private fun setupConditionSpinner() {
         val conditions = resources.getStringArray(R.array.productCondition)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, conditions)
+        val adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, conditions)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         conditionSpinner.adapter = adapter
     }
 
     private fun setupUsageDurationSpinner() {
         val durations = resources.getStringArray(R.array.usageDuration)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, durations)
+        val adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, durations)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         usageDurationSpinner.adapter = adapter
     }
@@ -230,14 +248,15 @@ class SellerEditProductFragment : Fragment() {
 
         // Check if any field is empty
         if (profileImageUrl == null) {
-            Toast.makeText(requireContext(), "Please upload image of product", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Please upload image of product", Toast.LENGTH_SHORT)
+                .show()
             return false
         }
-        if(productName.isEmpty()){
+        if (productName.isEmpty()) {
             binding.etProductName.error = getString(R.string.required_input)
             return false
         }
-        if(productDescription.isEmpty()){
+        if (productDescription.isEmpty()) {
             binding.etProductDescription.error = getString(R.string.required_input)
             return false
         }

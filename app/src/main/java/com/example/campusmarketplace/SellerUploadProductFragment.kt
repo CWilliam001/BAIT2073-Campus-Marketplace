@@ -101,6 +101,7 @@ class SellerUploadProductFragment : Fragment() {
             false,
             false,
             false,
+            "",
             imageUri.toString() // Add image URI to product,
 
         )

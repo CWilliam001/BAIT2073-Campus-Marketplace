@@ -1,5 +1,6 @@
 package com.example.campusmarketplace
 
+import android.app.AlertDialog
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -201,8 +202,18 @@ class EditProfileFragment : Fragment() {
         }
 
         binding.btnUp.setOnClickListener {
-            // Perform up navigation
-            findNavController().navigateUp()
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Confirmation")
+            builder.setMessage("Discard this changes?")
+            builder.setPositiveButton("Discard") { _, _ ->
+                // Perform up navigation
+                findNavController().navigateUp()
+            }
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 

@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import androidx.core.view.setMargins
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -23,6 +24,9 @@ import com.example.campusmarketplace.model.User
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class BuyerBoughtProductDetailsFragment : Fragment() {
     private lateinit var binding: FragmentBuyerBoughtProductDetailsBinding
@@ -84,14 +88,17 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
         if(product.received && product.delivered){
             binding.btnReceived.visibility = View.GONE
             binding.btnRate.visibility = View.VISIBLE
+            binding.tvCompleteTimeLabel.visibility = View.VISIBLE
+            binding.tvCompleteTime.visibility = View.VISIBLE
         }
 
-        if(product.rating.toString().isNullOrEmpty()){
+        if(product.rating){
+            binding.btnRate.visibility = View.GONE
             val params = binding.btnChatNow.layoutParams as ConstraintLayout.LayoutParams
             params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
             params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
             params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-            params.marginStart = 0
+            params.setMargins(70)
             params.width = 0
             binding.btnChatNow.layoutParams = params
         }
@@ -190,6 +197,9 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
                 builder.setTitle("Confirmation")
                 builder.setMessage("Confirm received the product?")
                 builder.setPositiveButton("Yes") { _, _ ->
+                    if(product.delivered == true){
+                        product.complete = getCurrentTimestamp()
+                    }
                     product.received = true
                     viewModel.updateOrderItem(product)
 
@@ -229,6 +239,15 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
                 product.rating = true
                 viewModel.updateOrderItem(product)
                 dialog.dismiss()
+
+                binding.btnRate.visibility = View.GONE
+                val params = binding.btnChatNow.layoutParams as ConstraintLayout.LayoutParams
+                params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+                params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+                params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+                params.setMargins(70)
+                params.width = 0
+                binding.btnChatNow.layoutParams = params
             }
 
             builder.setNegativeButton("Cancel") { dialog, _ ->
@@ -238,5 +257,10 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
             val dialog = builder.create()
             dialog.show()
         }
+    }
+
+    private fun getCurrentTimestamp(): String {
+        val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+        return sdf.format(Date())
     }
 }
