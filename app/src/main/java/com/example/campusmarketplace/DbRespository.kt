@@ -167,7 +167,7 @@ class DbRepository {
         sellerID: String
     ) {
         // Query to get products ordered by uploadTime in descending order
-        val query = productReference.orderByChild("uploadTime").limitToLast(10)
+        val query = productReference.orderByChild("uploadTime").limitToLast(20)
 
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
