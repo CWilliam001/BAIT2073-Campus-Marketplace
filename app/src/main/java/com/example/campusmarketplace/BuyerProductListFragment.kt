@@ -1,5 +1,6 @@
 package com.example.campusmarketplace
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,12 +10,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.core.view.size
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentBuyerProductListBinding
+import com.example.campusmarketplace.model.SellerProduct
 
 class BuyerProductListFragment : Fragment() {
     private lateinit var binding: FragmentBuyerProductListBinding
@@ -35,10 +39,17 @@ class BuyerProductListFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("userID", null)
+
         recyclerView = binding.buyerProductLtRecyclerview
         buyerProductLstAdapter = BuyerProductListAdapter(requireContext(), R.id.action_navBuyerProductList_to_navBuyerProductDetail, userViewModel, viewLifecycleOwner)
         recyclerView.adapter = buyerProductLstAdapter
-        recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+
+        binding.buyerProductLtRecyclerview.isVisible = false
+        binding.tvEmpty.visibility = View.VISIBLE
 
         // Initialize ViewModel
         productViewModel = ViewModelProvider(this).get(SellerProductViewModel::class.java)
@@ -46,25 +57,23 @@ class BuyerProductListFragment : Fragment() {
         // Retrieve category name passed from previous fragment
         val categoryName = arguments?.getString("productCategoryName")
 
-        productViewModel.productLiveData.observe(viewLifecycleOwner, { productList ->
+        productViewModel.productLiveData.observe(viewLifecycleOwner) { productList ->
             categoryName?.let { category ->
                 val filteredList = productList.filter { it.productCategory == category }
                 buyerProductLstAdapter.setBuyerProductLst(filteredList)
 
-//                if (buyerProductLstAdapter.itemCount == 0) {
-//                    Toast.makeText(requireContext(), "No products available in this category", Toast.LENGTH_SHORT).show()
-//                    Log.d("BuyerProductListAdapter", "No products available in this category")
-//                } else {
-//                    Toast.makeText(requireContext(), "Products loaded successfully", Toast.LENGTH_SHORT).show()
-//                }
-
-
+                if (buyerProductLstAdapter.itemCount != 0) {
+                    binding.buyerProductLtRecyclerview.isVisible = true
+                    binding.tvEmpty.visibility = View.GONE
+                }
             }
-        })
+        }
 
-        // Fetch products for the selected category
+        // Fetch products for the selected category and seller ID
         categoryName?.let {
-            productViewModel.getProductsByCategory(it)
+            userID?.let { seller ->
+                productViewModel.getProductsByCategory(it, seller)
+            }
         }
 
         binding.btnUp.setOnClickListener {
@@ -72,5 +81,4 @@ class BuyerProductListFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
-
 }

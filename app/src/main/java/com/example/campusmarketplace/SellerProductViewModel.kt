@@ -14,7 +14,7 @@ class SellerProductViewModel : ViewModel() {
     val productLiveData: LiveData<List<SellerProduct>> = _productLiveData
 
     fun retrieveAllItems(sellerID: String) {
-    repository.retrieveAllProductItem(_productLiveData, sellerID)
+        repository.retrieveAllProductItem(_productLiveData, sellerID)
     }
 
 
@@ -23,7 +23,6 @@ class SellerProductViewModel : ViewModel() {
             repository.update(product,imageUri)
         }
     }
-
 
     fun insertItem(product: SellerProduct, imageUri: Uri?) {
         viewModelScope.launch {
@@ -36,21 +35,21 @@ class SellerProductViewModel : ViewModel() {
             repository.delete(product)
         }
     }
-    fun getProductsByCategory(categoryName: String) {
-        repository.getProductsByCategory(_productLiveData, categoryName)
+
+    fun getProductsByCategory(categoryName: String, sellerID: String) {
+        repository.getProductsByCategory(_productLiveData, categoryName,sellerID)
     }
 
-
-    fun retrieveProductsByUploadTime() {
-        repository.retrieveProductsByUploadTime(_productLiveData)
+    fun retrieveProductsByUploadTime(sellerID:String) {
+        repository.retrieveProductsByUploadTime(_productLiveData,sellerID)
     }
 
-    fun retrieveProductsByProductName(productName:String) {
-        repository.retrieveProductByName(_productLiveData,productName)
+    fun retrieveProductsByProductName(productName:String,sellerID:String) {
+        repository.retrieveProductByName(_productLiveData,productName,sellerID)
     }
 
-    fun retrieveProductFilter(productName:String,productCategory:String,productCondition:String,productUsageDuration:String) {
-        repository.retrieveProductFilter(_productLiveData,productName,productCategory,productCondition,productUsageDuration)
+    fun retrieveProductFilter(productName:String,productCategory:String,productCondition:String,productUsageDuration:String,sellerID:String) {
+        repository.retrieveProductFilter(_productLiveData,productName,productCategory,productCondition,productUsageDuration,sellerID)
     }
 
     fun updateOrderItem(product: SellerProduct) {

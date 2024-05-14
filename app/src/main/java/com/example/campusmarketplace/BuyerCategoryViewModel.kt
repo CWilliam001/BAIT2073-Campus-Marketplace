@@ -10,7 +10,7 @@ class BuyerCategoryViewModel: ViewModel() {
     private val _productCategoryLiveData = MutableLiveData<List<BuyerCategory>>()
     val productLiveData: LiveData<List<BuyerCategory>> = _productCategoryLiveData
 
-    fun retrieveAllItems() {
-        repository.retrieveAllProductItem(_productCategoryLiveData)
+    fun retrieveAllItems(sellerID:String) {
+        repository.retrieveAllProductItem(_productCategoryLiveData,sellerID)
     }
 }

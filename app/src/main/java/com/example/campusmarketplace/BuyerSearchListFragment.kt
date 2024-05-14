@@ -1,5 +1,6 @@
 package com.example.campusmarketplace
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -39,6 +40,9 @@ class BuyerSearchListFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("userID", null)
+
         val productName = arguments?.getString("userInput")
         val productCategory = arguments?.getString("productCategory")
         val productCondition = arguments?.getString("productCondition")
@@ -65,9 +69,9 @@ class BuyerSearchListFragment : Fragment() {
             (productUsageDuration.isNullOrEmpty() || productUsageDuration.trim() == "")
         ) {
             // Call the function from ViewModel to retrieve products
-            productViewModel.retrieveProductsByProductName(productName.toString())
+            productViewModel.retrieveProductsByProductName(productName.toString(),userID.toString())
         }else{
-            productViewModel.retrieveProductFilter(productName.toString(),productCategory.toString(),productCondition.toString(),productUsageDuration.toString())
+            productViewModel.retrieveProductFilter(productName.toString(),productCategory.toString(),productCondition.toString(),productUsageDuration.toString(),userID.toString())
         }
 
     }

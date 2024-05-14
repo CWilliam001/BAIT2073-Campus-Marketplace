@@ -131,7 +131,7 @@ class HomeFragment : Fragment() {
                     })
 
                     // Call the function from ViewModel to retrieve products
-                    productViewModel.retrieveProductsByUploadTime()
+                    productViewModel.retrieveProductsByUploadTime(userID)
 
                 }
             }

@@ -32,14 +32,12 @@ class BuyerSearchFilterFragment : Fragment() {
         binding.searchBtnSearchFilter.setOnClickListener {
             val productCategory = binding.searchSpCategories.selectedItem.toString()
             val productCondition = binding.searchSpCondition.selectedItem.toString()
-            val productSellerRating = binding.searchSpCategories.selectedItem.toString()
             val productUsageDuration = binding.searchSpUsageDuration.selectedItem.toString()
 
             val bundle = Bundle()
             bundle.putString("productCategory", productCategory)
             bundle.putString("productCondition", productCondition)
             bundle.putString("productUsageDuration", productUsageDuration)
-            // seller ....
             findNavController().navigate(R.id.action_nav_filterPage_to_searchPage, bundle)
         }
 

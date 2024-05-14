@@ -1,5 +1,6 @@
 package com.example.campusmarketplace
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -31,14 +32,17 @@ override fun onCreateView(
 }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = binding.BuyerCategoryRecyclerview // Initialize recyclerView from the binding
 
+        recyclerView = binding.BuyerCategoryRecyclerview
         buyerCategoryAdapter = BuyerCategoryAdapter(requireContext())
         recyclerView.adapter = buyerCategoryAdapter
-
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("userID", null)
 
-        buyerCategoryViewModel.retrieveAllItems()
+
+        buyerCategoryViewModel.retrieveAllItems(userID.toString())
         buyerCategoryViewModel.productLiveData.observe(viewLifecycleOwner) { productList ->
             buyerCategoryAdapter.setProductCategories(productList)
         }
