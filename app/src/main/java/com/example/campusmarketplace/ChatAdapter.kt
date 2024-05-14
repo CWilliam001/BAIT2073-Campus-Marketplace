@@ -1,47 +1,30 @@
 package com.example.campusmarketplace
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentChatItemBinding
 import com.example.campusmarketplace.model.Chat
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ChatAdapter internal constructor (
+class ChatAdapter internal constructor(
     private val context: Context,
-    private val userID: String) :
+    private val userID: String
+) :
     RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
-        private var chat = emptyList<Chat>()
+    private var chat = emptyList<Chat>()
 
     inner class ChatViewHolder(private val binding: FragmentChatItemBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(context: Context, current: Chat, userID: String) {
 
             binding.messageTextView.text = current.content
-
-//            Log.d("ChatAdapter", "Sender ID: ${current.senderId}")
-//            Log.d("ChatAdapter", "User ID: $userID")
-
-            // Check if the message is sended by current user then modify the design of UI
-//            if (current.senderId == userID) {
-//                val layoutParams = binding.messageTextView.layoutParams as ConstraintLayout.LayoutParams
-//                layoutParams.startToStart = ConstraintLayout.LayoutParams.UNSET
-//                layoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-//                binding.messageTextView.layoutParams = layoutParams
-//                binding.messageTextView.setTextColor(ContextCompat.getColor(context, R.color.white))
-//                binding.messageTextView.setBackgroundResource(R.drawable.rounded_rectangle_primary)
-//            }
 
             if (current.senderId != null) {
                 val firestore = FirebaseFirestore.getInstance()
@@ -50,15 +33,18 @@ class ChatAdapter internal constructor (
                     if (documentSnapshot != null) {
                         binding.nameTextView.text = documentSnapshot.getString("name")
                         val profileImageUrl = documentSnapshot.getString("profileImageUrl")
-                        Picasso.get().load(profileImageUrl).transform(RoundedTransformation()).into(binding.profileImageView)
+                        Picasso.get().load(profileImageUrl).transform(RoundedTransformation())
+                            .into(binding.profileImageView)
                     }
                 }
             }
             binding.timeTextView.text = convertTimestampToDateTime(current.timestamp)
         }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
-        val binding = FragmentChatItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            FragmentChatItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ChatViewHolder(binding)
     }
 

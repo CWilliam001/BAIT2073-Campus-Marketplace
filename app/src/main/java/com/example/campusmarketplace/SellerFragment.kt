@@ -1,6 +1,5 @@
 package com.example.campusmarketplace
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,7 +33,7 @@ class SellerFragment : Fragment() {
             findNavController().navigate(R.id.action_nav_seller_to_nav_sellerSalesSummary)
         }
 
-        binding.sellerIbOrders.setOnClickListener{
+        binding.sellerIbOrders.setOnClickListener {
             findNavController().navigate(R.id.action_nav_seller_to_nav_toDeliver)
         }
     }

@@ -1,18 +1,15 @@
 package com.example.campusmarketplace
 
 import android.app.AlertDialog
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isVisible
 import androidx.core.view.setMargins
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -21,6 +18,9 @@ import com.example.campusmarketplace.model.SellerProduct
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class SellerToPickUpProductDetails : Fragment() {
     private lateinit var binding: FragmentSellerToPickUpProductDetailsBinding
@@ -75,6 +75,7 @@ class SellerToPickUpProductDetails : Fragment() {
             params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
             params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
             params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+            params.marginStart = 0
             params.setMargins(70)
             params.width = 0
             binding.btnChatNow.layoutParams = params
@@ -99,7 +100,7 @@ class SellerToPickUpProductDetails : Fragment() {
         binding.tvDescription.text = product.productDescription
         binding.tvPayment.text = product.paymentMethod
         binding.tvPaymentTime.text = product.paymentDate
-
+        binding.tvCompleteTime.text = product.complete
         binding.btnUp.setOnClickListener {
             // Perform up navigation
             findNavController().popBackStack()
@@ -186,6 +187,9 @@ class SellerToPickUpProductDetails : Fragment() {
                 builder.setTitle("Confirmation")
                 builder.setMessage("Confirm delivered the product?")
                 builder.setPositiveButton("Yes") { _, _ ->
+                    if (product.received == true) {
+                        product.complete = getCurrentTimestamp()
+                    }
                     product.delivered = true
                     viewModel.updateOrderItem(product)
 
@@ -209,5 +213,10 @@ class SellerToPickUpProductDetails : Fragment() {
             // Perform up navigation
             findNavController().navigateUp()
         }
+    }
+
+    private fun getCurrentTimestamp(): String {
+        val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+        return sdf.format(Date())
     }
 }

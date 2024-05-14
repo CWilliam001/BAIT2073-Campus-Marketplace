@@ -16,6 +16,7 @@ class SellerSalesSummary : Fragment() {
     private val userViewModel: UserViewModel by lazy {
         ViewModelProvider(this).get(UserViewModel::class.java)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,14 +28,14 @@ class SellerSalesSummary : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
 
         binding.btnUp.setOnClickListener {
             // Perform up navigation
             findNavController().navigateUp()
         }
-
 
 
         val sellerRatingLiveData = userViewModel.getSellerRating(userID!!)

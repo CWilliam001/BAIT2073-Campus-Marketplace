@@ -3,13 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_height="230dp"
         android:id="@+id/buyerProductLstCardView"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="8dp"
@@ -31,6 +27,7 @@
                 android:id="@+id/buyerProductLstImage"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
+                android:contentDescription="@string/productimage"
                 app:srcCompat="@drawable/ic_launcher_background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +35,7 @@
 
             <TextView
                 android:id="@+id/buyerProductLstName"
-                android:text="Product Name"
+                android:text="@string/product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -51,8 +48,8 @@
 
             <TextView
                 android:id="@+id/buyerProductLstPrice"
-                android:text="Price"
-                android:layout_width="80dp"
+                android:text="@string/price"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="11sp"
                 android:textColor="@color/blue_Dark"
@@ -62,8 +59,8 @@
                 app:layout_constraintTop_toBottomOf="@id/buyerProductLstName" />
             <TextView
                 android:id="@+id/buyerProductLstCondition"
-                android:text="Condition"
-                android:layout_width="80dp"
+                android:text="@string/condition"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="11sp"
                 android:textColor="@color/dark_Grey"
@@ -78,9 +75,8 @@
                 android:id="@+id/sellerPicture"
                 android:layout_width="30dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:contentDescription="@string/seller_image"
                 app:srcCompat="@drawable/ic_launcher_background"
-                app:layout_constraintTop_toBottomOf="@+id/buyerProductLstCondition"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/constraintLayoutProduct"/>
 
@@ -88,8 +84,8 @@
                 android:id="@+id/sellerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Seller Name"
-                android:textSize="11dp"
+                android:text="@string/seller_name"
+                android:textSize="11sp"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/black"
                 android:layout_marginStart="5dp"
@@ -102,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:text="4.0"
                 android:textColor="@color/black"
-                android:textSize="11dp"
+                android:textSize="11sp"
                 android:layout_marginStart="5dp"
                 app:layout_constraintStart_toEndOf="@+id/sellerPicture"
                 app:layout_constraintTop_toBottomOf="@+id/sellerName"/>

@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isVisible
 import androidx.core.view.setMargins
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +19,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.DialogRateProductBinding
 import com.example.campusmarketplace.databinding.FragmentBuyerBoughtProductDetailsBinding
 import com.example.campusmarketplace.model.SellerProduct
-import com.example.campusmarketplace.model.User
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
@@ -53,7 +51,8 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
 
         arguments?.let { bundle ->
@@ -85,19 +84,20 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
             }
         }
 
-        if(product.received && product.delivered){
+        if (product.received && product.delivered) {
             binding.btnReceived.visibility = View.GONE
             binding.btnRate.visibility = View.VISIBLE
             binding.tvCompleteTimeLabel.visibility = View.VISIBLE
             binding.tvCompleteTime.visibility = View.VISIBLE
         }
 
-        if(product.rating){
+        if (product.rating) {
             binding.btnRate.visibility = View.GONE
             val params = binding.btnChatNow.layoutParams as ConstraintLayout.LayoutParams
             params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
             params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
             params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+            params.marginStart = 0
             params.setMargins(70)
             params.width = 0
             binding.btnChatNow.layoutParams = params
@@ -115,6 +115,7 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
         binding.tvPayment.text = product.paymentMethod
         binding.tvPaymentTime.text = product.paymentDate
         sellerID = product.sellerID
+        binding.tvCompleteTime.text = product.complete
 
         binding.btnChatNow.setOnClickListener {
             if (userID != null) {
@@ -148,32 +149,52 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
                         Log.d(TAG, "SellerID: $sellerID")
                         Log.d(TAG, "Matched Seller ID = $matchedSellerID")
                         if (matchedSellerID) {
-                            Toast.makeText(requireContext(), "Chatting with Existed Seller: $sellerID", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Chatting with Existed Seller: $sellerID",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             val bundle = Bundle()
                             bundle.putSerializable("conversationID", conversationID)
-                            findNavController().navigate(R.id.action_nav_buyerOrderDetails_to_nav_chat, bundle)
+                            findNavController().navigate(
+                                R.id.action_nav_buyerOrderDetails_to_nav_chat,
+                                bundle
+                            )
                         } else {
-                            Toast.makeText(requireContext(), "Chatting with New Seller: $sellerID", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Chatting with New Seller: $sellerID",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             val userIDs = listOf(userID, sellerID)
                             val conversationData = hashMapOf("userIDs" to userIDs)
                             // Create conversation into firestore database
-                            conversationRef.add(conversationData).addOnSuccessListener { documentRef ->
-                                // Conversation document created, navigate to chat screen with conversation ID
-                                val conversationID = documentRef.id
+                            conversationRef.add(conversationData)
+                                .addOnSuccessListener { documentRef ->
+                                    // Conversation document created, navigate to chat screen with conversation ID
+                                    val conversationID = documentRef.id
 
-                                // Create conversation in realtime database
-                                val database = FirebaseDatabase.getInstance()
-                                val chatRef = database.getReference("chats")
-                                chatRef.child(conversationID).setValue(hashMapOf("messages" to null))
-                                    .addOnSuccessListener {
-                                        val bundle = Bundle()
-                                        bundle.putSerializable("conversationID", conversationID)
-                                        findNavController().navigate(R.id.action_nav_buyerOrderDetails_to_nav_chat, bundle)
-                                    }
-                                    .addOnFailureListener { e ->
-                                        Toast.makeText(requireContext(), "Failed to create conversation", Toast.LENGTH_SHORT).show()
-                                    }
-                            }
+                                    // Create conversation in realtime database
+                                    val database = FirebaseDatabase.getInstance()
+                                    val chatRef = database.getReference("chats")
+                                    chatRef.child(conversationID)
+                                        .setValue(hashMapOf("messages" to null))
+                                        .addOnSuccessListener {
+                                            val bundle = Bundle()
+                                            bundle.putSerializable("conversationID", conversationID)
+                                            findNavController().navigate(
+                                                R.id.action_nav_buyerOrderDetails_to_nav_chat,
+                                                bundle
+                                            )
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "Failed to create conversation",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                }
                         }
                     }
             }
@@ -186,18 +207,18 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
 
 
         binding.btnReceived.setOnClickListener {
-            if(product.received){
+            if (product.received) {
                 Toast.makeText(
                     requireContext(),
                     "Product confirmed received",
                     Toast.LENGTH_SHORT * 3
                 ).show()
-            }else{
+            } else {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle("Confirmation")
                 builder.setMessage("Confirm received the product?")
                 builder.setPositiveButton("Yes") { _, _ ->
-                    if(product.delivered == true){
+                    if (product.delivered == true) {
                         product.complete = getCurrentTimestamp()
                     }
                     product.received = true
@@ -234,7 +255,8 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
                 val rating = ratingBar.rating.toInt()
                 // Process the rating as needed
                 // For example, you can send it to a server or save it locally
-                Toast.makeText(requireContext(), "You rated $rating stars", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "You rated $rating stars", Toast.LENGTH_SHORT)
+                    .show()
                 userViewModel.addRating(product.sellerID, rating)
                 product.rating = true
                 viewModel.updateOrderItem(product)
@@ -245,6 +267,7 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
                 params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
                 params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
                 params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+                params.marginStart = 0
                 params.setMargins(70)
                 params.width = 0
                 binding.btnChatNow.layoutParams = params

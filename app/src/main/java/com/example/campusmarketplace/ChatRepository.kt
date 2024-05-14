@@ -1,20 +1,14 @@
 package com.example.campusmarketplace
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.campusmarketplace.model.Chat
-import com.google.android.play.integrity.internal.s
 import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.core.Tag
 import com.google.firebase.database.database
-import com.google.firebase.firestore.FirebaseFirestore
 
 class ChatRepository {
 

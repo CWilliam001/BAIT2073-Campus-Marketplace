@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -8,8 +7,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        >
+        android:fitsSystemWindows="true">
         <!-- here a tool bar -->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
@@ -19,19 +17,18 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:title="@string/app_name"
-                app:titleTextColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/blue_Dark"
-                />
+                app:title="@string/app_name"
+                app:titleTextColor="@color/white" />
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <fragment
                 android:id="@+id/nav_host_fragment"
@@ -39,9 +36,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:defaultNavHost="true"
-                app:navGraph="@navigation/nav_graph"
+                app:layout_constraintBottom_toTopOf="@id/bottom_nav_view"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/bottom_nav_view" />
+                app:navGraph="@navigation/nav_graph" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_nav_view"
@@ -55,7 +52,6 @@
                 app:menu="@menu/bottom_menu_list" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

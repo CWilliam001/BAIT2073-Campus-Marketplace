@@ -137,7 +137,7 @@
                     android:textColorHint="@color/dark_Grey"
                     android:textColor="@color/black"
                     android:textSize="17sp"
-                    android:maxLength="20"
+                    android:maxLength="30"
                     android:background="@drawable/rounded_background"
                     android:padding="5dp" />
 

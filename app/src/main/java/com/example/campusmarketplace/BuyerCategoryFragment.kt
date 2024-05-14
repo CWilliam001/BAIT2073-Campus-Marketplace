@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentBuyerCategoryBinding
 
@@ -22,21 +21,22 @@ class BuyerCategoryFragment : Fragment() {
         ViewModelProvider(this).get(BuyerCategoryViewModel::class.java)
     }
 
-override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?,
-    savedInstanceState: Bundle?
-): View? {
-    // Inflate the layout for this fragment
-    binding = FragmentBuyerCategoryBinding.inflate(layoutInflater,container,false)
-    return binding.root
-}
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = FragmentBuyerCategoryBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = binding.BuyerCategoryRecyclerview
         buyerCategoryAdapter = BuyerCategoryAdapter(requireContext())
         recyclerView.adapter = buyerCategoryAdapter
-        recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         val sharedPreferences =
             requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
@@ -51,7 +51,5 @@ override fun onCreateView(
             // Perform up navigation
             findNavController().navigateUp()
         }
-
     }
-
 }

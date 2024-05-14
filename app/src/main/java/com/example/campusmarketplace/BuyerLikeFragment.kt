@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentBuyerLikeBinding
@@ -43,7 +42,8 @@ class BuyerLikeFragment : Fragment() {
 
         if (!userID.isNullOrEmpty()) {
             recyclerView = binding.buyerProductLtRecyclerview
-            buyerProductLstAdapter = BuyerLikeAdapter(requireContext(), buyerLikeViewModel::deleteFromLove, userID)
+            buyerProductLstAdapter =
+                BuyerLikeAdapter(requireContext(), buyerLikeViewModel::deleteFromLove, userID)
             recyclerView.adapter = buyerProductLstAdapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
             buyerProductLstAdapter.enableSwipeToDelete(recyclerView)

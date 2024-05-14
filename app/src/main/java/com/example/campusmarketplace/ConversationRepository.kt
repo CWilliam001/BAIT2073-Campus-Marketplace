@@ -3,26 +3,20 @@ package com.example.campusmarketplace
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.MutableLiveData
 import com.example.campusmarketplace.model.Conversation
-import com.google.android.play.integrity.internal.i
-import com.google.firebase.Firebase
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.Query
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.database
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.Locale.filter
 
 class ConversationRepository {
 
-//    private val db = Firebase.database
+    //    private val db = Firebase.database
     private lateinit var firestore: FirebaseFirestore
 //    private val conversationRef = db.getReference("conversations")
 
-    fun retrieveAllConversationItem(context: Context,liveData: MutableLiveData<List<Conversation>>) {
+    fun retrieveAllConversationItem(
+        context: Context,
+        liveData: MutableLiveData<List<Conversation>>
+    ) {
         val conversationList = mutableListOf<Conversation>()
         val sharedPreferences = context.getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
@@ -65,7 +59,10 @@ class ConversationRepository {
 
     }
 
-    private fun getUserInfo(userID: String, callback: (name: String, profileImageUrl: String) -> Unit) {
+    private fun getUserInfo(
+        userID: String,
+        callback: (name: String, profileImageUrl: String) -> Unit
+    ) {
         val usersRef = firestore.collection("users").document(userID)
 
         usersRef.get()

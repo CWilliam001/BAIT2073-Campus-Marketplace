@@ -53,31 +53,42 @@ class ChangePasswordFragment : Fragment() {
                                         currentUser.updatePassword(newPassword)
                                             .addOnCompleteListener { updatePasswordTask ->
                                                 if (updatePasswordTask.isSuccessful) {
-                                                    Toast.makeText(requireContext(),
-                                                        getString(R.string.password_updated_successfully_label), Toast.LENGTH_SHORT).show()
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        getString(R.string.password_updated_successfully_label),
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
                                                     findNavController().navigate(R.id.nav_profile)
                                                 } else {
-                                                    Toast.makeText(requireContext(),
-                                                        getString(R.string.failed_to_update_password_label), Toast.LENGTH_SHORT).show()
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        getString(R.string.failed_to_update_password_label),
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
                                                 }
                                             }
                                     } else {
-                                        binding.confirmPasswordEditText.error = getString(R.string.password_not_matched_error)
+                                        binding.confirmPasswordEditText.error =
+                                            getString(R.string.password_not_matched_error)
                                     }
                                 } else {
-                                    binding.newPasswordEditText.error = getString(R.string.invalid_password_format_error)
+                                    binding.newPasswordEditText.error =
+                                        getString(R.string.invalid_password_format_error)
                                 }
                             } else {
                                 if (newPassword.isEmpty()) {
-                                    binding.newPasswordEditText.error = getString(R.string.new_password_required_error)
+                                    binding.newPasswordEditText.error =
+                                        getString(R.string.new_password_required_error)
                                 }
 
                                 if (confirmPassword.isEmpty()) {
-                                    binding.confirmPasswordEditText.error = getString(R.string.confirm_password_required_error)
+                                    binding.confirmPasswordEditText.error =
+                                        getString(R.string.confirm_password_required_error)
                                 }
                             }
                         } else {
-                            binding.oldPasswordEditText.error = getString(R.string.incorrect_old_password_label)
+                            binding.oldPasswordEditText.error =
+                                getString(R.string.incorrect_old_password_label)
                         }
                     }
             } else {

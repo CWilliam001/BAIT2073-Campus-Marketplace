@@ -17,19 +17,13 @@ class SellerProductViewModel : ViewModel() {
         repository.retrieveAllProductItem(_productLiveData, sellerID)
     }
 
-
-//    fun updateItem(product: SellerProduct, imageUri: Uri?) {
-//        viewModelScope.launch {
-//            repository.update(product,imageUri)
-//        }
-//    }
     fun updateItem(productId: String, updatesMap: HashMap<String, Any>) {
         repository.update(productId, updatesMap)
     }
 
     fun insertItem(product: SellerProduct, imageUri: Uri?) {
         viewModelScope.launch {
-            repository.insert(product,imageUri)
+            repository.insert(product, imageUri)
         }
     }
 
@@ -40,19 +34,30 @@ class SellerProductViewModel : ViewModel() {
     }
 
     fun getProductsByCategory(categoryName: String, sellerID: String) {
-        repository.getProductsByCategory(_productLiveData, categoryName,sellerID)
+        repository.getProductsByCategory(_productLiveData, categoryName, sellerID)
     }
 
-    fun retrieveProductsByUploadTime(sellerID:String) {
-        repository.retrieveProductsByUploadTime(_productLiveData,sellerID)
+    fun retrieveProductsByUploadTime(sellerID: String) {
+        repository.retrieveProductsByUploadTime(_productLiveData, sellerID)
     }
 
-    fun retrieveProductsByProductName(productName:String,sellerID:String) {
-        repository.retrieveProductByName(_productLiveData,productName,sellerID)
+    fun retrieveProductsByProductName(productName: String, sellerID: String) {
+        repository.retrieveProductByName(_productLiveData, productName, sellerID)
     }
 
-    fun retrieveProductFilter(productCategory:String,productCondition:String,productUsageDuration:String,sellerID:String) {
-        repository.retrieveProductFilter(_productLiveData,productCategory,productCondition,productUsageDuration,sellerID)
+    fun retrieveProductFilter(
+        productCategory: String,
+        productCondition: String,
+        productUsageDuration: String,
+        sellerID: String
+    ) {
+        repository.retrieveProductFilter(
+            _productLiveData,
+            productCategory,
+            productCondition,
+            productUsageDuration,
+            sellerID
+        )
     }
 
     fun updateOrderItem(product: SellerProduct) {
@@ -61,20 +66,20 @@ class SellerProductViewModel : ViewModel() {
         }
     }
 
-    fun retrieveBuyerToPickUpProducts(buyerID:String){
-        repository.retrieveBuyerToPickUpProducts(_productLiveData,buyerID)
+    fun retrieveBuyerToPickUpProducts(buyerID: String) {
+        repository.retrieveBuyerToPickUpProducts(_productLiveData, buyerID)
     }
 
-    fun retrieveBuyerToCompleteProducts(buyerID:String){
-        repository.retrieveBuyerCompleteProducts(_productLiveData,buyerID)
+    fun retrieveBuyerToCompleteProducts(buyerID: String) {
+        repository.retrieveBuyerCompleteProducts(_productLiveData, buyerID)
     }
 
-    fun retrieveSellerDeliverProducts(sellerID:String){
-        repository.retrieveSellerToDeliverProducts(_productLiveData,sellerID)
+    fun retrieveSellerDeliverProducts(sellerID: String) {
+        repository.retrieveSellerToDeliverProducts(_productLiveData, sellerID)
     }
 
-    fun retrieveSellerCompleteProducts(sellerID:String){
-        repository.retrieveSellerCompleteProducts(_productLiveData,sellerID)
+    fun retrieveSellerCompleteProducts(sellerID: String) {
+        repository.retrieveSellerCompleteProducts(_productLiveData, sellerID)
     }
 
 }

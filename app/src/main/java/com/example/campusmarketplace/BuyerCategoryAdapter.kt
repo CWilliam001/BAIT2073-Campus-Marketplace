@@ -12,11 +12,12 @@ import com.squareup.picasso.Picasso
 
 class BuyerCategoryAdapter internal constructor(
     private val context: Context
-): RecyclerView.Adapter<BuyerCategoryAdapter.BuyerCategoryViewHolder>()  {
+) : RecyclerView.Adapter<BuyerCategoryAdapter.BuyerCategoryViewHolder>() {
     private var productsCategory = emptyList<BuyerCategory>()
+
     inner class BuyerCategoryViewHolder(
-        private val binding: BuyerCategoryItemViewBinding)
-        : RecyclerView.ViewHolder(binding.root) {
+        private val binding: BuyerCategoryItemViewBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(current: BuyerCategory) {
             binding.productCategoryName.text = current.productCategoryName
@@ -29,7 +30,7 @@ class BuyerCategoryAdapter internal constructor(
                 }
                 // Navigate to the buyer product list fragment with the bundle
                 Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_navBuyerCategory_to_navBuyerProductLst,bundle)
+                    .navigate(R.id.action_navBuyerCategory_to_navBuyerProductLst, bundle)
             }
         }
     }
@@ -56,5 +57,4 @@ class BuyerCategoryAdapter internal constructor(
         this.productsCategory = categories
         notifyDataSetChanged() // Notify RecyclerView that data set has changed
     }
-
 }

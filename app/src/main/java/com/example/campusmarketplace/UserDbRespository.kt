@@ -16,7 +16,6 @@ class UserDbRepository {
     // Get reference to the product node in the database
     private val userReference = database.getReference("User")
     private val productReference = database.getReference("Product")
-    private val orderReference = database.getReference("Order")
 
     // Add Product to Buyer Like
     fun addProductToLikeList(userId: String, productId: String) {
@@ -206,73 +205,77 @@ class UserDbRepository {
     }
 
     fun countTotalCompleteSales(sellerID: String, callback: (Int) -> Unit) {
-        productReference.orderByChild("sellerID").equalTo(sellerID).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var count = 0
-                for (productSnapshot in snapshot.children) {
-                    val product = productSnapshot.getValue(SellerProduct::class.java)
-                    if (product != null &&
-                        product.paymentMethod.trim().isNotEmpty() &&
-                        product.delivered == true &&
-                        product.received  == true ) {
-                        count++
+        productReference.orderByChild("sellerID").equalTo(sellerID)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var count = 0
+                    for (productSnapshot in snapshot.children) {
+                        val product = productSnapshot.getValue(SellerProduct::class.java)
+                        if (product != null &&
+                            product.paymentMethod.trim().isNotEmpty() &&
+                            product.delivered == true &&
+                            product.received == true
+                        ) {
+                            count++
+                        }
                     }
+                    callback(count)
                 }
-                callback(count)
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("SellerProductRepository", "Failed to read products", error.toException())
-                callback(0)
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("SellerProductRepository", "Failed to read products", error.toException())
+                    callback(0)
+                }
+            })
     }
 
 
     fun countTotalProcessingSales(sellerID: String, callback: (Int) -> Unit) {
-        productReference.orderByChild("sellerID").equalTo(sellerID).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var countProcess = 0
-                for (productSnapshot in snapshot.children) {
-                    val product = productSnapshot.getValue(SellerProduct::class.java)
-                    if (product != null &&
-                        product.paymentMethod.trim().isNotEmpty() &&
-                        (product.received == false || product.delivered == false)) {
-                        countProcess++
+        productReference.orderByChild("sellerID").equalTo(sellerID)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var countProcess = 0
+                    for (productSnapshot in snapshot.children) {
+                        val product = productSnapshot.getValue(SellerProduct::class.java)
+                        if (product != null &&
+                            product.paymentMethod.trim().isNotEmpty() &&
+                            (product.received == false || product.delivered == false)
+                        ) {
+                            countProcess++
+                        }
                     }
+                    callback(countProcess)
                 }
-                callback(countProcess)
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("SellerProductRepository", "Failed to read products", error.toException())
-                callback(0)
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("SellerProductRepository", "Failed to read products", error.toException())
+                    callback(0)
+                }
+            })
     }
 
     fun sumTotalCompleteSalesPrice(sellerID: String, callback: (Double) -> Unit) {
-        productReference.orderByChild("sellerID").equalTo(sellerID).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var totalSum = 0.0
-                for (productSnapshot in snapshot.children) {
-                    val product = productSnapshot.getValue(SellerProduct::class.java)
-                    if (product != null &&
-                        product.paymentMethod.trim().isNotEmpty() &&
-                        product.delivered == true &&
-                        product.received == true) {
-                        totalSum += product.productPrice.toDoubleOrNull() ?: 0.0
+        productReference.orderByChild("sellerID").equalTo(sellerID)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var totalSum = 0.0
+                    for (productSnapshot in snapshot.children) {
+                        val product = productSnapshot.getValue(SellerProduct::class.java)
+                        if (product != null &&
+                            product.paymentMethod.trim().isNotEmpty() &&
+                            product.delivered == true &&
+                            product.received == true
+                        ) {
+                            totalSum += product.productPrice.toDoubleOrNull() ?: 0.0
+                        }
                     }
+                    callback(totalSum)
                 }
-                callback(totalSum)
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("SellerProductRepository", "Failed to read products", error.toException())
-                callback(0.0)
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("SellerProductRepository", "Failed to read products", error.toException())
+                    callback(0.0)
+                }
+            })
     }
-
-
 }

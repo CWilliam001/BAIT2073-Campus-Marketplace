@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -48,11 +48,11 @@
             android:id="@+id/filter_background"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/white">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline1"
@@ -79,91 +79,90 @@
                 android:id="@+id/layout_filter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/buyer_search_function"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/buyer_search_function"
                 android:padding="20dp"
-                app:layout_constraintTop_toTopOf="@+id/filter_background"
+                app:layout_constraintEnd_toEndOf="@id/guideline3"
                 app:layout_constraintStart_toStartOf="@id/guideline2"
-                app:layout_constraintEnd_toEndOf="@id/guideline3">
+                app:layout_constraintTop_toTopOf="@+id/filter_background">
 
                 <TextView
                     android:id="@+id/search_tv_categories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="8dp"
                     android:text="Categories"
+                    android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="15dp"
-                    app:layout_constraintTop_toTopOf="@+id/layout_filter"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="8dp" />
+                    app:layout_constraintTop_toTopOf="@+id/layout_filter" />
 
                 <Spinner
                     android:id="@+id/search_sp_categories"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/productCategory"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintTop_toBottomOf="@+id/search_tv_categories"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:entries="@array/productCategory"
+                    android:padding="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:padding="5dp" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/search_tv_categories" />
 
                 <TextView
                     android:id="@+id/search_tv_condition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Product Condition"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/search_sp_categories"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    android:text="Product Condition"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/search_sp_categories" />
 
                 <Spinner
                     android:id="@+id/search_sp_condition"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/productCondition"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintTop_toBottomOf="@+id/search_tv_condition"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:entries="@array/productCondition"
+                    android:padding="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:padding="5dp"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/search_tv_condition" />
 
                 <TextView
                     android:id="@+id/search_tv_usageDuration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="8dp"
                     android:text="Usage Duration"
+                    android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:layout_marginStart="15dp"
-                    app:layout_constraintTop_toBottomOf="@+id/search_sp_condition"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="8dp" />
+                    app:layout_constraintTop_toBottomOf="@+id/search_sp_condition" />
 
                 <Spinner
                     android:id="@+id/search_sp_usageDuration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:entries="@array/usageDuration"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginStart="20dp"
-                    app:layout_constraintTop_toBottomOf="@+id/search_tv_usageDuration"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:entries="@array/usageDuration"
                     android:padding="5dp"
-                    />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/search_tv_usageDuration" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -172,14 +171,14 @@
                 android:id="@+id/search_btn_searchFilter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Filter"
-                android:backgroundTint="@color/blue_Dark"
                 android:layout_marginBottom="20dp"
-                android:textSize="17sp"
+                android:backgroundTint="@color/blue_Dark"
+                android:text="Filter"
                 android:textColor="@color/white"
-                app:layout_constraintStart_toEndOf="@id/guideline2"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/guideline3"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintStart_toEndOf="@id/guideline2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

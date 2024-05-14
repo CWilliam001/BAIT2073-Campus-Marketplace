@@ -2,23 +2,16 @@ package com.example.campusmarketplace
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.core.view.size
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentBuyerProductListBinding
-import com.example.campusmarketplace.model.SellerProduct
 
 class BuyerProductListFragment : Fragment() {
     private lateinit var binding: FragmentBuyerProductListBinding
@@ -34,9 +27,10 @@ class BuyerProductListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentBuyerProductListBinding.inflate(layoutInflater,container,false)
+        binding = FragmentBuyerProductListBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val sharedPreferences =
@@ -44,7 +38,12 @@ class BuyerProductListFragment : Fragment() {
         val userID = sharedPreferences.getString("userID", null)
 
         recyclerView = binding.buyerProductLtRecyclerview
-        buyerProductLstAdapter = BuyerProductListAdapter(requireContext(), R.id.action_navBuyerProductList_to_navBuyerProductDetail, userViewModel, viewLifecycleOwner)
+        buyerProductLstAdapter = BuyerProductListAdapter(
+            requireContext(),
+            R.id.action_navBuyerProductList_to_navBuyerProductDetail,
+            userViewModel,
+            viewLifecycleOwner
+        )
         recyclerView.adapter = buyerProductLstAdapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 

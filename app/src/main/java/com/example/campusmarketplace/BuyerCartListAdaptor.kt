@@ -3,7 +3,6 @@ package com.example.campusmarketplace
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.BuyerCartListItemViewBinding
 import com.example.campusmarketplace.model.SellerProduct
-import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
-import kotlin.reflect.KFunction2
 
 class BuyerCartListAdaptor internal constructor(
     context: Context,
@@ -39,10 +36,11 @@ class BuyerCartListAdaptor internal constructor(
 
         fun bind(current: SellerProduct) {
             binding.productNameDisplay.text = current.productName
-            binding.productPriceDisplay.text = String.format("RM %.2f", current.productPrice.toDouble())
+            binding.productPriceDisplay.text =
+                String.format("RM %.2f", current.productPrice.toDouble())
             // Load image using Picasso
             Picasso.get().load(current.productImage).into(binding.productImageDisplay)
-            if(current.paymentMethod.isNotEmpty() && current.paymentMethod.trim() != ""){
+            if (current.paymentMethod.isNotEmpty() && current.paymentMethod.trim() != "") {
                 binding.checkBox.visibility = View.GONE
                 binding.tvSold.visibility = View.VISIBLE
             }

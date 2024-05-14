@@ -30,7 +30,7 @@ class BuyerCompleteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvToPickUp.setOnClickListener{
+        binding.tvToPickUp.setOnClickListener {
             findNavController().navigate(R.id.action_nav_complete_to_nav_pickUp)
         }
 
@@ -38,12 +38,14 @@ class BuyerCompleteFragment : Fragment() {
             findNavController().navigate(R.id.action_nav_complete_to_nav_home)
         }
 
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
 
         if (userID != null) {
             recyclerView = binding.productUploadRecyclerview
-            buyerProductLstAdapter = BuyerOrderAdapter(requireContext(), R.id.action_nav_complete_to_nav_orderDetail)
+            buyerProductLstAdapter =
+                BuyerOrderAdapter(requireContext(), R.id.action_nav_complete_to_nav_orderDetail)
 
             // Set the adapter to the RecyclerView
             recyclerView.adapter = buyerProductLstAdapter
@@ -53,10 +55,12 @@ class BuyerCompleteFragment : Fragment() {
             buyerToPickUpViewModel = ViewModelProvider(this).get(SellerProductViewModel::class.java)
 
             // Observe LiveData from ViewModel
-            buyerToPickUpViewModel.productLiveData.observe(viewLifecycleOwner, Observer { products ->
-                // Update RecyclerView adapter with the new list of products
-                buyerProductLstAdapter.setProducts(products)
-            })
+            buyerToPickUpViewModel.productLiveData.observe(
+                viewLifecycleOwner,
+                Observer { products ->
+                    // Update RecyclerView adapter with the new list of products
+                    buyerProductLstAdapter.setProducts(products)
+                })
 
             // Call function to retrieve user likes
             buyerToPickUpViewModel.retrieveBuyerToCompleteProducts(userID)

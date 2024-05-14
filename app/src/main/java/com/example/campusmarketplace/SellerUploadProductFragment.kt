@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentSellerUploadProductBinding
 import com.example.campusmarketplace.model.SellerProduct
@@ -23,8 +22,6 @@ import java.util.Locale
 
 class SellerUploadProductFragment : Fragment() {
     private lateinit var binding: FragmentSellerUploadProductBinding
-    private lateinit var navController: NavController
-    private lateinit var productAdapter: SellerProductListAdaptor
     private val viewModel: SellerProductViewModel by lazy {
         ViewModelProvider(this).get(SellerProductViewModel::class.java)
     }
@@ -32,8 +29,7 @@ class SellerUploadProductFragment : Fragment() {
     private var imageUri: Uri? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSellerUploadProductBinding.inflate(inflater, container, false)
         return binding.root
@@ -107,7 +103,8 @@ class SellerUploadProductFragment : Fragment() {
         )
         viewModel.insertItem(product, imageUri)
 
-        Toast.makeText(requireContext(), "Successfully uploaded product", Toast.LENGTH_SHORT * 3).show()
+        Toast.makeText(requireContext(), "Successfully uploaded product", Toast.LENGTH_SHORT * 3)
+            .show()
 
         // Navigate Back
         findNavController().navigateUp()
@@ -151,14 +148,11 @@ class SellerUploadProductFragment : Fragment() {
 
     private fun showConfirmationDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirmation")
-            .setMessage("Confirm upload product?")
+        builder.setTitle("Confirmation").setMessage("Confirm upload product?")
             .setPositiveButton("Upload") { _, _ ->
                 addProduct()
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
+            }.setNegativeButton("Cancel") { dialog, _ ->
                 dialog.dismiss()
-            }
-            .show()
+            }.show()
     }
 }

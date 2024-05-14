@@ -66,8 +66,6 @@ class SellerCompleteFragment : Fragment() {
 
             // Call function to retrieve user likes
             sellerCompleteViewModel.retrieveSellerCompleteProducts(userID)
-
-
         }
     }
 }

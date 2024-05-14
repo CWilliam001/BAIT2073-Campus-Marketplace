@@ -16,6 +16,7 @@ import java.util.Locale
 class DbRepository {
     // Get reference to the database
     private val database = FirebaseDatabase.getInstance()
+
     // Get reference to the product node in the database
     private val productReference = database.getReference("Product")
 
@@ -36,7 +37,8 @@ class DbRepository {
                             .addOnSuccessListener { // Image uploaded successfully
                                 imageRef.downloadUrl.addOnSuccessListener { imageUrl ->
                                     product.productID = productKey
-                                    product.productImage = imageUrl.toString() // Save image URL in product
+                                    product.productImage =
+                                        imageUrl.toString() // Save image URL in product
                                     productReference.child(productKey).setValue(product)
                                 }
                             }
@@ -48,6 +50,7 @@ class DbRepository {
                     }
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {
                 Log.e("Insert", "Database query cancelled: ${error.message}")
             }
@@ -71,10 +74,12 @@ class DbRepository {
                         // Check if paymentMethod is empty or null
                         if (it.paymentMethod.isNullOrEmpty() || it.paymentMethod.trim() == "") {
                             // Fetch image URL from Firebase Storage based on product ID
-                            val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                            val productImageRef =
+                                storageReference.child("images/${product.productID}.jpg")
                             productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
                                 // Update product with image URL
-                                val productWithImage = product.copy(productImage = imageUrl.toString())
+                                val productWithImage =
+                                    product.copy(productImage = imageUrl.toString())
                                 productList.add(productWithImage)
 
                                 // Post updated list to LiveData
@@ -104,7 +109,7 @@ class DbRepository {
             .addOnFailureListener { e ->
                 Log.e("UpdateProduct", "Failed to update product: ${e.message}")
             }
-}
+    }
 
     fun delete(product: SellerProduct) {
         productReference.child(product.productID).removeValue()
@@ -157,7 +162,10 @@ class DbRepository {
     }
 
 
-    fun retrieveProductsByUploadTime(liveData: MutableLiveData<List<SellerProduct>>, sellerID: String) {
+    fun retrieveProductsByUploadTime(
+        liveData: MutableLiveData<List<SellerProduct>>,
+        sellerID: String
+    ) {
         // Query to get products ordered by uploadTime in descending order
         val query = productReference.orderByChild("uploadTime").limitToLast(10)
 
@@ -173,10 +181,12 @@ class DbRepository {
                             // Check if the sellerID matches the input sellerID
                             if (it.sellerID != sellerID) {
                                 // Fetch image URL from Firebase Storage based on product ID
-                                val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                                val productImageRef =
+                                    storageReference.child("images/${product.productID}.jpg")
                                 productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
                                     // Update product with image URL
-                                    val productWithImage = product.copy(productImage = imageUrl.toString())
+                                    val productWithImage =
+                                        product.copy(productImage = imageUrl.toString())
                                     productList.add(productWithImage)
 
                                     // Sort the list by upload time in descending order
@@ -223,7 +233,8 @@ class DbRepository {
                 for (productSnapshot in snapshot.children) {
                     val product = productSnapshot.getValue(SellerProduct::class.java)
                     product?.let {
-                        val productName = it.productName?.lowercase(Locale.ROOT) // Convert productName to lowercase if not null
+                        val productName =
+                            it.productName?.lowercase(Locale.ROOT) // Convert productName to lowercase if not null
 
                         // Check if productName contains partialProductNameLower
                         if (productName != null && productName.contains(partialProductNameLower) &&
@@ -231,10 +242,12 @@ class DbRepository {
                             it.sellerID != sellerID // Check if sellerID matches input sellerID
                         ) {
                             // Fetch image URL from Firebase Storage based on product ID
-                            val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                            val productImageRef =
+                                storageReference.child("images/${product.productID}.jpg")
                             productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
                                 // Update product with image URL
-                                val productWithImage = product.copy(productImage = imageUrl.toString())
+                                val productWithImage =
+                                    product.copy(productImage = imageUrl.toString())
                                 productList.add(productWithImage)
 
                                 // Post updated list to LiveData
@@ -272,17 +285,28 @@ class DbRepository {
                     val product = productSnapshot.getValue(SellerProduct::class.java)
                     product?.let {
                         // Check exact matches for parameters
-                        val categoryMatch = productCategory?.lowercase(Locale.ROOT) == null || it.productCategory?.lowercase(Locale.ROOT) == productCategory?.lowercase(Locale.ROOT)
-                        val conditionMatch = productCondition?.lowercase(Locale.ROOT) == null || it.productCondition?.lowercase(Locale.ROOT) == productCondition?.lowercase(Locale.ROOT)
-                        val usageDurationMatch = productUsageDuration?.lowercase(Locale.ROOT) == null || it.productUsageDuration?.lowercase(Locale.ROOT) == productUsageDuration?.lowercase(Locale.ROOT)
+                        val categoryMatch =
+                            productCategory?.lowercase(Locale.ROOT) == null || it.productCategory?.lowercase(
+                                Locale.ROOT
+                            ) == productCategory?.lowercase(Locale.ROOT)
+                        val conditionMatch =
+                            productCondition?.lowercase(Locale.ROOT) == null || it.productCondition?.lowercase(
+                                Locale.ROOT
+                            ) == productCondition?.lowercase(Locale.ROOT)
+                        val usageDurationMatch =
+                            productUsageDuration?.lowercase(Locale.ROOT) == null || it.productUsageDuration?.lowercase(
+                                Locale.ROOT
+                            ) == productUsageDuration?.lowercase(Locale.ROOT)
                         val sellerIDMatch = it.sellerID == sellerID
 
                         if (categoryMatch && conditionMatch && usageDurationMatch && !sellerIDMatch) {
                             // Fetch image URL from Firebase Storage based on product ID
-                            val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                            val productImageRef =
+                                storageReference.child("images/${product.productID}.jpg")
                             productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
                                 // Update product with image URL
-                                val productWithImage = product.copy(productImage = imageUrl.toString())
+                                val productWithImage =
+                                    product.copy(productImage = imageUrl.toString())
                                 productList.add(productWithImage)
 
                                 // Post updated list to LiveData
@@ -302,7 +326,6 @@ class DbRepository {
             }
         })
     }
-
 
 
     fun updateOrder(product: SellerProduct) {
@@ -329,10 +352,12 @@ class DbRepository {
                         // Check paymentMethod, received, and delivered status
                         if (!it.paymentMethod.isNullOrEmpty() && (!it.received || !it.delivered)) {
                             // Fetch image URL from Firebase Storage based on product ID
-                            val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                            val productImageRef =
+                                storageReference.child("images/${product.productID}.jpg")
                             productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
                                 // Update product with image URL
-                                val productWithImage = product.copy(productImage = imageUrl.toString())
+                                val productWithImage =
+                                    product.copy(productImage = imageUrl.toString())
                                 productList.add(productWithImage)
 
                                 // Post updated list to LiveData
@@ -371,10 +396,12 @@ class DbRepository {
                         // Check paymentMethod, received, and delivered status
                         if (!it.paymentMethod.isNullOrEmpty() && it.received && it.delivered) {
                             // Fetch image URL from Firebase Storage based on product ID
-                            val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                            val productImageRef =
+                                storageReference.child("images/${product.productID}.jpg")
                             productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
                                 // Update product with image URL
-                                val productWithImage = product.copy(productImage = imageUrl.toString())
+                                val productWithImage =
+                                    product.copy(productImage = imageUrl.toString())
                                 productList.add(productWithImage)
 
                                 // Post updated list to LiveData
@@ -415,10 +442,12 @@ class DbRepository {
                         // Check paymentMethod, received, and delivered status
                         if (it.paymentMethod.trim().isNotEmpty() && it.received && it.delivered) {
                             // Fetch image URL from Firebase Storage based on product ID
-                            val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                            val productImageRef =
+                                storageReference.child("images/${product.productID}.jpg")
                             productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
                                 // Update product with image URL
-                                val productWithImage = product.copy(productImage = imageUrl.toString())
+                                val productWithImage =
+                                    product.copy(productImage = imageUrl.toString())
                                 productList.add(productWithImage)
 
                                 // Post updated list to LiveData
@@ -454,19 +483,26 @@ class DbRepository {
                     product?.let {
                         // Check if buyerID is not null
                         if (it.buyerID.trim().isNotEmpty()) {
-                            if (it.paymentMethod.trim().isNotEmpty() && (it.received == false || it.delivered == false)) {
+                            if (it.paymentMethod.trim()
+                                    .isNotEmpty() && (it.received == false || it.delivered == false)
+                            ) {
                                 // Fetch image URL from Firebase Storage based on product ID
-                                val productImageRef = storageReference.child("images/${product.productID}.jpg")
+                                val productImageRef =
+                                    storageReference.child("images/${product.productID}.jpg")
                                 productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
                                     // Update product with image URL
-                                    val productWithImage = product.copy(productImage = imageUrl.toString())
+                                    val productWithImage =
+                                        product.copy(productImage = imageUrl.toString())
                                     productListA.add(productWithImage)
 
                                     // Post updated list to LiveData
                                     liveData.postValue(productListA)
                                 }.addOnFailureListener { e ->
                                     // Handle image download failure
-                                    Log.e("RetrieveProducts", "Failed to download image: ${e.message}")
+                                    Log.e(
+                                        "RetrieveProducts",
+                                        "Failed to download image: ${e.message}"
+                                    )
                                 }
                             }
                         }

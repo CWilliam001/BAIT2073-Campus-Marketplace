@@ -4,10 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.Editable
-import android.text.InputFilter
-import android.text.InputType
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -135,8 +131,10 @@ class CardPaymentFragment : Fragment() {
                             if (year >= 0) { // Assuming year is in YY format
 
                                 // Get the current year and month
-                                val currentYear = Calendar.getInstance().get(Calendar.YEAR) % 100 // Get last two digits of the year
-                                val currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1 // Month is zero-based, so add 1
+                                val currentYear = Calendar.getInstance()
+                                    .get(Calendar.YEAR) % 100 // Get last two digits of the year
+                                val currentMonth = Calendar.getInstance()
+                                    .get(Calendar.MONTH) + 1 // Month is zero-based, so add 1
 
                                 // Check if the expiry date is not in the past
                                 if (year > currentYear || (year == currentYear && month > currentMonth)) {

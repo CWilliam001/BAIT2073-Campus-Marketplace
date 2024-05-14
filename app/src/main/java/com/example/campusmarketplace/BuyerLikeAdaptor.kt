@@ -3,7 +3,6 @@ package com.example.campusmarketplace
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,9 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.campusmarketplace.databinding.BuyerCartListItemViewBinding
 import com.example.campusmarketplace.databinding.SellerProductItemViewBinding
 import com.example.campusmarketplace.model.SellerProduct
-import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
-import kotlin.reflect.KFunction2
 
 class BuyerLikeAdapter internal constructor(
     context: Context,
@@ -37,7 +33,7 @@ class BuyerLikeAdapter internal constructor(
             // Load image using Picasso
             Picasso.get().load(current.productImage).into(binding.productImageDisplay)
 
-            if(current.paymentMethod.isNotEmpty() && current.paymentMethod.trim() != ""){
+            if (current.paymentMethod.isNotEmpty() && current.paymentMethod.trim() != "") {
                 binding.tvSold.visibility = View.VISIBLE
             }
 

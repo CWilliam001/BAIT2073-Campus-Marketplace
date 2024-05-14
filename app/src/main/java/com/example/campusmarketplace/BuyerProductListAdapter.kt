@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.BuyerProductLstItemViewBinding
@@ -19,7 +17,7 @@ class BuyerProductListAdapter internal constructor(
     private val destinationId: Int,
     private val userViewModel: UserViewModel,
     private val lifecycleOwner: LifecycleOwner
-): RecyclerView.Adapter<BuyerProductListAdapter.BuyerProductListViewHolder>() {
+) : RecyclerView.Adapter<BuyerProductListAdapter.BuyerProductListViewHolder>() {
     private var buyerProductLst = emptyList<SellerProduct>()
 
     inner class BuyerProductListViewHolder(
@@ -33,7 +31,8 @@ class BuyerProductListAdapter internal constructor(
             }
 
             binding.buyerProductLstName.text = current.productName
-            binding.buyerProductLstPrice.text = String.format("RM %.2f",current.productPrice.toDouble())
+            binding.buyerProductLstPrice.text =
+                String.format("RM %.2f", current.productPrice.toDouble())
             binding.buyerProductLstCondition.text = current.productCondition
             Picasso.get().load(current.productImage).into(binding.buyerProductLstImage)
 
@@ -45,7 +44,8 @@ class BuyerProductListAdapter internal constructor(
                     val profileImageUrl = document.getString("profileImageUrl")
 
                     binding.sellerName.text = userName.toString()
-                    Picasso.get().load(profileImageUrl).transform(RoundedTransformation()).into(binding.sellerPicture)
+                    Picasso.get().load(profileImageUrl).transform(RoundedTransformation())
+                        .into(binding.sellerPicture)
                 }
             }
 
@@ -73,10 +73,6 @@ class BuyerProductListAdapter internal constructor(
     override fun getItemCount(): Int {
         return buyerProductLst.size
     }
-
-//    fun isListEmpty(): Boolean {
-//        return buyerProductLst.isEmpty()
-//    }
 
     override fun onBindViewHolder(holder: BuyerProductListViewHolder, position: Int) {
         val current = buyerProductLst[position]

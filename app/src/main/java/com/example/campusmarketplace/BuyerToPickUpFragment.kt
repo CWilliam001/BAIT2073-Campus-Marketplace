@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentBuyerToPickUpBinding
@@ -30,7 +29,7 @@ class BuyerToPickUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvCompleted.setOnClickListener{
+        binding.tvCompleted.setOnClickListener {
             findNavController().navigate(R.id.action_nav_pickUp_to_nav_complete)
         }
 
@@ -39,12 +38,14 @@ class BuyerToPickUpFragment : Fragment() {
         }
 
 
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
 
         if (userID != null) {
             recyclerView = binding.productUploadRecyclerview
-            buyerProductLstAdapter = BuyerOrderAdapter(requireContext(), R.id.action_nav_pickUp_to_nav_orderDetail)
+            buyerProductLstAdapter =
+                BuyerOrderAdapter(requireContext(), R.id.action_nav_pickUp_to_nav_orderDetail)
 
             // Set the adapter to the RecyclerView
             recyclerView.adapter = buyerProductLstAdapter
@@ -54,10 +55,12 @@ class BuyerToPickUpFragment : Fragment() {
             buyerToPickUpViewModel = ViewModelProvider(this).get(SellerProductViewModel::class.java)
 
             // Observe LiveData from ViewModel
-            buyerToPickUpViewModel.productLiveData.observe(viewLifecycleOwner, Observer { products ->
-                // Update RecyclerView adapter with the new list of products
-                buyerProductLstAdapter.setProducts(products)
-            })
+            buyerToPickUpViewModel.productLiveData.observe(
+                viewLifecycleOwner,
+                Observer { products ->
+                    // Update RecyclerView adapter with the new list of products
+                    buyerProductLstAdapter.setProducts(products)
+                })
 
             // Call function to retrieve user likes
             buyerToPickUpViewModel.retrieveBuyerToPickUpProducts(userID)

@@ -45,18 +45,21 @@ class EditProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
-        firestore =  FirebaseFirestore.getInstance()
+        firestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
         storageReference = FirebaseStorage.getInstance().reference
 
-        getPhotoPicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                imageStorageURL = uri
-                Picasso.get().load(uri).transform(RoundedTransformation()).into(binding.uploadProfileImageView)
+        getPhotoPicker =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                uri?.let {
+                    imageStorageURL = uri
+                    Picasso.get().load(uri).transform(RoundedTransformation())
+                        .into(binding.uploadProfileImageView)
+                }
             }
-        }
 
 
         if (userID == null) {
@@ -73,7 +76,8 @@ class EditProfileFragment : Fragment() {
                         val states = document.getString("states")
                         val zipCode = document.getString("zipCode")
 
-                        Picasso.get().load(profileImageUrl).transform(RoundedTransformation()).into(binding.uploadProfileImageView)
+                        Picasso.get().load(profileImageUrl).transform(RoundedTransformation())
+                            .into(binding.uploadProfileImageView)
                         binding.nameEditText.setText(userName)
                         binding.phoneNumberEditText.setText(phoneNumber)
                         binding.addressEditText.setText(address)
@@ -100,7 +104,8 @@ class EditProfileFragment : Fragment() {
 
             if (name.isNotEmpty() && phoneNumber.isNotEmpty() && address.isNotEmpty() && zipCode.isNotEmpty() &&
                 name.contains(Regex("[a-zA-Z0-9]")) && zipCode.length == 5 &&
-                (imageUri != null || profileImageUrl.toString().isNotEmpty())) {
+                (imageUri != null || profileImageUrl.toString().isNotEmpty())
+            ) {
                 if (userID != null) {
                     // How to perform update profile in firestore
                     // Need to consider bout profileImageUrl also if they had changed the profileImageUrl then need to save the new value of profileImageUrl as well
@@ -134,29 +139,49 @@ class EditProfileFragment : Fragment() {
                                         // Update the user document in Firestore
                                         userDocRef.update(updateData)
                                             .addOnCompleteListener {
-                                                Toast.makeText(requireContext(), getString(R.string.profile_updated_label), Toast.LENGTH_SHORT).show()
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    getString(R.string.profile_updated_label),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
                                                 findNavController().navigate(R.id.nav_profile)
                                             }
                                             .addOnFailureListener {
                                                 // Handle error updating user data in firestore
-                                                Toast.makeText(requireContext(), getString(R.string.update_data_error), Toast.LENGTH_SHORT).show()
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    getString(R.string.update_data_error),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
                                             }
                                     }
 
                                 }
                                 .addOnFailureListener {
                                     // Handle error uploading profile image to Firebase Storage
-                                    Toast.makeText(requireContext(), getString(R.string.upload_image_error), Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        requireContext(),
+                                        getString(R.string.upload_image_error),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                         } else {
                             // Update without profile image changes
                             userDocRef.update(updateData)
                                 .addOnCompleteListener {
-                                    Toast.makeText(requireContext(), getString(R.string.profile_updated_label), Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        requireContext(),
+                                        getString(R.string.profile_updated_label),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     findNavController().navigate(R.id.nav_profile)
                                 }
                                 .addOnFailureListener {
-                                    Toast.makeText(requireContext(), getString(R.string.update_data_error), Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        requireContext(),
+                                        getString(R.string.update_data_error),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                         }
                     } else {
@@ -167,8 +192,14 @@ class EditProfileFragment : Fragment() {
                 }
             } else {
                 if (imageUri == null) {
-                    binding.changePhotoTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
-                    binding.changePhotoTextView.text = getString(R.string.profile_image_required_error)
+                    binding.changePhotoTextView.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.red
+                        )
+                    )
+                    binding.changePhotoTextView.text =
+                        getString(R.string.profile_image_required_error)
                 }
 
                 if (name.isEmpty()) {
@@ -226,8 +257,10 @@ class EditProfileFragment : Fragment() {
         userDocRef.set(user)
             .addOnSuccessListener {
                 // User data updated successfully
-                Toast.makeText(requireContext(),
-                    getString(R.string.profile_updated_label), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.profile_updated_label), Toast.LENGTH_SHORT
+                ).show()
                 findNavController().navigate(R.id.nav_profile)
             }
             .addOnFailureListener { exception ->

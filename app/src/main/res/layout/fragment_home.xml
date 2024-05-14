@@ -299,7 +299,5 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

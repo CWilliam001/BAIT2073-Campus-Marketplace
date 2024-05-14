@@ -11,6 +11,7 @@ class UserViewModel() : ViewModel() {
     private val repository = UserDbRepository()
     private val _productLiveData = MutableLiveData<List<SellerProduct>>()
     val productLiveData: LiveData<List<SellerProduct>> = _productLiveData
+
     // Map to hold LiveData for each seller's rating
     private val ratingMap = mutableMapOf<String, MutableLiveData<Double>>()
 
@@ -21,31 +22,25 @@ class UserViewModel() : ViewModel() {
 
     // Get product from user like list
     fun getUserLikes(userId: String) {
-        repository.fetchUserLikes(userId,
-            onSuccess = { products ->
-                _productLiveData.value = products
-            },
-            onError = { error ->
-                // Handle error
-            }
-        )
+        repository.fetchUserLikes(userId, onSuccess = { products ->
+            _productLiveData.value = products
+        }, onError = { error ->
+            // Handle error
+        })
     }
 
     // Add product to user cart list
-    fun addProductToCartList(userId: String, productId: String){
+    fun addProductToCartList(userId: String, productId: String) {
         repository.addProductToCart(userId, productId)
     }
 
     // Get product from user cart list
     fun getUserCart(userId: String) {
-        repository.fetchUserCart(userId,
-            onSuccess = { products ->
-                _productLiveData.value = products
-            },
-            onError = { error ->
-                // Handle error
-            }
-        )
+        repository.fetchUserCart(userId, onSuccess = { products ->
+            _productLiveData.value = products
+        }, onError = { error ->
+            // Handle error
+        })
     }
 
     fun deleteCartItem(userId: String, product: SellerProduct) {
@@ -54,7 +49,7 @@ class UserViewModel() : ViewModel() {
         }
     }
 
-    fun addRating(userID: String, rating: Number){
+    fun addRating(userID: String, rating: Number) {
         repository.insertRating(userID, rating)
     }
 
@@ -73,13 +68,13 @@ class UserViewModel() : ViewModel() {
         return ratingMap[userID]!!
     }
 
-    fun deleteFromCart(userId: String, productId: String){
+    fun deleteFromCart(userId: String, productId: String) {
         viewModelScope.launch {
             repository.deleteProductFromCart(userId, productId)
         }
     }
 
-    fun deleteFromLove(userId: String, productId: String){
+    fun deleteFromLove(userId: String, productId: String) {
         viewModelScope.launch {
             repository.deleteFromLove(userId, productId)
         }
@@ -93,9 +88,7 @@ class UserViewModel() : ViewModel() {
         repository.countTotalProcessingSales(sellerID, callback)
     }
 
-    fun getTotalSales(sellerID: String, callback: (Double) -> Unit){
+    fun getTotalSales(sellerID: String, callback: (Double) -> Unit) {
         repository.sumTotalCompleteSalesPrice(sellerID, callback)
     }
-
-
 }

@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentShoppingCartBinding
 import com.example.campusmarketplace.model.SellerProduct
-import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -62,7 +61,12 @@ class ShoppingCartFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        productAdapter = BuyerCartListAdaptor(requireContext(), ::onUpdateProduct, viewModel::deleteFromCart, userID ?: "")
+        productAdapter = BuyerCartListAdaptor(
+            requireContext(),
+            ::onUpdateProduct,
+            viewModel::deleteFromCart,
+            userID ?: ""
+        )
         recyclerView.adapter = productAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         productAdapter.enableSwipeToDelete(recyclerView)
@@ -97,7 +101,11 @@ class ShoppingCartFragment : Fragment() {
                 handleBuyNow()
             } else {
                 // No item is checked, show a message
-                Toast.makeText(requireContext(), "Please select at least one item to buy", Toast.LENGTH_SHORT * 3).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Please select at least one item to buy",
+                    Toast.LENGTH_SHORT * 3
+                ).show()
             }
         }
     }
@@ -170,6 +178,10 @@ class ShoppingCartFragment : Fragment() {
     }
 
     private fun onUpdateProduct(product: SellerProduct) {
-        Toast.makeText(requireContext(), "Product ${product.productName} deleted", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            requireContext(),
+            "Product ${product.productName} deleted",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

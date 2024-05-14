@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -30,7 +29,7 @@ class SellerToDeliverFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvCompleted.setOnClickListener{
+        binding.tvCompleted.setOnClickListener {
             findNavController().navigate(R.id.action_nav_sellerToDeliver_to_nav_complete)
         }
 
@@ -39,28 +38,35 @@ class SellerToDeliverFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val sellerID = sharedPreferences.getString("userID", null)
 
         if (sellerID != null) {
             recyclerView = binding.productUploadRecyclerview
-            sellerOrderProductLstAdapter = SellerOrderAdapter(requireContext(), R.id.action_nav_sellerToDeliver_to_nav_orderDetails)
+            sellerOrderProductLstAdapter = SellerOrderAdapter(
+                requireContext(),
+                R.id.action_nav_sellerToDeliver_to_nav_orderDetails
+            )
 
             // Set the adapter to the RecyclerView
             recyclerView.adapter = sellerOrderProductLstAdapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             // Initialize ViewModel
-            sellerToDeliveryViewModel = ViewModelProvider(this).get(SellerProductViewModel::class.java)
+            sellerToDeliveryViewModel =
+                ViewModelProvider(this).get(SellerProductViewModel::class.java)
 
             // Call function to retrieve user likes
             sellerToDeliveryViewModel.retrieveSellerDeliverProducts(sellerID)
 
             // Observe LiveData from ViewModel
-            sellerToDeliveryViewModel.productLiveData.observe(viewLifecycleOwner, Observer { products ->
-                // Update RecyclerView adapter with the new list of products
-                sellerOrderProductLstAdapter.setProducts(products)
-            })
+            sellerToDeliveryViewModel.productLiveData.observe(
+                viewLifecycleOwner,
+                Observer { products ->
+                    // Update RecyclerView adapter with the new list of products
+                    sellerOrderProductLstAdapter.setProducts(products)
+                })
         }
     }
 }

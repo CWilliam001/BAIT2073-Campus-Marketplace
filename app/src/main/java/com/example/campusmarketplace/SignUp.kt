@@ -1,18 +1,14 @@
 package com.example.campusmarketplace
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
@@ -23,7 +19,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import java.util.Date
-import kotlin.math.sign
 
 class SignUp : Fragment() {
 
@@ -46,18 +41,20 @@ class SignUp : Fragment() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        getPhotoPicker = registerForActivityResult(ActivityResultContracts.GetContent()) {
-            uri: Uri? -> uri?.let {
-                imageStorageURL = uri
-                Picasso.get().load(uri).transform(RoundedTransformation()).into(binding.uploadProfileImageView)
+        getPhotoPicker =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                uri?.let {
+                    imageStorageURL = uri
+                    Picasso.get().load(uri).transform(RoundedTransformation())
+                        .into(binding.uploadProfileImageView)
+                }
             }
-        }
 
-        binding.uploadProfileImageView.setOnClickListener{
+        binding.uploadProfileImageView.setOnClickListener {
             getPhotoPicker.launch("image/*")
         }
 
-        binding.signUpBtn.setOnClickListener{
+        binding.signUpBtn.setOnClickListener {
             val imageUri = imageStorageURL
             val name = binding.nameEditText.text.toString().trim()
             val email = binding.emailEditText.text.toString().trim()
@@ -76,47 +73,75 @@ class SignUp : Fragment() {
 
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty() &&
                 phoneNumber.isNotEmpty() && imageUri != null && (password == confirmPassword)
-                && name.contains(Regex("[a-zA-Z0-9]")) && email.matches(emailPattern) && password.matches(passwordPattern) &&
-                address.isNotEmpty() && zipCode.length == 5) {
-                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { signUpTask ->
-                    if (signUpTask.isSuccessful) {
-                        val storageRef = FirebaseStorage.getInstance().reference
-                        val userID = signUpTask.result?.user?.uid
+                && name.contains(Regex("[a-zA-Z0-9]")) && email.matches(emailPattern) && password.matches(
+                    passwordPattern
+                ) &&
+                address.isNotEmpty() && zipCode.length == 5
+            ) {
+                firebaseAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { signUpTask ->
+                        if (signUpTask.isSuccessful) {
+                            val storageRef = FirebaseStorage.getInstance().reference
+                            val userID = signUpTask.result?.user?.uid
 
-                        val imageName = "profile_${userID}"
-                        val imageRef = storageRef.child("user/$imageName")
+                            val imageName = "profile_${userID}"
+                            val imageRef = storageRef.child("user/$imageName")
 
-                        imageStorageURL?.let { uri ->
-                            imageRef.putFile(uri).addOnSuccessListener {
-                                imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                                    firestore = FirebaseFirestore.getInstance()
+                            imageStorageURL?.let { uri ->
+                                imageRef.putFile(uri).addOnSuccessListener {
+                                    imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                                        firestore = FirebaseFirestore.getInstance()
 
-                                    val profileImageUrl = downloadUri.toString()
+                                        val profileImageUrl = downloadUri.toString()
 
-                                    val selectedStateIndex = binding.stateSpinner.selectedItemPosition
-                                    val statesArray = resources.getStringArray(R.array.arrStates)
-                                    val selectedState = statesArray[selectedStateIndex]
-                                    val user = User(name, Date(), phoneNumber, profileImageUrl, address, selectedState, zipCode)
-                                    firestore.collection("users").document(userID.toString()).set(user)
+                                        val selectedStateIndex =
+                                            binding.stateSpinner.selectedItemPosition
+                                        val statesArray =
+                                            resources.getStringArray(R.array.arrStates)
+                                        val selectedState = statesArray[selectedStateIndex]
+                                        val user = User(
+                                            name,
+                                            Date(),
+                                            phoneNumber,
+                                            profileImageUrl,
+                                            address,
+                                            selectedState,
+                                            zipCode
+                                        )
+                                        firestore.collection("users").document(userID.toString())
+                                            .set(user)
 
-                                    val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
-                                    val editor = sharedPreferences.edit()
-                                    editor.putString("userID", userID)
-                                    editor.apply()
+                                        val sharedPreferences =
+                                            requireContext().getSharedPreferences(
+                                                "user_data",
+                                                Context.MODE_PRIVATE
+                                            )
+                                        val editor = sharedPreferences.edit()
+                                        editor.putString("userID", userID)
+                                        editor.apply()
 
-                                    Toast.makeText(requireContext(),
-                                        getString(R.string.sign_up_successful_label), Toast.LENGTH_SHORT).show()
-                                    findNavController().navigateUp()
+                                        Toast.makeText(
+                                            requireContext(),
+                                            getString(R.string.sign_up_successful_label),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        findNavController().navigateUp()
+                                    }
                                 }
                             }
+                        } else {
+                            binding.emailEditText.error =
+                                getString(R.string.email_already_registered_error)
                         }
-                    } else {
-                        binding.emailEditText.error = getString(R.string.email_already_registered_error)
                     }
-                }
             } else {
                 if (imageUri == null) {
-                    binding.uploadProfileImageTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                    binding.uploadProfileImageTextView.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.red
+                        )
+                    )
                 }
 
                 if (name.isEmpty()) {
@@ -140,7 +165,8 @@ class SignUp : Fragment() {
                 }
 
                 if (!password.matches(passwordPattern)) {
-                    binding.passwordEditText.error = getString(R.string.invalid_password_format_error)
+                    binding.passwordEditText.error =
+                        getString(R.string.invalid_password_format_error)
                 }
 
                 if (confirmPassword.isEmpty()) {

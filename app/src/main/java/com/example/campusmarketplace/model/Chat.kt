@@ -1,7 +1,5 @@
 package com.example.campusmarketplace.model
 
-import java.util.UUID
-
 data class Chat (
 //    var id : String = "",
     val senderId : String = "",

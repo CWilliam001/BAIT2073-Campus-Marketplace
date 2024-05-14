@@ -5,19 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentConversationListBinding
-import com.example.campusmarketplace.model.Conversation
 
 class ConversationListFragment : Fragment() {
 
     private lateinit var binding: FragmentConversationListBinding
     private lateinit var adapter: ConversationListAdapter
-    private lateinit var conversationsData: ArrayList<Conversation>
 
     private val viewModel: ConversationViewModel by lazy {
         ViewModelProvider(this)[ConversationViewModel::class.java]
@@ -34,8 +30,8 @@ class ConversationListFragment : Fragment() {
         binding.conversationRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.retrieveAllItems(requireContext())
-        viewModel.conversationLiveData.observe(viewLifecycleOwner) {
-            conversationData -> adapter.setConversation(conversationData)
+        viewModel.conversationLiveData.observe(viewLifecycleOwner) { conversationData ->
+            adapter.setConversation(conversationData)
         }
 
         return binding.root

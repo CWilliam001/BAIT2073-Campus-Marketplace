@@ -1,16 +1,11 @@
 package com.example.campusmarketplace
 
 import android.content.Context
-import android.content.Intent
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -19,7 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusmarketplace.databinding.FragmentHomeBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -29,6 +23,7 @@ class HomeFragment : Fragment() {
     private val userViewModel: UserViewModel by lazy {
         ViewModelProvider(this).get(UserViewModel::class.java)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,7 +35,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("user_data", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("userID", null)
 
         if (userID == null) {
@@ -61,11 +57,11 @@ class HomeFragment : Fragment() {
                         findNavController().navigate(R.id.action_nav_buyer_to_nav_pickUp)
                     }
 
-                    binding.buyerIbMyCart.setOnClickListener{
+                    binding.buyerIbMyCart.setOnClickListener {
                         findNavController().navigate(R.id.action_nav_buyer_to_nav_shoppingCart)
                     }
 
-                    binding.buyerIbMyLikes.setOnClickListener{
+                    binding.buyerIbMyLikes.setOnClickListener {
                         findNavController().navigate(R.id.action_nav_buyer_to_nav_like)
                     }
                     binding.buyerEtSearch.setOnClickListener {
@@ -73,7 +69,7 @@ class HomeFragment : Fragment() {
                     }
 
                     // Category navigation
-                    var categoryName:String = " "
+                    var categoryName: String = " "
                     binding.buyerIvCat1.setOnClickListener {
                         categoryName = "Digital"
                         val bundle = Bundle().apply {
@@ -81,7 +77,7 @@ class HomeFragment : Fragment() {
                         }
                         // Navigate to the buyer product list fragment with the bundle
                         Navigation.findNavController(binding.root)
-                            .navigate(R.id.action_nav_home_to_nav_productList,bundle)
+                            .navigate(R.id.action_nav_home_to_nav_productList, bundle)
                     }
                     binding.buyerIvCat2.setOnClickListener {
                         categoryName = "Fashion"
@@ -90,7 +86,7 @@ class HomeFragment : Fragment() {
                         }
 
                         Navigation.findNavController(binding.root)
-                            .navigate(R.id.action_nav_home_to_nav_productList,bundle)
+                            .navigate(R.id.action_nav_home_to_nav_productList, bundle)
 
                     }
                     binding.buyerIvCat3.setOnClickListener {
@@ -100,7 +96,7 @@ class HomeFragment : Fragment() {
                         }
 
                         Navigation.findNavController(binding.root)
-                            .navigate(R.id.action_nav_home_to_nav_productList,bundle)
+                            .navigate(R.id.action_nav_home_to_nav_productList, bundle)
                     }
                     binding.buyerIvCat4.setOnClickListener {
                         categoryName = "Beauty"
@@ -109,26 +105,33 @@ class HomeFragment : Fragment() {
                         }
 
                         Navigation.findNavController(binding.root)
-                            .navigate(R.id.action_nav_home_to_nav_productList,bundle)
+                            .navigate(R.id.action_nav_home_to_nav_productList, bundle)
                     }
-
 
 
                     // Latest product uploaded
                     // Initialize RecyclerView and Adapter
                     recyclerView = binding.buyerProductLtRecyclerview
-                    buyerProductLstAdapter = BuyerProductListAdapter(requireContext(), R.id.action_nav_buyer_to_nav_productDetail, userViewModel, viewLifecycleOwner)
+                    buyerProductLstAdapter = BuyerProductListAdapter(
+                        requireContext(),
+                        R.id.action_nav_buyer_to_nav_productDetail,
+                        userViewModel,
+                        viewLifecycleOwner
+                    )
                     recyclerView.adapter = buyerProductLstAdapter
                     recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
                     // Initialize ViewModel
-                    productViewModel = ViewModelProvider(this).get(SellerProductViewModel::class.java)
+                    productViewModel =
+                        ViewModelProvider(this).get(SellerProductViewModel::class.java)
 
                     // Observe LiveData from ViewModel
-                    productViewModel.productLiveData.observe(viewLifecycleOwner, Observer { products ->
-                        // Update RecyclerView adapter with the new list of products
-                        buyerProductLstAdapter.setBuyerProductLst(products)
-                    })
+                    productViewModel.productLiveData.observe(
+                        viewLifecycleOwner,
+                        Observer { products ->
+                            // Update RecyclerView adapter with the new list of products
+                            buyerProductLstAdapter.setBuyerProductLst(products)
+                        })
 
                     // Call the function from ViewModel to retrieve products
                     productViewModel.retrieveProductsByUploadTime(userID)

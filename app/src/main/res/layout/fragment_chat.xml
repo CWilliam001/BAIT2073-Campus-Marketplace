@@ -7,8 +7,8 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity"
-        android:background="@color/white">
+        android:background="@color/white"
+        tools:context=".MainActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/app_bar"
@@ -88,8 +88,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/message_label"
                     android:inputType="text"
-                    android:textColorHint="@color/dark_Grey"
                     android:textColor="@color/black"
+                    android:textColorHint="@color/dark_Grey"
                     tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 

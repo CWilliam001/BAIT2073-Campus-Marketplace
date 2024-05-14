@@ -109,11 +109,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="10dp"
-                app:layout_constraintStart_toEndOf="@+id/guideline2"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toBottomOf="@id/search_et_searchBar"
                 app:layout_constraintBottom_toTopOf="@id/search_btn_search"
-                />
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toEndOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@id/search_et_searchBar" />
 
             <Button
                 android:id="@+id/search_btn_search"

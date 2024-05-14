@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,9 +22,10 @@
                 android:id="@+id/btnUp"
                 android:layout_width="70dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/blue_Dark"
+                android:contentDescription="@string/up_button_image"
                 android:scaleType="fitCenter"
                 android:src="@drawable/back_arrow"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:text="About Us"
+                android:text="@string/about_us"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -43,137 +45,136 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
-            app:layout_constraintTop_toBottomOf="@id/app_bar"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/app_bar"
             tools:context=".ProfileAboutUsFragment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white">
 
                 <ImageView
                     android:id="@+id/img_appLogo"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/logo_100"
                     android:layout_marginTop="15dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:contentDescription="@string/logo"
+                    android:src="@drawable/logo_100"
                     app:layout_constraintEnd_toEndOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_appName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Campus Marketplace"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
                     android:layout_marginTop="10dp"
+                    android:text="@string/campus_marketplace"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@+id/img_appLogo"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/img_appLogo" />
 
                 <View
                     android:id="@+id/draw_line"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
                     android:background="@android:color/black"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_appName"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_appName" />
 
                 <TextView
                     android:id="@+id/tv_aboutThisAppLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="About This App"
-                    android:textStyle="bold"
-                    android:textSize="17sp"
+                    android:text="@string/about_this_app"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@+id/draw_line"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/draw_line" />
 
                 <TextView
                     android:id="@+id/tv_aboutThisApp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
-                    android:textSize="15sp"
+                    android:text="@string/about_us_text"
                     android:textAlignment="viewStart"
-                    android:text="Campus Marketplace is the ultimate campus marketplace app tailored specifically for TARUMT students, enabling seamless buying and selling directly from their mobile devices. With Campus Marketplace, students can conveniently browse, purchase, and sell a wide range of products anytime, anywhere on campus. This innovative platform not only facilitates transactions but also fosters a vibrant ecosystem of small businesses among students. Campus Marketplace provides a centralized hub for students to showcase and trade their goods effortlessly. By engaging in transactional interactions within the campus community, Campus Marketplace promotes connectivity and strengthens relationships among students."
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_aboutThisAppLabel"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tv_aboutThisAppLabel" />
 
                 <TextView
                     android:id="@+id/tv_termConditionLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Terms Condition"
+                    android:text="@string/terms_condition"
+                    android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_aboutThisApp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tv_aboutThisApp" />
 
                 <TextView
                     android:id="@+id/tv_termCondition"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
-                    android:textSize="15sp"
-                    android:text="By using Campus Marketplace, users agree to abide by its policies, including those related to buying, selling, and interacting within the campus community. Users must ensure the accuracy of their listings, comply with all applicable laws and regulations, and treat others with respect and integrity. Campus Marketplace reserves the right to moderate content, suspend accounts for violations, and update terms as necessary. By participating in Campus Marketplace, users contribute to a vibrant ecosystem of commerce and community engagement within TARUMT, fostering connectivity and relationships among students."
+                    android:text="@string/term_conditions_text"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_termConditionLabel"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tv_termConditionLabel" />
 
                 <TextView
                     android:id="@+id/tv_policiesLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    android:text="Policies"
+                    android:text="@string/policies"
+                    android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_termCondition"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tv_termCondition" />
 
                 <TextView
                     android:id="@+id/tv_policies"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="20dp"
-                    android:textSize="15sp"
-                    android:text="The policies for Campus Marketplace, the campus marketplace app, encompass guidelines for user conduct, data privacy, and security. Users are expected to maintain ethical behavior, refrain from fraudulent activities, and respect the rights of others. Campus Marketplace collects and processes user data in accordance with its privacy policy, ensuring the confidentiality and security of personal information. Additionally, Campus Marketplace employs measures to safeguard against unauthorized access, data breaches, and malicious activities. By using Campus Marketplace, users agree to adhere to its policies and procedures, promoting a safe and trustworthy environment for buying and selling within the TARUMT campus community."
+                    android:text="@string/terms_condition_text"
                     android:textColor="@color/black"
+                    android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_policiesLabel"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tv_policiesLabel" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
