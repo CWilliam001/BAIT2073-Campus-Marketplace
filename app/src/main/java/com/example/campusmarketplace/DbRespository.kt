@@ -97,38 +97,48 @@ class DbRepository {
 
 
 
-    fun update(product: SellerProduct, imageUri: Uri?) {
-        val productKey = product.productID
-
-        // Check if imageUri is provided and if it's different from the current product image
-        val isNewImage = imageUri != null && product.productImage != imageUri.toString()
-
-        if (isNewImage) {
-            val newImageRef = storageReference.child("images/$productKey.jpg")
-            val oldImageRef = storageReference.child("images/$productKey.jpg")
-
-            // Delete old image before uploading the new one
-            oldImageRef.delete().addOnSuccessListener {
-                // Upload new image
-                newImageRef.putFile(imageUri!!)
-                    .addOnSuccessListener {
-                        newImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
-                            product.productImage = imageUrl.toString() // Update product with new image URL
-                            productReference.child(product.productID).setValue(product)
-
-                        }
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("UpdateProduct", "Failed to upload new image: ${e.message}")
-                    }
-            }.addOnFailureListener { e ->
-                Log.e("UpdateProduct", "Failed to delete old image: ${e.message}")
+//    fun update(product: SellerProduct, imageUri: Uri?) {
+//        val productKey = product.productID
+//
+//        // Check if imageUri is provided and if it's different from the current product image
+//        val isNewImage = imageUri != null && product.productImage != imageUri.toString()
+//
+//        if (isNewImage) {
+//            val newImageRef = storageReference.child("images/$productKey.jpg")
+//            val oldImageRef = storageReference.child("images/$productKey.jpg")
+//
+//            // Delete old image before uploading the new one
+//            oldImageRef.delete().addOnSuccessListener {
+//                // Upload new image
+//                newImageRef.putFile(imageUri!!)
+//                    .addOnSuccessListener {
+//                        newImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
+//                            product.productImage = imageUrl.toString() // Update product with new image URL
+//                            productReference.child(product.productID).setValue(product)
+//
+//                        }
+//                    }
+//                    .addOnFailureListener { e ->
+//                        Log.e("UpdateProduct", "Failed to upload new image: ${e.message}")
+//                    }
+//            }.addOnFailureListener { e ->
+//                Log.e("UpdateProduct", "Failed to delete old image: ${e.message}")
+//            }
+//        } else {
+//            // If no new image provided or image remains the same, update other product data only
+//            productReference.child(product.productID).setValue(product)
+//        }
+//    }
+    fun update(productId: String, updatesMap: HashMap<String, Any>) {
+        val productRef = productReference.child(productId)
+        productRef.updateChildren(updatesMap)
+            .addOnSuccessListener {
+                Log.d("UpdateProduct", "Product updated successfully")
             }
-        } else {
-            // If no new image provided or image remains the same, update other product data only
-            productReference.child(product.productID).setValue(product)
-        }
-    }
+            .addOnFailureListener { e ->
+                Log.e("UpdateProduct", "Failed to update product: ${e.message}")
+            }
+}
 
     fun delete(product: SellerProduct) {
         productReference.child(product.productID).removeValue()

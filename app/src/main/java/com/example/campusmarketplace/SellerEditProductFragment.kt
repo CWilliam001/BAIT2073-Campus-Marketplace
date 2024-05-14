@@ -19,6 +19,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentSellerEditProductBinding
 import com.example.campusmarketplace.model.SellerProduct
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -26,10 +28,7 @@ import java.util.Locale
 
 class SellerEditProductFragment : Fragment() {
     private lateinit var binding: FragmentSellerEditProductBinding
-    private val viewModel: SellerProductViewModel by lazy {
-        ViewModelProvider(this).get(SellerProductViewModel::class.java)
-    }
-
+    private lateinit var storageReference: StorageReference
     private lateinit var productId: String
     private lateinit var productName: String
     private lateinit var productDescription: String
@@ -40,13 +39,13 @@ class SellerEditProductFragment : Fragment() {
     private lateinit var uploadTime: String
     private lateinit var sellerID: String
 
-
     // Define your Spinners
     private lateinit var categorySpinner: Spinner
     private lateinit var conditionSpinner: Spinner
     private lateinit var usageDurationSpinner: Spinner
 
-    private  var productImageUri: Uri = Uri.EMPTY // Initialize with an empty Uri
+    private var imageStorageURL: Uri? = null
+    private var profileImageUrl: String? = ""
     private lateinit var getPhotoPicker: ActivityResultLauncher<String>
 
     override fun onCreateView(
@@ -59,6 +58,15 @@ class SellerEditProductFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        storageReference = FirebaseStorage.getInstance().reference
+
+        getPhotoPicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                imageStorageURL = uri
+                Picasso.get().load(uri).into(binding.ivProductImageUpload)
+            }
+        }
 
         categorySpinner = binding.spCategory
         conditionSpinner = binding.spProductCondition
@@ -81,8 +89,7 @@ class SellerEditProductFragment : Fragment() {
             sellerID = bundle.getString("sellerID"," ")
 
             // Retrieve the image URI
-            val imageUrl = bundle.getString("productImage", "")
-            productImageUri = Uri.parse(imageUrl)
+            profileImageUrl= bundle.getString("productImage", "")
         }
         // Set the retrieved values to the EditText views
         binding.etProductName.setText(productName)
@@ -94,28 +101,21 @@ class SellerEditProductFragment : Fragment() {
         setSpinnerSelection(usageDurationSpinner, productUsageDuration)
 
         // Load and display the image using Picasso or Glide
-        Picasso.get().load(productImageUri).into(binding.ivProductImageUpload)
-
-        binding.btnEdit.setOnClickListener {
-            if(validateInput()){
-                showConfirmationDialog()
-            }
-        }
-        // Initialize the ActivityResultLauncher
-        getPhotoPicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            // Handle the selected image URI
-            uri?.let {
-                productImageUri = uri
-                // Load the selected image into an ImageView using Picasso or another image loading library
-                Picasso.get().load(uri).into(binding.ivProductImageUpload)
-            }
-        }
+        Picasso.get().load(profileImageUrl).into(binding.ivProductImageUpload)
 
         // Add click listener to edit image button
         binding.ivProductImageUpload.setOnClickListener {
             // Launch the image picker
             getPhotoPicker.launch("image/*")
         }
+
+        binding.btnEdit.setOnClickListener {
+            if(validateInput()){
+                showConfirmationDialog()
+            }
+        }
+
+
 
         binding.btnUp.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
@@ -134,26 +134,58 @@ class SellerEditProductFragment : Fragment() {
     }
 
     private fun editProduct() {
-        uploadTime = getCurrentTimestamp()
+        uploadTime = getCurrentTimestamp() // Ensure getCurrentTimestamp() provides the correct format
+        val productId = arguments?.getString("productID") ?: ""
+        val productName = binding.etProductName.text.toString()
+        val productDescription = binding.etProductDescription.text.toString()
+        val productCategory = binding.spCategory.selectedItem.toString()
+        val productPrice = binding.etProductPrice.text.toString()
+        val productCondition = binding.spProductCondition.selectedItem.toString()
+        val productUsageDuration = binding.spUsageDuration.selectedItem.toString()
+        val imageUri = imageStorageURL
 
-        if(validateInput()){
-            val productId = arguments?.getString("productID") ?: ""
-            val product = SellerProduct(
-                productId,
-                binding.etProductName.text.toString(),
-                binding.etProductDescription.text.toString(),
-                binding.spCategory.selectedItem.toString(),
-                binding.etProductPrice.text.toString(),
-                binding.spProductCondition.selectedItem.toString(),
-                binding.spUsageDuration.selectedItem.toString(),
-                uploadTime,
-                sellerID
+        if (validateInput()) {
+            val updateData = hashMapOf<String, Any>(
+                "productName" to productName,
+                "productDescription" to productDescription,
+                "productCategory" to productCategory,
+                "productPrice" to productPrice,
+                "productCondition" to productCondition,
+                "productUsageDuration" to productUsageDuration,
+                "uploadTime" to uploadTime
             )
 
-            viewModel.updateItem(product, productImageUri)
+            if (imageUri != null) {
+                // Upload the new profile image to Firebase Storage
+                val imageName = "${productId}.jpg"
+                val imageRef = storageReference.child("images/$imageName")
+                imageRef.putFile(imageUri)
+                    .addOnSuccessListener { taskSnapshot ->
+                        imageRef.downloadUrl.addOnSuccessListener { uri ->
+                            // Insert imageUrl into updateData
+                            val imageUrl = uri.toString()
+                            updateData["productImage"] = imageUrl
 
+                            // Call the ViewModel to update the product
+                            val viewModel: SellerProductViewModel by lazy {
+                                ViewModelProvider(this).get(SellerProductViewModel::class.java)
+                            }
+                            viewModel.updateItem(productId, updateData)
+
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("EditProduct", "Failed to upload new image to Storage: ${e.message}")
+                        // Handle image upload failure (e.g., show error to user)
+                    }
+            } else {
+                // Update without profile image changes
+                val viewModel: SellerProductViewModel by lazy {
+                    ViewModelProvider(this).get(SellerProductViewModel::class.java)
+                }
+                viewModel.updateItem(productId, updateData)
+            }
             Toast.makeText(requireContext(), "Successfully updated product", Toast.LENGTH_SHORT * 3).show()
-
             // Navigate Back
             findNavController().popBackStack()
         }
@@ -197,7 +229,7 @@ class SellerEditProductFragment : Fragment() {
         val productPrice = binding.etProductPrice.text.toString().trim().toDoubleOrNull()
 
         // Check if any field is empty
-        if (productImageUri == null) {
+        if (profileImageUrl == null) {
             Toast.makeText(requireContext(), "Please upload image of product", Toast.LENGTH_SHORT).show()
             return false
         }

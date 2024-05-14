@@ -18,10 +18,13 @@ class SellerProductViewModel : ViewModel() {
     }
 
 
-    fun updateItem(product: SellerProduct, imageUri: Uri?) {
-        viewModelScope.launch {
-            repository.update(product,imageUri)
-        }
+//    fun updateItem(product: SellerProduct, imageUri: Uri?) {
+//        viewModelScope.launch {
+//            repository.update(product,imageUri)
+//        }
+//    }
+    fun updateItem(productId: String, updatesMap: HashMap<String, Any>) {
+        repository.update(productId, updatesMap)
     }
 
     fun insertItem(product: SellerProduct, imageUri: Uri?) {
