@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -49,14 +50,11 @@ class BuyerSearchFragment : Fragment() {
         recyclerView.adapter = buyerProductLstAdapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
+        binding.productUploadRecyclerview.isVisible = false
+        binding.tvEmpty.visibility = View.VISIBLE
+
         // Initialize ViewModel
         productViewModel = ViewModelProvider(this).get(SellerProductViewModel::class.java)
-
-        // Observe LiveData from ViewModel
-        productViewModel.productLiveData.observe(viewLifecycleOwner, Observer { products ->
-            // Update RecyclerView adapter with the new list of products
-            buyerProductLstAdapter.setBuyerProductLst(products)
-        })
 
         binding.searchBtnSearch.setOnClickListener {
             val sharedPreferences =
@@ -86,6 +84,12 @@ class BuyerSearchFragment : Fragment() {
             productViewModel.productLiveData.observe(viewLifecycleOwner, Observer { products ->
                 // Update RecyclerView adapter with the new list of products
                 buyerProductLstAdapter.setBuyerProductLst(products)
+
+                if(buyerProductLstAdapter.itemCount !=0){
+                    binding.productUploadRecyclerview.isVisible = true
+                    binding.tvEmpty.visibility = View.GONE
+                }
+
                 // Notify the adapter that the data set has changed
                 buyerProductLstAdapter.notifyDataSetChanged()
             })
