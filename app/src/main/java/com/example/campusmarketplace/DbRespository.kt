@@ -95,40 +95,6 @@ class DbRepository {
         })
     }
 
-
-
-//    fun update(product: SellerProduct, imageUri: Uri?) {
-//        val productKey = product.productID
-//
-//        // Check if imageUri is provided and if it's different from the current product image
-//        val isNewImage = imageUri != null && product.productImage != imageUri.toString()
-//
-//        if (isNewImage) {
-//            val newImageRef = storageReference.child("images/$productKey.jpg")
-//            val oldImageRef = storageReference.child("images/$productKey.jpg")
-//
-//            // Delete old image before uploading the new one
-//            oldImageRef.delete().addOnSuccessListener {
-//                // Upload new image
-//                newImageRef.putFile(imageUri!!)
-//                    .addOnSuccessListener {
-//                        newImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
-//                            product.productImage = imageUrl.toString() // Update product with new image URL
-//                            productReference.child(product.productID).setValue(product)
-//
-//                        }
-//                    }
-//                    .addOnFailureListener { e ->
-//                        Log.e("UpdateProduct", "Failed to upload new image: ${e.message}")
-//                    }
-//            }.addOnFailureListener { e ->
-//                Log.e("UpdateProduct", "Failed to delete old image: ${e.message}")
-//            }
-//        } else {
-//            // If no new image provided or image remains the same, update other product data only
-//            productReference.child(product.productID).setValue(product)
-//        }
-//    }
     fun update(productId: String, updatesMap: HashMap<String, Any>) {
         val productRef = productReference.child(productId)
         productRef.updateChildren(updatesMap)
@@ -292,16 +258,12 @@ class DbRepository {
 
     fun retrieveProductFilter(
         liveData: MutableLiveData<List<SellerProduct>>,
-        partialProductName: String,
         productCategory: String?,
         productCondition: String?,
         productUsageDuration: String?,
         sellerID: String // Add sellerID parameter
     ) {
-        // Convert partial product name to lowercase for consistent case matching
-        val partialProductNameLower = partialProductName.lowercase(Locale.ROOT)
-
-        // Query products by partial product name and exact matches for other parameters
+        // Query products by exact matches for parameters
         productReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val productList = mutableListOf<SellerProduct>()
@@ -309,18 +271,13 @@ class DbRepository {
                 for (productSnapshot in snapshot.children) {
                     val product = productSnapshot.getValue(SellerProduct::class.java)
                     product?.let {
-                        val productName = it.productName?.lowercase(Locale.ROOT) // Convert productName to lowercase if not null
-
-                        // Check if productName contains partialProductNameLower
-                        val nameMatch = productName != null && productName.contains(partialProductNameLower)
-
-                        // Check exact matches for other parameters
+                        // Check exact matches for parameters
                         val categoryMatch = productCategory?.lowercase(Locale.ROOT) == null || it.productCategory?.lowercase(Locale.ROOT) == productCategory?.lowercase(Locale.ROOT)
                         val conditionMatch = productCondition?.lowercase(Locale.ROOT) == null || it.productCondition?.lowercase(Locale.ROOT) == productCondition?.lowercase(Locale.ROOT)
                         val usageDurationMatch = productUsageDuration?.lowercase(Locale.ROOT) == null || it.productUsageDuration?.lowercase(Locale.ROOT) == productUsageDuration?.lowercase(Locale.ROOT)
                         val sellerIDMatch = it.sellerID == sellerID
 
-                        if (nameMatch && categoryMatch && conditionMatch && usageDurationMatch && !sellerIDMatch) {
+                        if (categoryMatch && conditionMatch && usageDurationMatch && !sellerIDMatch) {
                             // Fetch image URL from Firebase Storage based on product ID
                             val productImageRef = storageReference.child("images/${product.productID}.jpg")
                             productImageRef.downloadUrl.addOnSuccessListener { imageUrl ->
@@ -345,6 +302,7 @@ class DbRepository {
             }
         })
     }
+
 
 
     fun updateOrder(product: SellerProduct) {

@@ -51,8 +51,8 @@ class SellerProductViewModel : ViewModel() {
         repository.retrieveProductByName(_productLiveData,productName,sellerID)
     }
 
-    fun retrieveProductFilter(productName:String,productCategory:String,productCondition:String,productUsageDuration:String,sellerID:String) {
-        repository.retrieveProductFilter(_productLiveData,productName,productCategory,productCondition,productUsageDuration,sellerID)
+    fun retrieveProductFilter(productCategory:String,productCondition:String,productUsageDuration:String,sellerID:String) {
+        repository.retrieveProductFilter(_productLiveData,productCategory,productCondition,productUsageDuration,sellerID)
     }
 
     fun updateOrderItem(product: SellerProduct) {
