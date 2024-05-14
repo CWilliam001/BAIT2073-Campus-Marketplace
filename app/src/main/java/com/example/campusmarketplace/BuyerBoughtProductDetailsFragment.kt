@@ -100,7 +100,7 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
         // Load and display the image using Picasso or Glide
         Picasso.get().load(productImageUri).into(binding.imgProductImage)
         binding.tvProductName.text = product.productName
-        binding.tvProductPrice.text = String.format("RM %s", product.productPrice)
+        binding.tvProductPrice.text = String.format("RM %.2f", product.productPrice.toDouble())
         binding.tvCondition.text = product.productCondition
         binding.tvUsage.text = product.productUsageDuration
         binding.tvCategory.text = product.productCategory
@@ -211,7 +211,7 @@ class BuyerBoughtProductDetailsFragment : Fragment() {
 
         binding.btnRate.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Rate This Product")
+            builder.setTitle("Rate This Seller")
 
             // Inflate the layout using data binding
             val dialogLayoutBinding = DialogRateProductBinding.inflate(layoutInflater)

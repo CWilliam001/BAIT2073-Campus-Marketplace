@@ -41,5 +41,17 @@ class SellerSalesSummary : Fragment() {
         sellerRatingLiveData.observe(viewLifecycleOwner, Observer { averageRating ->
             binding.tvShowMyRating.text = String.format("%.2f ⭐️", averageRating)
         })
+
+
+        userViewModel.getTotalCompleteSales(userID) { totalCompleteSales ->
+            binding.tvShowCompleted.text = "$totalCompleteSales"
+        }
+
+        userViewModel.getTotalProcessingSales(userID) { totalProcessingSales ->
+            binding.tvShowProcessing.text = "$totalProcessingSales"
+        }
+        userViewModel.getTotalSales(userID) { totalSales ->
+            binding.tvShowTotalSales.text = String.format("RM %.2f", totalSales)
+        }
     }
 }

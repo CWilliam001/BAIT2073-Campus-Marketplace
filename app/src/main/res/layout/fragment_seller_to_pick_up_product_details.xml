@@ -298,7 +298,7 @@
 
                 <Button
                     android:id="@+id/btn_chatNow"
-                    android:layout_width="120dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:layout_marginBottom="20dp"
@@ -310,7 +310,7 @@
 
                 <Button
                     android:id="@+id/btn_completed"
-                    android:layout_width="120dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
                     android:layout_marginBottom="20dp"

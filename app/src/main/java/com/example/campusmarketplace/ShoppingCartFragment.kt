@@ -62,12 +62,7 @@ class ShoppingCartFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        productAdapter = BuyerCartListAdaptor(
-            requireContext(),
-            ::onUpdateProduct,
-            viewModel::deleteFromCart,
-            userID ?: ""
-        )
+        productAdapter = BuyerCartListAdaptor(requireContext(), ::onUpdateProduct, viewModel::deleteFromCart, userID ?: "")
         recyclerView.adapter = productAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         productAdapter.enableSwipeToDelete(recyclerView)
@@ -97,7 +92,13 @@ class ShoppingCartFragment : Fragment() {
         }
 
         binding.btnBuyNow.setOnClickListener {
-            handleBuyNow()
+            if (checkedItems.isNotEmpty()) {
+                // At least one item is checked, proceed with buy now action
+                handleBuyNow()
+            } else {
+                // No item is checked, show a message
+                Toast.makeText(requireContext(), "Please select at least one item to buy", Toast.LENGTH_SHORT * 3).show()
+            }
         }
     }
 
@@ -118,7 +119,16 @@ class ShoppingCartFragment : Fragment() {
         builder.setTitle("Confirmation")
             .setMessage("Confirm proceed payment with card?")
             .setPositiveButton("Confirm") { _, _ ->
-                proceedWithPayment("Card Payment")
+                val productList = ArrayList(checkedItems)
+                val bundle = Bundle().apply {
+                    putString("userID", userID)
+                    putParcelableArrayList("checkedItems", productList)
+                }
+                totalSales = 0.0
+                findNavController().navigate(
+                    R.id.action_nav_cart_to_nav_cardPayment,
+                    bundle
+                )
             }
             .setNegativeButton("Cancel") { dialog, _ ->
                 dialog.dismiss()
@@ -160,10 +170,6 @@ class ShoppingCartFragment : Fragment() {
     }
 
     private fun onUpdateProduct(product: SellerProduct) {
-        Toast.makeText(
-            requireContext(),
-            "Product ${product.productName} deleted",
-            Toast.LENGTH_SHORT
-        ).show()
+        Toast.makeText(requireContext(), "Product ${product.productName} deleted", Toast.LENGTH_SHORT).show()
     }
 }

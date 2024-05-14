@@ -103,12 +103,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:entries="@array/productCategory"
-                    android:background="@drawable/buyer_search_subfunction"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginStart="20dp"
                     app:layout_constraintTop_toBottomOf="@+id/search_tv_categories"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     android:padding="5dp" />
 
                 <TextView
@@ -126,15 +126,15 @@
 
                 <Spinner
                     android:id="@+id/search_sp_condition"
-                    android:layout_width="290dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:entries="@array/productCondition"
-                    android:background="@drawable/buyer_search_subfunction"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginStart="20dp"
                     app:layout_constraintTop_toBottomOf="@+id/search_tv_condition"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     android:padding="5dp"/>
 
                 <TextView
@@ -152,15 +152,15 @@
 
                 <Spinner
                     android:id="@+id/search_sp_sellerRating"
-                    android:layout_width="290dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:entries="@array/search_sellerRating"
-                    android:background="@drawable/buyer_search_subfunction"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginStart="20dp"
                     app:layout_constraintTop_toBottomOf="@+id/search_tv_sellerRating"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     android:padding="5dp"/>
 
                 <TextView
@@ -178,15 +178,15 @@
 
                 <Spinner
                     android:id="@+id/search_sp_usageDuration"
-                    android:layout_width="290dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:entries="@array/usageDuration"
-                    android:background="@drawable/buyer_search_subfunction"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginStart="20dp"
                     app:layout_constraintTop_toBottomOf="@+id/search_tv_usageDuration"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     android:padding="5dp"
                     />
 
@@ -201,6 +201,7 @@
                 android:backgroundTint="@color/blue_Dark"
                 android:layout_marginBottom="20dp"
                 android:textSize="17sp"
+                android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@id/guideline2"
                 app:layout_constraintEnd_toStartOf="@id/guideline3"
                 app:layout_constraintBottom_toBottomOf="parent"/>

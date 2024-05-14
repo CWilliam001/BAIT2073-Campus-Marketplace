@@ -33,7 +33,7 @@ class BuyerProductListAdapter internal constructor(
             }
 
             binding.buyerProductLstName.text = current.productName
-            binding.buyerProductLstPrice.text = String.format("RM %s",current.productPrice)
+            binding.buyerProductLstPrice.text = String.format("RM %.2f",current.productPrice.toDouble())
             binding.buyerProductLstCondition.text = current.productCondition
             Picasso.get().load(current.productImage).into(binding.buyerProductLstImage)
 
@@ -52,17 +52,7 @@ class BuyerProductListAdapter internal constructor(
             binding.buyerProductLstCardView.setOnClickListener {
                 // Navigate to the product details fragment with productId as argument
                 val bundle = Bundle().apply {
-                    putString("productID", current.productID)
-                    putString("productName", current.productName)
-                    putString("productDescription", current.productDescription)
-                    putString("productCategory", current.productCategory)
-                    putString("productPrice", current.productPrice)
-                    putString("productCondition", current.productCondition)
-                    putString("productUsageDuration", current.productUsageDuration)
-                    putString("uploadTime", current.uploadTime)
-                    putString("sellerID", current.sellerID)
-                    putString("productImage", current.productImage)
-
+                    putParcelable("buyerProduct", current)
                 }
                 val navController = Navigation.findNavController(binding.root)
                 navController.navigate(destinationId, bundle)

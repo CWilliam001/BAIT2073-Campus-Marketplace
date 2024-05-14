@@ -29,13 +29,12 @@ class SellerProductListAdaptor internal constructor(
 
         fun bind(current: SellerProduct){
             binding.productNameDisplay.text = current.productName
-            binding.productPriceDisplay.text = String.format("RM %s",current.productPrice)
+            binding.productPriceDisplay.text = String.format("RM %.2f",current.productPrice.toDouble())
 
             // Load image using Picasso
             Picasso.get().load(current.productImage).into(binding.productImageDisplay)
 
             binding.productSellerCardView.setOnClickListener {
-                // Navigate to the edit page fragment with productId as argument
                 val bundle = Bundle().apply {
                     putString("productID", current.productID)
                     putString("productName", current.productName)
@@ -48,6 +47,9 @@ class SellerProductListAdaptor internal constructor(
                     putString("sellerID", current.sellerID)
                     putString("productImage", current.productImage)
                 }
+//                val bundle = Bundle().apply {
+//                    putParcelable("sellerProduct", current)
+//                }
                 val navController = Navigation.findNavController(binding.root)
                 navController.navigate(R.id.nav_seller_edit_product, bundle)
 

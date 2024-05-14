@@ -1,11 +1,13 @@
 package com.example.campusmarketplace
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.campusmarketplace.databinding.FragmentChangeEmailBinding
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -81,6 +83,21 @@ class ChangeEmailFragment : Fragment() {
                 binding.passwordEditText.error = getString(R.string.password_required_error)
             }
 
+        }
+
+        binding.btnUp.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Confirmation")
+            builder.setMessage("Discard this changes?")
+            builder.setPositiveButton("Discard") { _, _ ->
+                // Perform up navigation
+                findNavController().navigateUp()
+            }
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
@@ -18,10 +19,10 @@ import kotlin.reflect.KFunction2
 
 class BuyerCartListAdaptor internal constructor(
     context: Context,
-    private val onUpdateCallBack:(SellerProduct)->Unit,
+    private val onUpdateCallBack: (SellerProduct) -> Unit,
     private val onDeleteCallback: (String, String) -> Unit, // Callback for item removal
     private val userID: String // UserID to be used in swipe-to-delete
-):
+) :
     RecyclerView.Adapter<BuyerCartListAdaptor.ProductViewHolder>() {
     private var products = emptyList<SellerProduct>() // Cached copy of words
 
@@ -33,16 +34,20 @@ class BuyerCartListAdaptor internal constructor(
     }
 
     inner class ProductViewHolder(
-        private val binding:BuyerCartListItemViewBinding)
-        : RecyclerView.ViewHolder(binding.root){
+        private val binding: BuyerCartListItemViewBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(current: SellerProduct){
+        fun bind(current: SellerProduct) {
             binding.productNameDisplay.text = current.productName
-            binding.productPriceDisplay.text = String.format("RM %s",current.productPrice)
+            binding.productPriceDisplay.text = String.format("RM %.2f", current.productPrice.toDouble())
             // Load image using Picasso
             Picasso.get().load(current.productImage).into(binding.productImageDisplay)
+            if(current.paymentMethod.isNotEmpty() && current.paymentMethod.trim() != ""){
+                binding.checkBox.visibility = View.GONE
+                binding.tvSold.visibility = View.VISIBLE
+            }
 
-            if (current.paymentMethod.isNullOrEmpty() || current.paymentMethod.trim()=="") {
+            if (current.paymentMethod.isNullOrEmpty() || current.paymentMethod.trim() == "") {
                 // If not bought, enable the checkbox and set the listener
                 binding.checkBox.isEnabled = true
                 binding.checkBox.isChecked = false // Ensure the checkbox is unchecked
@@ -57,21 +62,17 @@ class BuyerCartListAdaptor internal constructor(
             }
 
             binding.productSellerCardView.setOnClickListener {
-                // Navigate to the edit page fragment with productId as argument
-                val bundle = Bundle().apply {
-                    putString("productID", current.productID)
-                    putString("productName", current.productName)
-                    putString("productDescription", current.productDescription)
-                    putString("productCategory", current.productCategory)
-                    putString("productPrice", current.productPrice)
-                    putString("productCondition", current.productCondition)
-                    putString("productUsageDuration", current.productUsageDuration)
-                    putString("uploadTime", current.uploadTime)
-                    putString("sellerID", current.sellerID)
-                    putString("productImage", current.productImage)
+                if (!current.paymentMethod.isNullOrEmpty() && current.paymentMethod.trim() != "") {
+                    // Show a toast message indicating that the product is sold
+                    Toast.makeText(binding.root.context, "Product sold", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Navigate to the edit page fragment with productId as argument
+                    val bundle = Bundle().apply {
+                        putParcelable("buyerProduct", current)
+                    }
+                    val navController = Navigation.findNavController(binding.root)
+                    navController.navigate(R.id.action_nav_cart_to_nav_productDetail, bundle)
                 }
-                val navController = Navigation.findNavController(binding.root)
-                navController.navigate(R.id.action_nav_cart_to_nav_productDetail, bundle)
             }
         }
     }
@@ -80,7 +81,8 @@ class BuyerCartListAdaptor internal constructor(
         val binding = BuyerCartListItemViewBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
-            false)
+            false
+        )
         return ProductViewHolder(binding)
     }
 
@@ -89,7 +91,7 @@ class BuyerCartListAdaptor internal constructor(
         holder.bind(current)
     }
 
-    override fun getItemCount()= products.size
+    override fun getItemCount() = products.size
 
     internal fun setProducts(products: List<SellerProduct>) {
         this.products = products

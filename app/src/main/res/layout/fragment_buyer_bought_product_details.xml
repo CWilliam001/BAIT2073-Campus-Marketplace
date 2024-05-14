@@ -330,7 +330,7 @@
 
                 <Button
                     android:id="@+id/btn_chatNow"
-                    android:layout_width="120dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="Chat Now"
                     app:layout_constraintStart_toStartOf="parent"
@@ -343,7 +343,7 @@
 
                 <Button
                     android:id="@+id/btn_received"
-                    android:layout_width="120dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="Received"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -356,7 +356,7 @@
 
                 <Button
                     android:id="@+id/btn_rate"
-                    android:layout_width="120dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="Rate"
                     app:layout_constraintEnd_toEndOf="parent"

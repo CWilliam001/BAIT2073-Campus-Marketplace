@@ -9,7 +9,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="210dp"
         android:id="@+id/buyerProductLstCardView"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="8dp"
@@ -68,19 +68,19 @@
                 android:textSize="11sp"
                 android:textColor="@color/dark_Grey"
                 android:textStyle="bold"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/buyerProductLstPrice"
-                app:layout_constraintBottom_toBottomOf="@+id/buyerProductLstPrice"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buyerProductLstPrice"
+                />
 
             <ImageView
                 android:id="@+id/sellerPicture"
                 android:layout_width="30dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 app:srcCompat="@drawable/ic_launcher_background"
-                app:layout_constraintTop_toBottomOf="@+id/buyerProductLstPrice"
+                app:layout_constraintTop_toBottomOf="@+id/buyerProductLstCondition"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/constraintLayoutProduct"/>
 

@@ -68,7 +68,7 @@ class SellerToPickUpProductDetails : Fragment() {
             }
         }
 
-        if(product.received && product.delivered){
+        if (product.received && product.delivered) {
             binding.btnCompleted.isVisible = false
             val params = binding.btnChatNow.layoutParams as ConstraintLayout.LayoutParams
             params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
@@ -82,7 +82,7 @@ class SellerToPickUpProductDetails : Fragment() {
         // Load and display the image using Picasso or Glide
         Picasso.get().load(productImageUri).into(binding.imgProductImage)
         binding.tvProductName.text = product.productName
-        binding.tvProductPrice.text = String.format("RM %s", product.productPrice)
+        binding.tvProductPrice.text = String.format("RM %.2f", product.productPrice.toDouble())
         binding.tvCondition.text = product.productCondition
         binding.tvUsage.text = product.productUsageDuration
         binding.tvCategory.text = product.productCategory
@@ -95,7 +95,7 @@ class SellerToPickUpProductDetails : Fragment() {
             findNavController().popBackStack()
         }
 
-        if(product.delivered){
+        if (product.delivered) {
             binding.btnCompleted.visibility = View.GONE
             val params = binding.btnChatNow.layoutParams as ConstraintLayout.LayoutParams
             params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
@@ -103,7 +103,7 @@ class SellerToPickUpProductDetails : Fragment() {
             params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
             params.marginStart = 0
             binding.btnChatNow.layoutParams = params
-        }else{
+        } else {
             binding.btnCompleted.visibility = View.VISIBLE
         }
 
@@ -140,25 +140,37 @@ class SellerToPickUpProductDetails : Fragment() {
                         if (matchedBuyerID) {
                             val bundle = Bundle()
                             bundle.putSerializable("conversationID", conversationID)
-                            findNavController().navigate(R.id.action_nav_deliver_to_orderDetails_to_nav_chat, bundle)
+                            findNavController().navigate(
+                                R.id.action_nav_deliver_to_orderDetails_to_nav_chat,
+                                bundle
+                            )
                         } else {
 //                            Log.d(TAG, "Creating new conversation")
                             val userIDs = listOf(userID, buyerID)
                             val conversationData = hashMapOf("userIDs" to userIDs)
-                            conversationRef.add(conversationData).addOnSuccessListener { documentRef ->
-                                val conversationID = documentRef.id
-                                val database = FirebaseDatabase.getInstance()
-                                val chatRef = database.getReference("chats")
-                                chatRef.child(conversationID).setValue(hashMapOf("messages" to null))
-                                    .addOnSuccessListener {
-                                        val bundle = Bundle()
-                                        bundle.putSerializable("conversationID", conversationID)
-                                        findNavController().navigate(R.id.action_nav_deliver_to_orderDetails_to_nav_chat, bundle)
-                                    }
-                                    .addOnFailureListener {
-                                        Toast.makeText(requireContext(), "Failed to create conversation", Toast.LENGTH_SHORT).show()
-                                    }
-                            }
+                            conversationRef.add(conversationData)
+                                .addOnSuccessListener { documentRef ->
+                                    val conversationID = documentRef.id
+                                    val database = FirebaseDatabase.getInstance()
+                                    val chatRef = database.getReference("chats")
+                                    chatRef.child(conversationID)
+                                        .setValue(hashMapOf("messages" to null))
+                                        .addOnSuccessListener {
+                                            val bundle = Bundle()
+                                            bundle.putSerializable("conversationID", conversationID)
+                                            findNavController().navigate(
+                                                R.id.action_nav_deliver_to_orderDetails_to_nav_chat,
+                                                bundle
+                                            )
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "Failed to create conversation",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                }
                         }
                     }
             }

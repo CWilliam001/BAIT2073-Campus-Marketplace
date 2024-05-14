@@ -5,7 +5,9 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -20,39 +22,38 @@ class BuyerLikeAdapter internal constructor(
     context: Context,
     private val onDeleteCallback: (String, String) -> Unit, // Callback for item removal
     private val userID: String // UserID to be used in swipe-to-delete
-):
+) :
     RecyclerView.Adapter<BuyerLikeAdapter.BuyerLikeViewHolder>() {
     private var products = emptyList<SellerProduct>() // Cached copy of words
 
     inner class BuyerLikeViewHolder(
         private val binding: SellerProductItemViewBinding
-    )
-        : RecyclerView.ViewHolder(binding.root){
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(current: SellerProduct){
+        fun bind(current: SellerProduct) {
             binding.productNameDisplay.text = current.productName
-            binding.productPriceDisplay.text = String.format("RM %s",current.productPrice)
+            binding.productPriceDisplay.text =
+                String.format("RM %.2f", current.productPrice.toDouble())
             // Load image using Picasso
             Picasso.get().load(current.productImage).into(binding.productImageDisplay)
 
-            binding.productSellerCardView.setOnClickListener {
-                // Navigate to the edit page fragment with productId as argument
-                val bundle = Bundle().apply {
-                    putString("productID", current.productID)
-                    putString("productName", current.productName)
-                    putString("productDescription", current.productDescription)
-                    putString("productCategory", current.productCategory)
-                    putString("productPrice", current.productPrice)
-                    putString("productCondition", current.productCondition)
-                    putString("productUsageDuration", current.productUsageDuration)
-                    putString("uploadTime", current.uploadTime)
-                    putString("sellerID", current.sellerID)
-                    putString("productImage", current.productImage)
-                }
-                val navController = Navigation.findNavController(binding.root)
-                navController.navigate(R.id.action_nav_like_to_nav_productDetail, bundle)
+            if(current.paymentMethod.isNotEmpty() && current.paymentMethod.trim() != ""){
+                binding.tvSold.visibility = View.VISIBLE
             }
 
+            binding.productSellerCardView.setOnClickListener {
+                if (!current.paymentMethod.isNullOrEmpty() && current.paymentMethod.trim() != "") {
+                    // Show a toast message indicating that the product is sold
+                    Toast.makeText(binding.root.context, "Product sold", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Navigate to the edit page fragment with productId as argument
+                    val bundle = Bundle().apply {
+                        putParcelable("buyerProduct", current)
+                    }
+                    val navController = Navigation.findNavController(binding.root)
+                    navController.navigate(R.id.action_nav_cart_to_nav_productDetail, bundle)
+                }
+            }
         }
     }
 
@@ -60,11 +61,12 @@ class BuyerLikeAdapter internal constructor(
         val binding = SellerProductItemViewBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
-            false)
+            false
+        )
         return BuyerLikeViewHolder(binding)
     }
 
-    override fun getItemCount()= products.size
+    override fun getItemCount() = products.size
 
     override fun onBindViewHolder(holder: BuyerLikeViewHolder, position: Int) {
         val current = products[position]

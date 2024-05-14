@@ -24,6 +24,7 @@ class SellerProductViewModel : ViewModel() {
         }
     }
 
+
     fun insertItem(product: SellerProduct, imageUri: Uri?) {
         viewModelScope.launch {
             repository.insert(product,imageUri)

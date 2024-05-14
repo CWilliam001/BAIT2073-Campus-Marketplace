@@ -84,4 +84,18 @@ class UserViewModel() : ViewModel() {
             repository.deleteFromLove(userId, productId)
         }
     }
+
+    fun getTotalCompleteSales(sellerID: String, callback: (Int) -> Unit) {
+        repository.countTotalCompleteSales(sellerID, callback)
+    }
+
+    fun getTotalProcessingSales(sellerID: String, callback: (Int) -> Unit) {
+        repository.countTotalProcessingSales(sellerID, callback)
+    }
+
+    fun getTotalSales(sellerID: String, callback: (Double) -> Unit){
+        repository.sumTotalCompleteSalesPrice(sellerID, callback)
+    }
+
+
 }

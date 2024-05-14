@@ -13,14 +13,16 @@ import com.squareup.picasso.Picasso
 class SellerOrderAdapter internal constructor(
     context: Context,
     private val destinationId: Int
-): RecyclerView.Adapter<SellerOrderAdapter.SellerOrderViewHolder>() {
+) : RecyclerView.Adapter<SellerOrderAdapter.SellerOrderViewHolder>() {
     private var products = emptyList<SellerProduct>()
+
     inner class SellerOrderViewHolder(private val binding: SellerProductItemViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(current: SellerProduct) {
             binding.productNameDisplay.text = current.productName
-            binding.productPriceDisplay.text = current.productPrice
+            binding.productPriceDisplay.text =
+                String.format("RM %.2f", current.productPrice.toDouble())
             // Load image using Picasso
             Picasso.get().load(current.productImage).into(binding.productImageDisplay)
 
@@ -50,6 +52,7 @@ class SellerOrderAdapter internal constructor(
         val current = products[position]
         holder.bind(current)
     }
+
     internal fun setProducts(products: List<SellerProduct>) {
         this.products = products
         notifyDataSetChanged()
